@@ -7,3 +7,6 @@
 /benchmark/_data
 /benchmark/_repos
 /benchmark/groundtruth/tstruth/node_modules
+
+# bytecode do Python gerado pelo benchmark
+__pycache__/
