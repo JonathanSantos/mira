@@ -17,7 +17,7 @@ jobs:
           - os: ubuntu-24.04-arm
             goos: linux
             goarch: arm64
-          - os: macos-13
+          - os: macos-15-intel
             goos: darwin
             goarch: amd64
           - os: macos-latest
@@ -28,8 +28,8 @@ jobs:
             goarch: amd64
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
       - name: build
@@ -41,6 +41,6 @@ jobs:
             -ldflags "-s -w -X github.com/JonathanSantos/mira/internal/cli.Version=${GITHUB_REF_NAME}" \
             -o "dist/${name}" ./cmd/mira
           (cd dist && shasum -a 256 "${name}" > "${name}.sha256")
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: dist/*
