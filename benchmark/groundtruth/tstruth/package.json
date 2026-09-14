@@ -1,0 +1,9 @@
+{
+  "name": "mira-bench-tstruth",
+  "private": true,
+  "type": "module",
+  "description": "Gabarito TypeScript do benchmark: definições e referências pelo type checker oficial",
+  "dependencies": {
+    "typescript": "6.0.3"
+  }
+}

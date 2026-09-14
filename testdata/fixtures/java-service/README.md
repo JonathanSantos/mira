@@ -1,0 +1,1 @@
+Maven-layout Java service: explicit/static/wildcard imports, same-package resolution without import, interface + implementation, record, enum, nested class, and a duplicated Money reached through two wildcards for the ambiguous case.

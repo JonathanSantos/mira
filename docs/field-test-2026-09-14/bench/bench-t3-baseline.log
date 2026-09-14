@@ -1,0 +1,281 @@
+### CMD: grep ### CMD: -rn ### CMD: -E ### CMD: addPet\|addVisit ### CMD: $SCRATCH/field/spring-petclinic/src/main 
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_de.properties:43:addVisit=Besuch hinzufügen
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ko.properties:43:addVisit=방문 추가
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_fa.properties:43:addVisit=افزودن ویزیت
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ja.properties:45:addVisit=診察を追加
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_pt.properties:43:addVisit=Adicionar visita
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_es.properties:43:addVisit=Agregar visita
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_hi.properties:45:addVisit=\u092F\u093E\u0924\u094D\u0930\u093E \u091C\u094B\u0921\u093C\u0947\u0902
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_tr.properties:43:addVisit=Ziyaret Ekle
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ru.properties:43:addVisit=Добавить визит
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties:43:addVisit=Add Visit
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/pets/createOrUpdateVisitForm.html:39:        <button class="btn btn-primary" type="submit" th:text="#{addVisit}">Add Visit</button>
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownerDetails.html:73:            <td><a th:href="@{__${owner.id}__/pets/__${pet.id}__/visits/new}" th:text="#{addVisit}">Add Visit</a></td>
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81:	public void addVisit(Visit visit) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:79:		pet.addVisit(visit);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:108:		owner.addVisit(petId, visit);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:103:		owner.addPet(pet);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:125:			owner.addPet(pet);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:197:			owner.addPet(pet);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:97:	public void addPet(Pet pet) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void addVisit(Integer petId, Visit visit) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+### STATUS: 0 BYTES: 5029
+
+### CMD: sed ### CMD: -n ### CMD: 88\,210p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java 
+
+	@InitBinder("owner")
+	public void initOwnerBinder(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id", "*.id");
+	}
+
+	@InitBinder("pet")
+	public void initPetBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new PetValidator());
+		dataBinder.setDisallowedFields("id", "*.id");
+	}
+
+	@GetMapping("/pets/new")
+	public String initCreationForm(Owner owner, ModelMap model) {
+		Pet pet = new Pet();
+		owner.addPet(pet);
+		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping("/pets/new")
+	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+
+		if (StringUtils.hasText(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
+			result.rejectValue("name", "duplicate", "already exists");
+		}
+
+		LocalDate currentDate = LocalDate.now();
+		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+			result.rejectValue("birthDate", "typeMismatch.birthDate");
+		}
+
+		if (result.hasErrors()) {
+			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		}
+
+		try {
+			owner.addPet(pet);
+			this.owners.saveAndFlush(owner);
+		}
+		catch (DataIntegrityViolationException ex) {
+			if (!isDuplicatePetNameViolation(ex)) {
+				throw ex;
+			}
+			result.rejectValue("name", "duplicate", "already exists");
+			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		}
+		redirectAttributes.addFlashAttribute("message", "New Pet has been Added");
+		return "redirect:/owners/{ownerId}";
+	}
+
+	@GetMapping("/pets/{petId}/edit")
+	public String initUpdateForm() {
+		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping("/pets/{petId}/edit")
+	public String processUpdateForm(Owner owner, @Valid Pet pet, BindingResult result,
+			RedirectAttributes redirectAttributes) {
+
+		String petName = pet.getName();
+
+		// checking if the pet name already exists for the owner
+		if (StringUtils.hasText(petName)) {
+			Pet existingPet = owner.getPet(petName, false);
+			if (existingPet != null && !Objects.equals(existingPet.getId(), pet.getId())) {
+				result.rejectValue("name", "duplicate", "already exists");
+			}
+		}
+
+		LocalDate currentDate = LocalDate.now();
+		if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+			result.rejectValue("birthDate", "typeMismatch.birthDate");
+		}
+
+		if (result.hasErrors()) {
+			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		}
+
+		try {
+			updatePetDetails(owner, pet);
+		}
+		catch (DataIntegrityViolationException ex) {
+			if (!isDuplicatePetNameViolation(ex)) {
+				throw ex;
+			}
+			result.rejectValue("name", "duplicate", "already exists");
+			return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+		}
+		redirectAttributes.addFlashAttribute("message", "Pet details has been edited");
+		return "redirect:/owners/{ownerId}";
+	}
+
+	/**
+	 * Updates the pet details if it exists or adds a new pet to the owner.
+	 * @param owner The owner of the pet
+	 * @param pet The pet with updated details
+	 */
+	private void updatePetDetails(Owner owner, Pet pet) {
+		Integer id = pet.getId();
+		Assert.state(id != null, "'pet.getId()' must not be null");
+		Pet existingPet = owner.getPet(id);
+		if (existingPet != null) {
+			// Update existing pet's properties
+			existingPet.setName(pet.getName());
+			existingPet.setBirthDate(pet.getBirthDate());
+			existingPet.setType(pet.getType());
+		}
+		else {
+			owner.addPet(pet);
+		}
+		this.owners.saveAndFlush(owner);
+	}
+
+	private boolean isDuplicatePetNameViolation(DataIntegrityViolationException ex) {
+		String message = ex.getMessage();
+		return message != null && message.toLowerCase().contains("unique_owner_pet_name");
+	}
+
+}
+### STATUS: 0 BYTES: 3595
+
+### CMD: grep ### CMD: -n ### CMD: -E ### CMD: \^\[\[:space:\]\]\?\(public\|private\|protected\|\\\}\) ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:51:	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:53:	private final OwnerRepository owners;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:55:	private final PetTypeRepository types;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:57:	public PetController(OwnerRepository owners, PetTypeRepository types) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:60:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:63:	public Collection<PetType> populatePetTypes() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:65:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:68:	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:73:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:76:	public Pet findPet(@PathVariable("ownerId") int ownerId,
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:87:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:90:	public void initOwnerBinder(WebDataBinder dataBinder) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:92:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:95:	public void initPetBinder(WebDataBinder dataBinder) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:98:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:101:	public String initCreationForm(Owner owner, ModelMap model) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:105:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:108:	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result,
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:137:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:140:	public String initUpdateForm() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:142:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:145:	public String processUpdateForm(Owner owner, @Valid Pet pet, BindingResult result,
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:179:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:186:	private void updatePetDetails(Owner owner, Pet pet) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:200:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:202:	private boolean isDuplicatePetNameViolation(DataIntegrityViolationException ex) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:205:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:207:}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:45:	private final OwnerRepository owners;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:47:	public VisitController(OwnerRepository owners) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:49:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:52:	public void setAllowedFields(WebDataBinder dataBinder) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:54:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:64:	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:81:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:84:	public LocalDate minVisitDate() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:86:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:91:	public String initNewVisitForm() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:93:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:98:	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:112:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:114:}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:49:public class Owner extends Person {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:53:	private String address;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:57:	private String city;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:62:	private String telephone;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:67:	private final List<Pet> pets = new ArrayList<>();
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:69:	public String getAddress() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:71:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:73:	public void setAddress(String address) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:75:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:77:	public String getCity() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:79:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:81:	public void setCity(String city) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:83:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:85:	public String getTelephone() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:87:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:89:	public void setTelephone(String telephone) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:91:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:93:	public List<Pet> getPets() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:95:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:97:	public void addPet(Pet pet) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:110:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:117:	public Pet getPet(String name) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:119:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126:	public Pet getPet(Integer id) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:136:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144:	public Pet getPet(String name, boolean ignoreNew) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:154:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:157:	public String toString() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:166:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void addVisit(Integer petId, Visit visit) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:183:	}
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:185:}
+### STATUS: 0 BYTES: 17954
+
+### CMD: sed ### CMD: -n ### CMD: 64\,81p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java 
+	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+			Map<String, Object> model) {
+		Optional<Owner> optionalOwner = owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+
+		Pet pet = owner.getPet(petId);
+		if (pet == null) {
+			throw new IllegalArgumentException(
+					"Pet with id " + petId + " not found for owner with id " + ownerId + ".");
+		}
+		model.put("pet", pet);
+		model.put("owner", owner);
+
+		Visit visit = new Visit();
+		pet.addVisit(visit);
+		return visit;
+	}
+### STATUS: 0 BYTES: 660
+
+### CMD: sed ### CMD: -n ### CMD: 98\,112p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java 
+	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+			BindingResult result, RedirectAttributes redirectAttributes) {
+		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+			result.rejectValue("date", "typeMismatch.visitDate");
+		}
+
+		if (result.hasErrors()) {
+			return "pets/createOrUpdateVisitForm";
+		}
+
+		owner.addVisit(petId, visit);
+		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+		return "redirect:/owners/{ownerId}";
+	}
+### STATUS: 0 BYTES: 571
+
+### CMD: sed ### CMD: -n ### CMD: 173\,183p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+	public void addVisit(Integer petId, Visit visit) {
+
+		Assert.notNull(petId, "Pet identifier must not be null!");
+		Assert.notNull(visit, "Visit must not be null!");
+
+		Pet pet = getPet(petId);
+
+		Assert.notNull(pet, "Invalid Pet identifier!");
+
+		pet.addVisit(visit);
+	}
+### STATUS: 0 BYTES: 271
+
+### CMD: find ### CMD: $SCRATCH/field/spring-petclinic ### CMD: -type ### CMD: d ### CMD: -name ### CMD: main ### CMD: -path ### CMD: \*/src/main ### CMD: -not ### CMD: -path ### CMD: \*/node_modules/\* ### CMD: -not ### CMD: -path ### CMD: \*/target/\* 
+$SCRATCH/field/spring-petclinic/src/main
+### STATUS: 0 BYTES: 145
+

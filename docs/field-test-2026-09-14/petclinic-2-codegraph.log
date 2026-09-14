@@ -1,0 +1,1248 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: status 
+{
+  "root": "$SCRATCH/field/spring-petclinic",
+  "files": 50,
+  "symbols": 266,
+  "refs": 2193,
+  "imports": 358,
+  "words": 6709,
+  "edges": 291,
+  "by_language": {
+    "java": {
+      "files": 50,
+      "symbols": 266,
+      "refs": 2193,
+      "imports": 358,
+      "words": 6709
+    }
+  },
+  "outdated": 0
+}
+### STATUS: 0 BYTES: 416
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: Owner 
+{
+  "query": "Owner",
+  "definitions": [
+    {
+      "id": 71,
+      "name": "Owner",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner",
+      "kind": "class",
+      "exported": true,
+      "signature": "public class Owner extends Person",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 47,
+      "end_line": 185,
+      "snippet": "@Entity\n@Table(name = \"owners\")\npublic class Owner extends Person {\n\n\t@Column\n\t@NotBlank\n\tprivate String address;\n",
+      "callers": [
+        {
+          "id": 61,
+          "name": "findOwner",
+          "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.findOwner",
+          "kind": "method",
+          "container": "OwnerController",
+          "exported": true,
+          "signature": "public Owner findOwner(@PathVariable(name = \"ownerId\", required = false) Integer ownerId)",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+          "start_line": 64,
+          "end_line": 70
+        },
+        {
+          "id": 163,
+          "name": "addPetAddsPersistedPet",
+          "qualified_name": "org.springframework.samples.petclinic.owner.OwnerTests.addPetAddsPersistedPet",
+          "kind": "method",
+          "container": "OwnerTests",
+          "exported": false,
+          "signature": "void addPetAddsPersistedPet()",
+          "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerTests.java",
+          "start_line": 25,
+          "end_line": 36
+        },
+        {
+          "id": 164,
+          "name": "addPetDoesNotAddDuplicatePet",
+          "qualified_name": "org.springframework.samples.petclinic.owner.OwnerTests.addPetDoesNotAddDuplicatePet",
+          "kind": "method",
+          "container": "OwnerTests",
+          "exported": false,
+          "signature": "void addPetDoesNotAddDuplicatePet()",
+          "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerTests.java",
+          "start_line": 38,
+          "end_line": 49
+        },
+        {
+          "id": 233,
+          "name": "setup",
+          "qualified_name": "org.springframework.samples.petclinic.owner.PetControllerTests.setup",
+          "kind": "method",
+          "container": "PetControllerTests",
+          "exported": false,
+          "signature": "void setup()",
+          "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+          "start_line": 70,
+          "end_line": 87
+        },
+        {
+          "id": 205,
+          "name": "init",
+          "qualified_name": "org.springframework.samples.petclinic.owner.VisitControllerTests.init",
+          "kind": "method",
+          "container": "VisitControllerTests",
+          "exported": false,
+          "signature": "void init()",
+          "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+          "start_line": 59,
+          "end_line": 66
+        },
+        {
+          "id": 257,
+          "name": "shouldInsertOwner",
+          "qualified_name": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldInsertOwner",
+          "kind": "method",
+          "container": "ClinicServiceTests",
+          "exported": false,
+          "signature": "void shouldInsertOwner()",
+          "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+          "start_line": 109,
+          "end_line": 126
+        }
+      ],
+      "callees": [],
+      "extends": [
+        {
+          "id": 15,
+          "name": "Person",
+          "qualified_name": "org.springframework.samples.petclinic.model.Person",
+          "kind": "class",
+          "exported": true,
+          "signature": "public class Person extends BaseEntity",
+          "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+          "start_line": 28,
+          "end_line": 57
+        }
+      ]
+    }
+  ]
+}
+### STATUS: 0 BYTES: 4035
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: refs ### CMD: telephone 
+{
+  "name": "telephone",
+  "references": [],
+  "summary": {}
+}
+### STATUS: 0 BYTES: 62
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: OwnerController 
+{
+  "query": "OwnerController",
+  "definitions": [
+    {
+      "id": 56,
+      "name": "OwnerController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController",
+      "kind": "class",
+      "exported": false,
+      "signature": "class OwnerController",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 48,
+      "end_line": 179,
+      "snippet": "@Controller\nclass OwnerController {\n\n\tprivate static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = \"owners/createOrUpdateOwnerForm\";\n\n\tprivate final OwnerRepository owners;\n\n\tpublic OwnerController(OwnerRepository owners) {",
+      "callers": [],
+      "callees": []
+    },
+    {
+      "id": 59,
+      "name": "OwnerController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.OwnerController",
+      "kind": "constructor",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public OwnerController(OwnerRepository owners)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 55,
+      "end_line": 57,
+      "snippet": "\tpublic OwnerController(OwnerRepository owners) {\n\t\tthis.owners = owners;\n\t}",
+      "callers": [],
+      "callees": []
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1350
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: telephone ### CMD: --limit ### CMD: 50 
+{
+  "word": "telephone",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 62,
+      "text": "\tprivate String telephone;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 86,
+      "text": "\t\treturn this.telephone;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 89,
+      "text": "\tpublic void setTelephone(String telephone) {"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 90,
+      "text": "\t\tthis.telephone = telephone;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 164,
+      "text": "\t\t\t.append(\"telephone\", this.telephone)"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 886
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: symbols ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+  "symbols": [
+    {
+      "id": 71,
+      "name": "Owner",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner",
+      "kind": "class",
+      "exported": true,
+      "signature": "public class Owner extends Person",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 47,
+      "end_line": 185
+    },
+    {
+      "id": 72,
+      "name": "address",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.address",
+      "kind": "field",
+      "container": "Owner",
+      "exported": false,
+      "signature": "private String address",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 51,
+      "end_line": 53
+    },
+    {
+      "id": 73,
+      "name": "city",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.city",
+      "kind": "field",
+      "container": "Owner",
+      "exported": false,
+      "signature": "private String city",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 55,
+      "end_line": 57
+    },
+    {
+      "id": 74,
+      "name": "telephone",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.telephone",
+      "kind": "field",
+      "container": "Owner",
+      "exported": false,
+      "signature": "private String telephone",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 59,
+      "end_line": 62
+    },
+    {
+      "id": 75,
+      "name": "pets",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.pets",
+      "kind": "field",
+      "container": "Owner",
+      "exported": false,
+      "signature": "private final List\u003cPet\u003e pets",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 64,
+      "end_line": 67
+    },
+    {
+      "id": 76,
+      "name": "getAddress",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getAddress",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public String getAddress()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 69,
+      "end_line": 71
+    },
+    {
+      "id": 77,
+      "name": "setAddress",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.setAddress",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public void setAddress(String address)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 73,
+      "end_line": 75
+    },
+    {
+      "id": 78,
+      "name": "getCity",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getCity",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public String getCity()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 77,
+      "end_line": 79
+    },
+    {
+      "id": 79,
+      "name": "setCity",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.setCity",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public void setCity(String city)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 81,
+      "end_line": 83
+    },
+    {
+      "id": 80,
+      "name": "getTelephone",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getTelephone",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public String getTelephone()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 85,
+      "end_line": 87
+    },
+    {
+      "id": 81,
+      "name": "setTelephone",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.setTelephone",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public void setTelephone(String telephone)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 89,
+      "end_line": 91
+    },
+    {
+      "id": 82,
+      "name": "getPets",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPets",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public List\u003cPet\u003e getPets()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 93,
+      "end_line": 95
+    },
+    {
+      "id": 83,
+      "name": "addPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.addPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public void addPet(Pet pet)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 97,
+      "end_line": 110
+    },
+    {
+      "id": 84,
+      "name": "getPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public Pet getPet(String name)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 117,
+      "end_line": 119
+    },
+    {
+      "id": 85,
+      "name": "getPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public Pet getPet(Integer id)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 126,
+      "end_line": 136
+    },
+    {
+      "id": 86,
+      "name": "getPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public Pet getPet(String name, boolean ignoreNew)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 144,
+      "end_line": 154
+    },
+    {
+      "id": 87,
+      "name": "toString",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.toString",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public String toString()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 156,
+      "end_line": 166
+    },
+    {
+      "id": 88,
+      "name": "addVisit",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.addVisit",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public void addVisit(Integer petId, Visit visit)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 173,
+      "end_line": 183
+    }
+  ]
+}
+### STATUS: 0 BYTES: 7306
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: symbols ### CMD: src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+  "symbols": [
+    {
+      "id": 56,
+      "name": "OwnerController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController",
+      "kind": "class",
+      "exported": false,
+      "signature": "class OwnerController",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 48,
+      "end_line": 179
+    },
+    {
+      "id": 57,
+      "name": "VIEWS_OWNER_CREATE_OR_UPDATE_FORM",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.VIEWS_OWNER_CREATE_OR_UPDATE_FORM",
+      "kind": "field",
+      "container": "OwnerController",
+      "exported": false,
+      "signature": "private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 51,
+      "end_line": 51
+    },
+    {
+      "id": 58,
+      "name": "owners",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.owners",
+      "kind": "field",
+      "container": "OwnerController",
+      "exported": false,
+      "signature": "private final OwnerRepository owners",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 53,
+      "end_line": 53
+    },
+    {
+      "id": 59,
+      "name": "OwnerController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.OwnerController",
+      "kind": "constructor",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public OwnerController(OwnerRepository owners)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 55,
+      "end_line": 57
+    },
+    {
+      "id": 60,
+      "name": "setAllowedFields",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.setAllowedFields",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public void setAllowedFields(WebDataBinder dataBinder)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 59,
+      "end_line": 62
+    },
+    {
+      "id": 61,
+      "name": "findOwner",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.findOwner",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public Owner findOwner(@PathVariable(name = \"ownerId\", required = false) Integer ownerId)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 64,
+      "end_line": 70
+    },
+    {
+      "id": 62,
+      "name": "initCreationForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.initCreationForm",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public String initCreationForm()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 72,
+      "end_line": 75
+    },
+    {
+      "id": 63,
+      "name": "processCreationForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.processCreationForm",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 77,
+      "end_line": 87
+    },
+    {
+      "id": 64,
+      "name": "initFindForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.initFindForm",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public String initFindForm()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 89,
+      "end_line": 92
+    },
+    {
+      "id": 65,
+      "name": "processFindForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.processFindForm",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public String processFindForm(@RequestParam(defaultValue = \"1\") int page, Owner owner, BindingResult result, Model model)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 94,
+      "end_line": 122
+    },
+    {
+      "id": 66,
+      "name": "addPaginationModel",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.addPaginationModel",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": false,
+      "signature": "private String addPaginationModel(int page, Model model, Page\u003cOwner\u003e paginated)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 124,
+      "end_line": 131
+    },
+    {
+      "id": 67,
+      "name": "findPaginatedForOwnersLastName",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.findPaginatedForOwnersLastName",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": false,
+      "signature": "private Page\u003cOwner\u003e findPaginatedForOwnersLastName(int page, String lastname)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 133,
+      "end_line": 137
+    },
+    {
+      "id": 68,
+      "name": "initUpdateOwnerForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.initUpdateOwnerForm",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public String initUpdateOwnerForm()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 139,
+      "end_line": 142
+    },
+    {
+      "id": 69,
+      "name": "processUpdateOwnerForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.processUpdateOwnerForm",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable(\"ownerId\") int ownerId, RedirectAttributes redirectAttributes)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 144,
+      "end_line": 162
+    },
+    {
+      "id": 70,
+      "name": "showOwner",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerController.showOwner",
+      "kind": "method",
+      "container": "OwnerController",
+      "exported": true,
+      "signature": "public ModelAndView showOwner(@PathVariable(\"ownerId\") int ownerId)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "start_line": 169,
+      "end_line": 177
+    }
+  ]
+}
+### STATUS: 0 BYTES: 7404
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Owner.java ### CMD: 47 ### CMD: 95 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+  "start_line": 47,
+  "end_line": 95,
+  "text": "@Entity\n@Table(name = \"owners\")\npublic class Owner extends Person {\n\n\t@Column\n\t@NotBlank\n\tprivate String address;\n\n\t@Column\n\t@NotBlank\n\tprivate String city;\n\n\t@Column\n\t@NotBlank\n\t@Pattern(regexp = \"\\\\d{10}\", message = \"{telephone.invalid}\")\n\tprivate String telephone;\n\n\t@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)\n\t@JoinColumn(name = \"owner_id\")\n\t@OrderBy(\"name\")\n\tprivate final List\u003cPet\u003e pets = new ArrayList\u003c\u003e();\n\n\tpublic String getAddress() {\n\t\treturn this.address;\n\t}\n\n\tpublic void setAddress(String address) {\n\t\tthis.address = address;\n\t}\n\n\tpublic String getCity() {\n\t\treturn this.city;\n\t}\n\n\tpublic void setCity(String city) {\n\t\tthis.city = city;\n\t}\n\n\tpublic String getTelephone() {\n\t\treturn this.telephone;\n\t}\n\n\tpublic void setTelephone(String telephone) {\n\t\tthis.telephone = telephone;\n\t}\n\n\tpublic List\u003cPet\u003e getPets() {\n\t\treturn this.pets;\n\t}"
+}
+### STATUS: 0 BYTES: 1136
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Owner.java ### CMD: 156 ### CMD: 166 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+  "start_line": 156,
+  "end_line": 166,
+  "text": "\t@Override\n\tpublic String toString() {\n\t\treturn new ToStringCreator(this).append(\"id\", this.getId())\n\t\t\t.append(\"new\", this.isNew())\n\t\t\t.append(\"lastName\", this.getLastName())\n\t\t\t.append(\"firstName\", this.getFirstName())\n\t\t\t.append(\"address\", this.address)\n\t\t\t.append(\"city\", this.city)\n\t\t\t.append(\"telephone\", this.telephone)\n\t\t\t.toString();\n\t}"
+}
+### STATUS: 0 BYTES: 533
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java ### CMD: 59 ### CMD: 87 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+  "start_line": 59,
+  "end_line": 87,
+  "text": "\t@InitBinder\n\tpublic void setAllowedFields(WebDataBinder dataBinder) {\n\t\tdataBinder.setDisallowedFields(\"id\", \"*.id\");\n\t}\n\n\t@ModelAttribute(\"owner\")\n\tpublic Owner findOwner(@PathVariable(name = \"ownerId\", required = false) Integer ownerId) {\n\t\treturn ownerId == null ? new Owner()\n\t\t\t\t: this.owners.findById(ownerId)\n\t\t\t\t\t.orElseThrow(() -\u003e new IllegalArgumentException(\"Owner not found with id: \" + ownerId\n\t\t\t\t\t\t\t+ \". Please ensure the ID is correct \" + \"and the owner exists in the database.\"));\n\t}\n\n\t@GetMapping(\"/owners/new\")\n\tpublic String initCreationForm() {\n\t\treturn VIEWS_OWNER_CREATE_OR_UPDATE_FORM;\n\t}\n\n\t@PostMapping(\"/owners/new\")\n\tpublic String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes) {\n\t\tif (result.hasErrors()) {\n\t\t\tredirectAttributes.addFlashAttribute(\"error\", \"There was an error in creating the owner.\");\n\t\t\treturn VIEWS_OWNER_CREATE_OR_UPDATE_FORM;\n\t\t}\n\n\t\tthis.owners.save(owner);\n\t\tredirectAttributes.addFlashAttribute(\"message\", \"New Owner Created\");\n\t\treturn \"redirect:/owners/\" + owner.getId();\n\t}"
+}
+### STATUS: 0 BYTES: 1339
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java ### CMD: 139 ### CMD: 177 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+  "start_line": 139,
+  "end_line": 177,
+  "text": "\t@GetMapping(\"/owners/{ownerId}/edit\")\n\tpublic String initUpdateOwnerForm() {\n\t\treturn VIEWS_OWNER_CREATE_OR_UPDATE_FORM;\n\t}\n\n\t@PostMapping(\"/owners/{ownerId}/edit\")\n\tpublic String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable(\"ownerId\") int ownerId,\n\t\t\tRedirectAttributes redirectAttributes) {\n\t\tif (result.hasErrors()) {\n\t\t\tredirectAttributes.addFlashAttribute(\"error\", \"There was an error in updating the owner.\");\n\t\t\treturn VIEWS_OWNER_CREATE_OR_UPDATE_FORM;\n\t\t}\n\n\t\tif (!Objects.equals(owner.getId(), ownerId)) {\n\t\t\tresult.rejectValue(\"id\", \"mismatch\", \"The owner ID in the form does not match the URL.\");\n\t\t\tredirectAttributes.addFlashAttribute(\"error\", \"Owner ID mismatch. Please try again.\");\n\t\t\treturn \"redirect:/owners/{ownerId}/edit\";\n\t\t}\n\n\t\towner.setId(ownerId);\n\t\tthis.owners.save(owner);\n\t\tredirectAttributes.addFlashAttribute(\"message\", \"Owner Values Updated\");\n\t\treturn \"redirect:/owners/{ownerId}\";\n\t}\n\n\t/**\n\t * Custom handler for displaying an owner.\n\t * @param ownerId the ID of the owner to display\n\t * @return a ModelMap with the model attributes for the view\n\t */\n\t@GetMapping(\"/owners/{ownerId}\")\n\tpublic ModelAndView showOwner(@PathVariable(\"ownerId\") int ownerId) {\n\t\tModelAndView mav = new ModelAndView(\"owners/ownerDetails\");\n\t\tOptional\u003cOwner\u003e optionalOwner = this.owners.findById(ownerId);\n\t\tOwner owner = optionalOwner.orElseThrow(() -\u003e new IllegalArgumentException(\n\t\t\t\t\"Owner not found with id: \" + ownerId + \". Please ensure the ID is correct \"));\n\t\tmav.addObject(owner);\n\t\treturn mav;\n\t}"
+}
+### STATUS: 0 BYTES: 1855
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: setTelephone ### CMD: --limit ### CMD: 50 
+{
+  "word": "setTelephone",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 89,
+      "text": "\tpublic void setTelephone(String telephone) {"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 80,
+      "text": "\t\tgeorge.setTelephone(\"6085551023\");"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 269,
+      "text": "\t\towner.setTelephone(\"0123456789\");"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 120,
+      "text": "\t\towner.setTelephone(\"4444444444\");"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 791
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: getTelephone ### CMD: --limit ### CMD: 50 
+{
+  "word": "getTelephone",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 85,
+      "text": "\tpublic String getTelephone() {"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 210
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: symbols ### CMD: src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java 
+{
+  "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+  "symbols": []
+}
+### STATUS: 0 BYTES: 116
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: notes ### CMD: --limit ### CMD: 20 
+{
+  "word": "notes",
+  "hits": []
+}
+### STATUS: 0 BYTES: 35
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/model/Person.java ### CMD: 28 ### CMD: 57 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+  "start_line": 28,
+  "end_line": 57,
+  "text": "@MappedSuperclass\npublic class Person extends BaseEntity {\n\n\t@Column(length = 30)\n\t@Size(max = 30)\n\t@NotBlank\n\tprivate String firstName;\n\n\t@Column(length = 30)\n\t@Size(max = 30)\n\t@NotBlank\n\tprivate String lastName;\n\n\tpublic String getFirstName() {\n\t\treturn this.firstName;\n\t}\n\n\tpublic void setFirstName(String firstName) {\n\t\tthis.firstName = firstName;\n\t}\n\n\tpublic String getLastName() {\n\t\treturn this.lastName;\n\t}\n\n\tpublic void setLastName(String lastName) {\n\t\tthis.lastName = lastName;\n\t}\n\n}"
+}
+### STATUS: 0 BYTES: 682
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: param ### CMD: --limit ### CMD: 80 
+{
+  "word": "param",
+  "hits": [
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 117,
+      "text": "\t\t\t.perform(post(\"/owners/new\").param(\"firstName\", \"Joe\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 118,
+      "text": "\t\t\t\t.param(\"lastName\", \"Bloggs\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 119,
+      "text": "\t\t\t\t.param(\"address\", \"123 Caramel Street\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 120,
+      "text": "\t\t\t\t.param(\"city\", \"London\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 121,
+      "text": "\t\t\t\t.param(\"telephone\", \"1316761638\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 128,
+      "text": "\t\t\t.perform(post(\"/owners/new\").param(\"firstName\", \"Joe\").param(\"lastName\", \"Bloggs\").param(\"city\", \"London\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 155,
+      "text": "\t\tmockMvc.perform(get(\"/owners?page=1\").param(\"lastName\", \"Franklin\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 166,
+      "text": "\t\t\tmockMvc.perform(get(\"/owners?page=1\").param(\"lastName\", lastName))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 179,
+      "text": "\t\tmockMvc.perform(get(\"/owners?page=1\").param(\"lastName\", \"   \"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 190,
+      "text": "\t\tmockMvc.perform(get(\"/owners?page=1\").param(\"lastName\", \"Unknown Surname\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 214,
+      "text": "\t\t\t.perform(post(\"/owners/{ownerId}/edit\", TEST_OWNER_ID).param(\"firstName\", \"Joe\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 215,
+      "text": "\t\t\t\t.param(\"lastName\", \"Bloggs\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 216,
+      "text": "\t\t\t\t.param(\"address\", \"123 Caramel Street\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 217,
+      "text": "\t\t\t\t.param(\"city\", \"London\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 218,
+      "text": "\t\t\t\t.param(\"telephone\", \"1616291589\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 233,
+      "text": "\t\t\t.perform(post(\"/owners/{ownerId}/edit\", TEST_OWNER_ID).param(\"firstName\", \"Joe\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 234,
+      "text": "\t\t\t\t.param(\"lastName\", \"Bloggs\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 235,
+      "text": "\t\t\t\t.param(\"address\", \"\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 236,
+      "text": "\t\t\t\t.param(\"telephone\", \"\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 100,
+      "text": "\t\t\t.perform(post(\"/owners/{ownerId}/pets/new\", TEST_OWNER_ID).param(\"name\", \"Betty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 101,
+      "text": "\t\t\t\t.param(\"type\", \"hamster\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 102,
+      "text": "\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 113,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/new\", TEST_OWNER_ID).param(\"name\", \"\\t \\n\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 114,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 126,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/new\", TEST_OWNER_ID).param(\"name\", \"petty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 127,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 139,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/new\", TEST_OWNER_ID).param(\"name\", \"Betty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 140,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 155,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/new\", TEST_OWNER_ID).param(\"name\", \"Betty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 156,
+      "text": "\t\t\t\t\t.param(\"birthDate\", futureBirthDate))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 170,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/new\", TEST_OWNER_ID).param(\"name\", \"Betty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 171,
+      "text": "\t\t\t\t\t.param(\"type\", \"hamster\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 172,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 194,
+      "text": "\t\t\t.perform(post(\"/owners/{ownerId}/pets/{petId}/edit\", TEST_OWNER_ID, TEST_PET_ID).param(\"name\", \"Betty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 195,
+      "text": "\t\t\t\t.param(\"type\", \"hamster\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 196,
+      "text": "\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 203,
+      "text": "\t\tmockMvc.perform(post(\"/owners/{ownerId}/pets/{petId}/edit\", TEST_OWNER_ID, TEST_PET_ID).param(\"name\", \"petty\") // same"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 208,
+      "text": "\t\t\t.param(\"type\", \"hamster\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 209,
+      "text": "\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 221,
+      "text": "\t\t\t\t\t.param(\"name\", \"petty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 222,
+      "text": "\t\t\t\t\t.param(\"type\", \"hamster\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 223,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 235,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/{petId}/edit\", TEST_OWNER_ID, TEST_PET_ID).param(\"name\", \" \")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 236,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015/02/12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 247,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/{petId}/edit\", TEST_OWNER_ID, TEST_PET_ID).param(\"name\", \"  \")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 248,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 261,
+      "text": "\t\t\t\t.perform(post(\"/owners/{ownerId}/pets/{petId}/edit\", TEST_OWNER_ID, TEST_PET_ID).param(\"name\", \"Betty\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 262,
+      "text": "\t\t\t\t\t.param(\"type\", \"hamster\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java",
+      "line": 263,
+      "text": "\t\t\t\t\t.param(\"birthDate\", \"2015-02-12\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 79,
+      "text": "\t\t\t\t.param(\"name\", \"George\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 80,
+      "text": "\t\t\t\t.param(\"date\", LocalDate.now().plusDays(1).toString())"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 81,
+      "text": "\t\t\t\t.param(\"description\", \"Visit Description\"))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 89,
+      "text": "\t\t\t.perform(post(\"/owners/{ownerId}/pets/{petId}/visits/new\", TEST_OWNER_ID, TEST_PET_ID).param(\"name\","
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 100,
+      "text": "\t\t\t\t.param(\"name\", \"George\")"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 101,
+      "text": "\t\t\t\t.param(\"date\", LocalDate.now().toString())"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java",
+      "line": 102,
+      "text": "\t\t\t\t.param(\"description\", \"Visit Description\"))"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 11914
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: hasProperty ### CMD: --limit ### CMD: 40 
+{
+  "word": "hasProperty",
+  "hits": [
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 39,
+      "text": "import static org.hamcrest.Matchers.hasProperty;"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 203,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"lastName\", is(\"Franklin\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 204,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"firstName\", is(\"George\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 205,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"address\", is(\"110 W. Liberty St.\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 206,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"city\", is(\"Madison\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 207,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"telephone\", is(\"6085551023\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 248,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"lastName\", is(\"Franklin\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 249,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"firstName\", is(\"George\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 250,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"address\", is(\"110 W. Liberty St.\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 251,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"city\", is(\"Madison\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 252,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"telephone\", is(\"6085551023\"))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 253,
+      "text": "\t\t\t.andExpect(model().attribute(\"owner\", hasProperty(\"pets\", not(empty()))))"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+      "line": 255,
+      "text": "\t\t\t\t\thasProperty(\"pets\", hasItem(hasProperty(\"visits\", hasSize(greaterThan(0)))))))"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 3137
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java ### CMD: 109 ### CMD: 126 
+{
+  "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+  "start_line": 109,
+  "end_line": 126,
+  "text": "\t@Test\n\t@Transactional\n\tvoid shouldInsertOwner() {\n\t\tPage\u003cOwner\u003e owners = this.owners.findByLastNameStartingWith(\"Schultz\", pageable);\n\t\tint found = (int) owners.getTotalElements();\n\n\t\tOwner owner = new Owner();\n\t\towner.setFirstName(\"Sam\");\n\t\towner.setLastName(\"Schultz\");\n\t\towner.setAddress(\"4, Evans Street\");\n\t\towner.setCity(\"Wollongong\");\n\t\towner.setTelephone(\"4444444444\");\n\t\tthis.owners.save(owner);\n\t\tassertThat(owner.getId()).isNotZero();\n\n\t\towners = this.owners.findByLastNameStartingWith(\"Schultz\", pageable);\n\t\tassertThat(owners.getTotalElements()).isEqualTo(found + 1);\n\t}"
+}
+### STATUS: 0 BYTES: 806
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java ### CMD: 70 ### CMD: 90 
+{
+  "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+  "start_line": 70,
+  "end_line": 90,
+  "text": "\t@MockitoBean\n\tprivate OwnerRepository owners;\n\n\tprivate Owner george() {\n\t\tOwner george = new Owner();\n\t\tgeorge.setId(TEST_OWNER_ID);\n\t\tgeorge.setFirstName(\"George\");\n\t\tgeorge.setLastName(\"Franklin\");\n\t\tgeorge.setAddress(\"110 W. Liberty St.\");\n\t\tgeorge.setCity(\"Madison\");\n\t\tgeorge.setTelephone(\"6085551023\");\n\t\tPet max = new Pet();\n\t\tPetType dog = new PetType();\n\t\tdog.setName(\"dog\");\n\t\tmax.setType(dog);\n\t\tmax.setName(\"Max\");\n\t\tmax.setBirthDate(LocalDate.now());\n\t\tgeorge.addPet(max);\n\t\tmax.setId(1);\n\t\treturn george;\n\t}"
+}
+### STATUS: 0 BYTES: 744
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: OwnerRepository 
+{
+  "query": "OwnerRepository",
+  "definitions": [
+    {
+      "id": 23,
+      "name": "OwnerRepository",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerRepository",
+      "kind": "interface",
+      "exported": true,
+      "signature": "public interface OwnerRepository extends JpaRepository\u003cOwner, Integer\u003e",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "start_line": 36,
+      "end_line": 62,
+      "snippet": "public interface OwnerRepository extends JpaRepository\u003cOwner, Integer\u003e {\n\n\t/**\n\t * Retrieve {@link Owner}s from the data store by last name, returning all owners\n\t * whose last name \u003ci\u003estarts\u003c/i\u003e with the given name.\n\t * @param lastName Value to search for\n\t * @return a Collection of matching {@link Owner}s (or an empty Collection if none\n\t * found)",
+      "callers": [],
+      "callees": []
+    }
+  ]
+}
+### STATUS: 0 BYTES: 956
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: Column ### CMD: --limit ### CMD: 40 
+{
+  "word": "Column",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java",
+      "line": 18,
+      "text": "import jakarta.persistence.Column;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java",
+      "line": 33,
+      "text": "\t@Column"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+      "line": 18,
+      "text": "import jakarta.persistence.Column;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+      "line": 31,
+      "text": "\t@Column(length = 30)"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+      "line": 36,
+      "text": "\t@Column(length = 30)"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 27,
+      "text": "import jakarta.persistence.Column;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 51,
+      "text": "\t@Column"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 55,
+      "text": "\t@Column"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 59,
+      "text": "\t@Column"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "line": 27,
+      "text": "import jakarta.persistence.Column;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "line": 48,
+      "text": "\t@Column"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "line": 23,
+      "text": "import jakarta.persistence.Column;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "line": 38,
+      "text": "\t@Column(name = \"visit_date\")"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 2082
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java ### CMD: 258 ### CMD: 282 
+{
+  "file": "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java",
+  "start_line": 258,
+  "end_line": 279,
+  "text": "\n\t@Test\n\tvoid processUpdateOwnerFormWithIdMismatch() throws Exception {\n\t\tint pathOwnerId = 1;\n\n\t\tOwner owner = new Owner();\n\t\towner.setId(2);\n\t\towner.setFirstName(\"John\");\n\t\towner.setLastName(\"Doe\");\n\t\towner.setAddress(\"Center Street\");\n\t\towner.setCity(\"New York\");\n\t\towner.setTelephone(\"0123456789\");\n\n\t\twhen(owners.findById(pathOwnerId)).thenReturn(Optional.of(owner));\n\n\t\tmockMvc.perform(MockMvcRequestBuilders.post(\"/owners/{ownerId}/edit\", pathOwnerId).flashAttr(\"owner\", owner))\n\t\t\t.andExpect(status().is3xxRedirection())\n\t\t\t.andExpect(redirectedUrl(\"/owners/\" + pathOwnerId + \"/edit\"))\n\t\t\t.andExpect(flash().attributeExists(\"error\"));\n\t}\n\n}"
+}
+### STATUS: 0 BYTES: 874
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Pet.java ### CMD: 44 ### CMD: 56 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+  "start_line": 44,
+  "end_line": 56,
+  "text": "@Entity\n@Table(name = \"pets\")\npublic class Pet extends NamedEntity {\n\n\t@Column\n\t@DateTimeFormat(pattern = \"yyyy-MM-dd\")\n\tprivate LocalDate birthDate;\n\n\t@ManyToOne\n\t@JoinColumn(name = \"type_id\")\n\tprivate PetType type;\n\n\t@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)"
+}
+### STATUS: 0 BYTES: 440
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: Validator ### CMD: --limit ### CMD: 20 
+{
+  "word": "Validator",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java",
+      "line": 20,
+      "text": "import org.springframework.validation.Validator;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java",
+      "line": 32,
+      "text": "public class PetValidator implements Validator {"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java",
+      "line": 29,
+      "text": "import jakarta.validation.Validator;"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java",
+      "line": 37,
+      "text": "\tprivate Validator createValidator() {"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java",
+      "line": 56,
+      "text": "\t\tValidator validator = createValidator();"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/model/ValidatorTests.java",
+      "line": 72,
+      "text": "\t\tValidator validator = createValidator();"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1154
+

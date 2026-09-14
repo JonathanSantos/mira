@@ -1,0 +1,9 @@
+# índice local do próprio mira, caso o repositório seja indexado
+.mira/
+# binário de desenvolvimento
+/mira
+
+/benchmark/_tools
+/benchmark/_data
+/benchmark/_repos
+/benchmark/groundtruth/tstruth/node_modules

@@ -1,0 +1,805 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: status 
+{
+  "root": "$SCRATCH/field/spring-petclinic",
+  "files": 50,
+  "symbols": 266,
+  "refs": 2193,
+  "imports": 358,
+  "words": 6709,
+  "edges": 291,
+  "by_language": {
+    "java": {
+      "files": 50,
+      "symbols": 266,
+      "refs": 2193,
+      "imports": 358,
+      "words": 6709
+    }
+  },
+  "outdated": 0
+}
+### STATUS: 0 BYTES: 416
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: VisitController 
+{
+  "query": "VisitController",
+  "definitions": [
+    {
+      "id": 117,
+      "name": "VisitController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController",
+      "kind": "class",
+      "exported": false,
+      "signature": "class VisitController",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 42,
+      "end_line": 114,
+      "snippet": "@Controller\nclass VisitController {\n\n\tprivate final OwnerRepository owners;\n\n\tpublic VisitController(OwnerRepository owners) {\n\t\tthis.owners = owners;\n\t}",
+      "callers": [],
+      "callees": []
+    },
+    {
+      "id": 119,
+      "name": "VisitController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.VisitController",
+      "kind": "constructor",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public VisitController(OwnerRepository owners)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 47,
+      "end_line": 49,
+      "snippet": "\tpublic VisitController(OwnerRepository owners) {\n\t\tthis.owners = owners;\n\t}",
+      "callers": [],
+      "callees": []
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1279
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: addVisit ### CMD: --limit ### CMD: 20 
+{
+  "word": "addVisit",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 173,
+      "text": "\tpublic void addVisit(Integer petId, Visit visit) {"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 182,
+      "text": "\t\tpet.addVisit(visit);"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "line": 81,
+      "text": "\tpublic void addVisit(Visit visit) {"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "line": 79,
+      "text": "\t\tpet.addVisit(visit);"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "line": 108,
+      "text": "\t\towner.addVisit(petId, visit);"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 229,
+      "text": "\t\towner6.addVisit(pet7.getId(), visit);"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1092
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: PostMapping ### CMD: --limit ### CMD: 30 
+{
+  "word": "PostMapping",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "line": 33,
+      "text": "import org.springframework.web.bind.annotation.PostMapping;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "line": 77,
+      "text": "\t@PostMapping(\"/owners/new\")"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "line": 144,
+      "text": "\t@PostMapping(\"/owners/{ownerId}/edit\")"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetController.java",
+      "line": 34,
+      "text": "import org.springframework.web.bind.annotation.PostMapping;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetController.java",
+      "line": 107,
+      "text": "\t@PostMapping(\"/pets/new\")"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/PetController.java",
+      "line": 144,
+      "text": "\t@PostMapping(\"/pets/{petId}/edit\")"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "line": 29,
+      "text": "import org.springframework.web.bind.annotation.PostMapping;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "line": 97,
+      "text": "\t@PostMapping(\"/owners/{ownerId}/pets/{petId}/visits/new\")"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1570
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: symbols ### CMD: src/main/java/org/springframework/samples/petclinic/owner/VisitController.java 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+  "symbols": [
+    {
+      "id": 117,
+      "name": "VisitController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController",
+      "kind": "class",
+      "exported": false,
+      "signature": "class VisitController",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 42,
+      "end_line": 114
+    },
+    {
+      "id": 118,
+      "name": "owners",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.owners",
+      "kind": "field",
+      "container": "VisitController",
+      "exported": false,
+      "signature": "private final OwnerRepository owners",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 45,
+      "end_line": 45
+    },
+    {
+      "id": 119,
+      "name": "VisitController",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.VisitController",
+      "kind": "constructor",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public VisitController(OwnerRepository owners)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 47,
+      "end_line": 49
+    },
+    {
+      "id": 120,
+      "name": "setAllowedFields",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.setAllowedFields",
+      "kind": "method",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public void setAllowedFields(WebDataBinder dataBinder)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 51,
+      "end_line": 54
+    },
+    {
+      "id": 121,
+      "name": "loadPetWithVisit",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit",
+      "kind": "method",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public Visit loadPetWithVisit(@PathVariable(\"ownerId\") int ownerId, @PathVariable(\"petId\") int petId, Map\u003cString, Object\u003e model)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 63,
+      "end_line": 81
+    },
+    {
+      "id": 122,
+      "name": "minVisitDate",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.minVisitDate",
+      "kind": "method",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public LocalDate minVisitDate()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 83,
+      "end_line": 86
+    },
+    {
+      "id": 123,
+      "name": "initNewVisitForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.initNewVisitForm",
+      "kind": "method",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public String initNewVisitForm()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 90,
+      "end_line": 93
+    },
+    {
+      "id": 124,
+      "name": "processNewVisitForm",
+      "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm",
+      "kind": "method",
+      "container": "VisitController",
+      "exported": true,
+      "signature": "public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit, BindingResult result, RedirectAttributes redirectAttributes)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "start_line": 97,
+      "end_line": 112
+    }
+  ]
+}
+### STATUS: 0 BYTES: 3914
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/VisitController.java ### CMD: 50 ### CMD: 114 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+  "start_line": 50,
+  "end_line": 114,
+  "text": "\n\t@InitBinder\n\tpublic void setAllowedFields(WebDataBinder dataBinder) {\n\t\tdataBinder.setDisallowedFields(\"id\", \"*.id\");\n\t}\n\n\t/**\n\t * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure\n\t * we always have fresh data - Since we do not use the session scope, make sure that\n\t * Pet object always has an id (Even though id is not part of the form fields)\n\t * @param petId\n\t * @return Pet\n\t */\n\t@ModelAttribute(\"visit\")\n\tpublic Visit loadPetWithVisit(@PathVariable(\"ownerId\") int ownerId, @PathVariable(\"petId\") int petId,\n\t\t\tMap\u003cString, Object\u003e model) {\n\t\tOptional\u003cOwner\u003e optionalOwner = owners.findById(ownerId);\n\t\tOwner owner = optionalOwner.orElseThrow(() -\u003e new IllegalArgumentException(\n\t\t\t\t\"Owner not found with id: \" + ownerId + \". Please ensure the ID is correct \"));\n\n\t\tPet pet = owner.getPet(petId);\n\t\tif (pet == null) {\n\t\t\tthrow new IllegalArgumentException(\n\t\t\t\t\t\"Pet with id \" + petId + \" not found for owner with id \" + ownerId + \".\");\n\t\t}\n\t\tmodel.put(\"pet\", pet);\n\t\tmodel.put(\"owner\", owner);\n\n\t\tVisit visit = new Visit();\n\t\tpet.addVisit(visit);\n\t\treturn visit;\n\t}\n\n\t@ModelAttribute(\"minVisitDate\")\n\tpublic LocalDate minVisitDate() {\n\t\treturn LocalDate.now().plusDays(1);\n\t}\n\n\t// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is\n\t// called\n\t@GetMapping(\"/owners/{ownerId}/pets/{petId}/visits/new\")\n\tpublic String initNewVisitForm() {\n\t\treturn \"pets/createOrUpdateVisitForm\";\n\t}\n\n\t// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is\n\t// called\n\t@PostMapping(\"/owners/{ownerId}/pets/{petId}/visits/new\")\n\tpublic String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,\n\t\t\tBindingResult result, RedirectAttributes redirectAttributes) {\n\t\tif (visit.getDate() != null \u0026\u0026 !visit.getDate().isAfter(LocalDate.now())) {\n\t\t\tresult.rejectValue(\"date\", \"typeMismatch.visitDate\");\n\t\t}\n\n\t\tif (result.hasErrors()) {\n\t\t\treturn \"pets/createOrUpdateVisitForm\";\n\t\t}\n\n\t\towner.addVisit(petId, visit);\n\t\tthis.owners.save(owner);\n\t\tredirectAttributes.addFlashAttribute(\"message\", \"Your visit has been booked\");\n\t\treturn \"redirect:/owners/{ownerId}\";\n\t}\n\n}"
+}
+### STATUS: 0 BYTES: 2552
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: Owner.addVisit ### CMD: --include-body 
+{
+  "query": "Owner.addVisit",
+  "definitions": [
+    {
+      "id": 88,
+      "name": "addVisit",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.addVisit",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public void addVisit(Integer petId, Visit visit)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 173,
+      "end_line": 183,
+      "snippet": "\tpublic void addVisit(Integer petId, Visit visit) {\n\n\t\tAssert.notNull(petId, \"Pet identifier must not be null!\");\n\t\tAssert.notNull(visit, \"Visit must not be null!\");\n\n\t\tPet pet = getPet(petId);\n\n\t\tAssert.notNull(pet, \"Invalid Pet identifier!\");",
+      "body": "\tpublic void addVisit(Integer petId, Visit visit) {\n\n\t\tAssert.notNull(petId, \"Pet identifier must not be null!\");\n\t\tAssert.notNull(visit, \"Visit must not be null!\");\n\n\t\tPet pet = getPet(petId);\n\n\t\tAssert.notNull(pet, \"Invalid Pet identifier!\");\n\n\t\tpet.addVisit(visit);\n\t}",
+      "callers": [
+        {
+          "id": 124,
+          "name": "processNewVisitForm",
+          "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm",
+          "kind": "method",
+          "container": "VisitController",
+          "exported": true,
+          "signature": "public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit, BindingResult result, RedirectAttributes redirectAttributes)",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+          "start_line": 97,
+          "end_line": 112
+        },
+        {
+          "id": 263,
+          "name": "shouldAddNewVisitForPet",
+          "qualified_name": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldAddNewVisitForPet",
+          "kind": "method",
+          "container": "ClinicServiceTests",
+          "exported": false,
+          "signature": "void shouldAddNewVisitForPet()",
+          "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+          "start_line": 217,
+          "end_line": 235
+        }
+      ],
+      "callees": [
+        {
+          "id": 37,
+          "name": "addVisit",
+          "qualified_name": "org.springframework.samples.petclinic.owner.Pet.addVisit",
+          "kind": "method",
+          "container": "Pet",
+          "exported": true,
+          "signature": "public void addVisit(Visit visit)",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+          "start_line": 81,
+          "end_line": 83
+        }
+      ]
+    }
+  ]
+}
+### STATUS: 0 BYTES: 2746
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: Pet.addVisit ### CMD: --include-body 
+{
+  "query": "Pet.addVisit",
+  "definitions": [
+    {
+      "id": 37,
+      "name": "addVisit",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Pet.addVisit",
+      "kind": "method",
+      "container": "Pet",
+      "exported": true,
+      "signature": "public void addVisit(Visit visit)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "start_line": 81,
+      "end_line": 83,
+      "snippet": "\tpublic void addVisit(Visit visit) {\n\t\tgetVisits().add(visit);\n\t}",
+      "body": "\tpublic void addVisit(Visit visit) {\n\t\tgetVisits().add(visit);\n\t}",
+      "callers": [
+        {
+          "id": 88,
+          "name": "addVisit",
+          "qualified_name": "org.springframework.samples.petclinic.owner.Owner.addVisit",
+          "kind": "method",
+          "container": "Owner",
+          "exported": true,
+          "signature": "public void addVisit(Integer petId, Visit visit)",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+          "start_line": 173,
+          "end_line": 183
+        },
+        {
+          "id": 121,
+          "name": "loadPetWithVisit",
+          "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit",
+          "kind": "method",
+          "container": "VisitController",
+          "exported": true,
+          "signature": "public Visit loadPetWithVisit(@PathVariable(\"ownerId\") int ownerId, @PathVariable(\"petId\") int petId, Map\u003cString, Object\u003e model)",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+          "start_line": 63,
+          "end_line": 81
+        }
+      ],
+      "callees": [
+        {
+          "id": 36,
+          "name": "getVisits",
+          "qualified_name": "org.springframework.samples.petclinic.owner.Pet.getVisits",
+          "kind": "method",
+          "container": "Pet",
+          "exported": true,
+          "signature": "public Collection\u003cVisit\u003e getVisits()",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+          "start_line": 77,
+          "end_line": 79
+        }
+      ]
+    }
+  ]
+}
+### STATUS: 0 BYTES: 2223
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: OwnerRepository 
+{
+  "query": "OwnerRepository",
+  "definitions": [
+    {
+      "id": 23,
+      "name": "OwnerRepository",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerRepository",
+      "kind": "interface",
+      "exported": true,
+      "signature": "public interface OwnerRepository extends JpaRepository\u003cOwner, Integer\u003e",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "start_line": 36,
+      "end_line": 62,
+      "snippet": "public interface OwnerRepository extends JpaRepository\u003cOwner, Integer\u003e {\n\n\t/**\n\t * Retrieve {@link Owner}s from the data store by last name, returning all owners\n\t * whose last name \u003ci\u003estarts\u003c/i\u003e with the given name.\n\t * @param lastName Value to search for\n\t * @return a Collection of matching {@link Owner}s (or an empty Collection if none\n\t * found)",
+      "callers": [],
+      "callees": []
+    }
+  ]
+}
+### STATUS: 0 BYTES: 956
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: Visit 
+{
+  "query": "Visit",
+  "definitions": [
+    {
+      "id": 38,
+      "name": "Visit",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Visit",
+      "kind": "class",
+      "exported": true,
+      "signature": "public class Visit extends BaseEntity",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "start_line": 34,
+      "end_line": 68,
+      "snippet": "@Entity\n@Table(name = \"visits\")\npublic class Visit extends BaseEntity {\n\n\t@Column(name = \"visit_date\")\n\t@DateTimeFormat(pattern = \"yyyy-MM-dd\")\n\tprivate LocalDate date;\n",
+      "callers": [
+        {
+          "id": 121,
+          "name": "loadPetWithVisit",
+          "qualified_name": "org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit",
+          "kind": "method",
+          "container": "VisitController",
+          "exported": true,
+          "signature": "public Visit loadPetWithVisit(@PathVariable(\"ownerId\") int ownerId, @PathVariable(\"petId\") int petId, Map\u003cString, Object\u003e model)",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+          "start_line": 63,
+          "end_line": 81
+        },
+        {
+          "id": 263,
+          "name": "shouldAddNewVisitForPet",
+          "qualified_name": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldAddNewVisitForPet",
+          "kind": "method",
+          "container": "ClinicServiceTests",
+          "exported": false,
+          "signature": "void shouldAddNewVisitForPet()",
+          "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+          "start_line": 217,
+          "end_line": 235
+        }
+      ],
+      "callees": [],
+      "extends": [
+        {
+          "id": 1,
+          "name": "BaseEntity",
+          "qualified_name": "org.springframework.samples.petclinic.model.BaseEntity",
+          "kind": "class",
+          "exported": true,
+          "signature": "public class BaseEntity implements Serializable",
+          "file": "src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java",
+          "start_line": 32,
+          "end_line": 51
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "Visit",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Visit.Visit",
+      "kind": "constructor",
+      "container": "Visit",
+      "exported": true,
+      "signature": "public Visit()",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "start_line": 48,
+      "end_line": 50,
+      "snippet": "\tpublic Visit() {\n\t\tthis.date = LocalDate.now().plusDays(1);\n\t}",
+      "callers": [],
+      "callees": []
+    }
+  ]
+}
+### STATUS: 0 BYTES: 2778
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: resolve ### CMD: Owner.getPet ### CMD: --include-body 
+{
+  "query": "Owner.getPet",
+  "definitions": [
+    {
+      "id": 84,
+      "name": "getPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public Pet getPet(String name)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 117,
+      "end_line": 119,
+      "snippet": "\tpublic Pet getPet(String name) {\n\t\treturn getPet(name, false);\n\t}",
+      "body": "\tpublic Pet getPet(String name) {\n\t\treturn getPet(name, false);\n\t}",
+      "callers": [],
+      "callees": []
+    },
+    {
+      "id": 85,
+      "name": "getPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public Pet getPet(Integer id)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 126,
+      "end_line": 136,
+      "snippet": "\tpublic Pet getPet(Integer id) {\n\t\tfor (Pet pet : getPets()) {\n\t\t\tif (!pet.isNew()) {\n\t\t\t\tInteger compId = pet.getId();\n\t\t\t\tif (Objects.equals(compId, id)) {\n\t\t\t\t\treturn pet;\n\t\t\t\t}\n\t\t\t}",
+      "body": "\tpublic Pet getPet(Integer id) {\n\t\tfor (Pet pet : getPets()) {\n\t\t\tif (!pet.isNew()) {\n\t\t\t\tInteger compId = pet.getId();\n\t\t\t\tif (Objects.equals(compId, id)) {\n\t\t\t\t\treturn pet;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn null;\n\t}",
+      "callers": [],
+      "callees": [
+        {
+          "id": 82,
+          "name": "getPets",
+          "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPets",
+          "kind": "method",
+          "container": "Owner",
+          "exported": true,
+          "signature": "public List\u003cPet\u003e getPets()",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+          "start_line": 93,
+          "end_line": 95
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "name": "getPet",
+      "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPet",
+      "kind": "method",
+      "container": "Owner",
+      "exported": true,
+      "signature": "public Pet getPet(String name, boolean ignoreNew)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "start_line": 144,
+      "end_line": 154,
+      "snippet": "\tpublic Pet getPet(String name, boolean ignoreNew) {\n\t\tfor (Pet pet : getPets()) {\n\t\t\tString compName = pet.getName();\n\t\t\tif (compName != null \u0026\u0026 compName.equalsIgnoreCase(name)) {\n\t\t\t\tif (!ignoreNew || !pet.isNew()) {\n\t\t\t\t\treturn pet;\n\t\t\t\t}\n\t\t\t}",
+      "body": "\tpublic Pet getPet(String name, boolean ignoreNew) {\n\t\tfor (Pet pet : getPets()) {\n\t\t\tString compName = pet.getName();\n\t\t\tif (compName != null \u0026\u0026 compName.equalsIgnoreCase(name)) {\n\t\t\t\tif (!ignoreNew || !pet.isNew()) {\n\t\t\t\t\treturn pet;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn null;\n\t}",
+      "callers": [],
+      "callees": [
+        {
+          "id": 82,
+          "name": "getPets",
+          "qualified_name": "org.springframework.samples.petclinic.owner.Owner.getPets",
+          "kind": "method",
+          "container": "Owner",
+          "exported": true,
+          "signature": "public List\u003cPet\u003e getPets()",
+          "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+          "start_line": 93,
+          "end_line": 95
+        }
+      ]
+    }
+  ]
+}
+### STATUS: 0 BYTES: 3644
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: OneToMany ### CMD: --limit ### CMD: 20 
+{
+  "word": "OneToMany",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 31,
+      "text": "import jakarta.persistence.OneToMany;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 64,
+      "text": "\t@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "line": 32,
+      "text": "import jakarta.persistence.OneToMany;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+      "line": 56,
+      "text": "\t@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 775
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: search ### CMD: NotBlank ### CMD: --limit ### CMD: 20 
+{
+  "word": "NotBlank",
+  "hits": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java",
+      "line": 20,
+      "text": "import jakarta.validation.constraints.NotBlank;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java",
+      "line": 34,
+      "text": "\t@NotBlank"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+      "line": 20,
+      "text": "import jakarta.validation.constraints.NotBlank;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+      "line": 33,
+      "text": "\t@NotBlank"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/model/Person.java",
+      "line": 38,
+      "text": "\t@NotBlank"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 35,
+      "text": "import jakarta.validation.constraints.NotBlank;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 52,
+      "text": "\t@NotBlank"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 56,
+      "text": "\t@NotBlank"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+      "line": 60,
+      "text": "\t@NotBlank"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "line": 26,
+      "text": "import jakarta.validation.constraints.NotBlank;"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+      "line": 42,
+      "text": "\t@NotBlank"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1794
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Visit.java ### CMD: 38 ### CMD: 47 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Visit.java",
+  "start_line": 38,
+  "end_line": 47,
+  "text": "\t@Column(name = \"visit_date\")\n\t@DateTimeFormat(pattern = \"yyyy-MM-dd\")\n\tprivate LocalDate date;\n\n\t@NotBlank\n\tprivate String description;\n\n\t/**\n\t * Creates a new instance of Visit for tomorrow\n\t */"
+}
+### STATUS: 0 BYTES: 353
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Pet.java ### CMD: 55 ### CMD: 60 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Pet.java",
+  "start_line": 55,
+  "end_line": 60,
+  "text": "\n\t@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)\n\t@JoinColumn(name = \"pet_id\")\n\t@OrderBy(\"date ASC\")\n\tprivate final Set\u003cVisit\u003e visits = new LinkedHashSet\u003c\u003e();\n"
+}
+### STATUS: 0 BYTES: 342
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Owner.java ### CMD: 63 ### CMD: 67 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java",
+  "start_line": 63,
+  "end_line": 67,
+  "text": "\n\t@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)\n\t@JoinColumn(name = \"owner_id\")\n\t@OrderBy(\"name\")\n\tprivate final List\u003cPet\u003e pets = new ArrayList\u003c\u003e();"
+}
+### STATUS: 0 BYTES: 333
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: symbols ### CMD: src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+  "symbols": [
+    {
+      "id": 23,
+      "name": "OwnerRepository",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerRepository",
+      "kind": "interface",
+      "exported": true,
+      "signature": "public interface OwnerRepository extends JpaRepository\u003cOwner, Integer\u003e",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "start_line": 36,
+      "end_line": 62
+    },
+    {
+      "id": 24,
+      "name": "findByLastNameStartingWith",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerRepository.findByLastNameStartingWith",
+      "kind": "method",
+      "container": "OwnerRepository",
+      "exported": true,
+      "signature": "Page\u003cOwner\u003e findByLastNameStartingWith(String lastName, Pageable pageable)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "start_line": 45,
+      "end_line": 45
+    },
+    {
+      "id": 25,
+      "name": "findById",
+      "qualified_name": "org.springframework.samples.petclinic.owner.OwnerRepository.findById",
+      "kind": "method",
+      "container": "OwnerRepository",
+      "exported": true,
+      "signature": "Optional\u003cOwner\u003e findById(Integer id)",
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+      "start_line": 60,
+      "end_line": 60
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1525
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: refs ### CMD: save 
+{
+  "name": "save",
+  "references": [
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "line": 84,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.owner.OwnerController.processCreationForm",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java",
+      "line": 159,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.owner.OwnerController.processUpdateOwnerForm",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java",
+      "line": 109,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 121,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldInsertOwner",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 138,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldUpdateOwner",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 174,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldInsertPetIntoDatabaseAndGenerateId",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 197,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldUpdatePetName",
+      "resolution": "unresolved"
+    },
+    {
+      "file": "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java",
+      "line": 230,
+      "col": 15,
+      "kind": "method",
+      "container": "org.springframework.samples.petclinic.service.ClinicServiceTests.shouldAddNewVisitForPet",
+      "resolution": "unresolved"
+    }
+  ],
+  "summary": {
+    "unresolved": 8
+  }
+}
+### STATUS: 0 BYTES: 2587
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --json ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java ### CMD: 52 ### CMD: 61 
+{
+  "file": "src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java",
+  "start_line": 52,
+  "end_line": 61,
+  "text": "\t * {@link Optional}.\n\t * \u003c/p\u003e\n\t * @param id the id to search for\n\t * @return an {@link Optional} containing the {@link Owner} if found, or an empty\n\t * {@link Optional} if not found.\n\t * @throws IllegalArgumentException if the id is null (assuming null is not a valid\n\t * input for id)\n\t */\n\tOptional\u003cOwner\u003e findById(Integer id);\n"
+}
+### STATUS: 0 BYTES: 515
+

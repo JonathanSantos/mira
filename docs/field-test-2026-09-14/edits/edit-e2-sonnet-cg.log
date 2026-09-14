@@ -1,0 +1,390 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e2-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: future ### CMD: --context ### CMD: 2 
+src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java (1)
+  D 97 in VisitControllerTests.processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture:96-107
+      95| 
+      96| 	@Test
+    > 97| 	void processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture() throws Exception {
+      98| 		mockMvc
+      99| 			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+src/main/resources/messages/messages.properties (1)
+  t 9
+      7| typeMismatch.date=invalid date
+      8| typeMismatch.birthDate=invalid date
+    > 9| typeMismatch.visitDate=Visit date must be in the future
+      10| owner=Owner
+      11| firstName=First Name
+src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java (2)
+  ~ 152 in ProcessCreationFormHasErrors.processCreationFormWithInvalidBirthDate:149-163
+      150| 		void processCreationFormWithInvalidBirthDate() throws Exception {
+      151| 			LocalDate currentDate = LocalDate.now();
+    > 152| 			String futureBirthDate = currentDate.plusMonths(1).toString();
+      153| 
+      154| 			mockMvc
+  ~ 156 in ProcessCreationFormHasErrors.processCreationFormWithInvalidBirthDate:149-163
+      154| 			mockMvc
+      155| 				.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty")
+    > 156| 					.param("birthDate", futureBirthDate))
+      157| 				.andExpect(model().attributeHasNoErrors("owner"))
+      158| 				.andExpect(model().attributeHasErrors("pet"))
+4 hit(s) in 3 file(s)
+### STATUS: 0 BYTES: 1509
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e2-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: VisitController ### CMD: --skeleton ### CMD: --include-body 
+org.springframework.samples.petclinic.owner.VisitController class src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:42-114
+  @Controller
+  class VisitController
+   42| @Controller
+   43| class VisitController {
+   44| 
+   45| 	private final OwnerRepository owners;
+   46| 
+   47| 	public VisitController(OwnerRepository owners) {
+   48| 		this.owners = owners;
+   49| 	}
+   50| 
+   51| 	@InitBinder
+   52| 	public void setAllowedFields(WebDataBinder dataBinder) {
+   53| 		dataBinder.setDisallowedFields("id", "*.id");
+   54| 	}
+   55| 
+   56| 	/**
+   57| 	 * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure
+   58| 	 * we always have fresh data - Since we do not use the session scope, make sure that
+   59| 	 * Pet object always has an id (Even though id is not part of the form fields)
+   60| 	 * @param petId
+   61| 	 * @return Pet
+   62| 	 */
+   63| 	@ModelAttribute("visit")
+   64| 	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+   65| 			Map<String, Object> model) {
+   66| 		Optional<Owner> optionalOwner = owners.findById(ownerId);
+   67| 		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+   68| 				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+   69| 
+   70| 		Pet pet = owner.getPet(petId);
+   71| 		if (pet == null) {
+   72| 			throw new IllegalArgumentException(
+   73| 					"Pet with id " + petId + " not found for owner with id " + ownerId + ".");
+   74| 		}
+   75| 		model.put("pet", pet);
+   76| 		model.put("owner", owner);
+   77| 
+   78| 		Visit visit = new Visit();
+   79| 		pet.addVisit(visit);
+   80| 		return visit;
+   81| 	}
+   82| 
+   83| 	@ModelAttribute("minVisitDate")
+   84| 	public LocalDate minVisitDate() {
+   85| 		return LocalDate.now().plusDays(1);
+   86| 	}
+   87| 
+   88| 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+   89| 	// called
+   90| 	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+   91| 	public String initNewVisitForm() {
+   92| 		return "pets/createOrUpdateVisitForm";
+   93| 	}
+   94| 
+   95| 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
+   96| 	// called
+   97| 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+   98| 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+   99| 			BindingResult result, RedirectAttributes redirectAttributes) {
+  100| 		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+  101| 			result.rejectValue("date", "typeMismatch.visitDate");
+  102| 		}
+  103| 
+  104| 		if (result.hasErrors()) {
+  105| 			return "pets/createOrUpdateVisitForm";
+  106| 		}
+  107| 
+  108| 		owner.addVisit(petId, visit);
+  109| 		this.owners.save(owner);
+  110| 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+  111| 		return "redirect:/owners/{ownerId}";
+  112| 	}
+  113| 
+  114| }
+  callers (0):
+  skeleton: skeleton applies to functions, methods and constructors; use symbols for a class outline
+  referenced by:
+    org.springframework.samples.petclinic.owner.VisitControllerTests class src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:44-109
+
+org.springframework.samples.petclinic.owner.VisitController.VisitController constructor src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:47-49 [exported]
+  public VisitController(OwnerRepository owners)
+  47| 	public VisitController(OwnerRepository owners) {
+  48| 		this.owners = owners;
+  49| 	}
+  callers (0):
+  skeleton: 3 lines, 0 branches, 0 loops
+  returns (0)
+  outer:
+    VisitController.owners property :45 (48)
+### STATUS: 0 BYTES: 3777
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e2-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: VisitControllerTests.processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture ### CMD: --skeleton ### CMD: --include-body 
+org.springframework.samples.petclinic.owner.VisitControllerTests.processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture method src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:96-107
+  @Test
+  void processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture() throws Exception
+   96| 	@Test
+   97| 	void processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture() throws Exception {
+   98| 		mockMvc
+   99| 			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+  100| 				.param("name", "George")
+  101| 				.param("date", LocalDate.now().toString())
+  102| 				.param("description", "Visit Description"))
+  103| 			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+  104| 			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+  105| 			.andExpect(status().isOk())
+  106| 			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+  107| 	}
+  callers (0):
+  skeleton: 12 lines, 0 branches, 0 loops
+  returns (0)
+  throws (0) declared Exception
+  uses (external):
+    MockMvc.perform (99)
+    post (99)
+    LocalDate.now (101)
+    LocalDate.now.toString (101)
+    mockMvc.perform.andExpect (103)
+    model (103, 104)
+    mockMvc.perform.andExpect.andExpect (104)
+    mockMvc.perform.andExpect.andExpect.andExpect (105)
+    status (105)
+    mockMvc.perform.andExpect.andExpect.andExpect.andExpect (106)
+    view (106)
+  outer:
+    VisitControllerTests.TEST_OWNER_ID property :49 (99)
+    VisitControllerTests.TEST_PET_ID property :51 (99)
+    VisitControllerTests.mockMvc field :53 (99, 103, 104, 5 total)
+  unresolved:
+    this.post.param [unresolved] (100)
+    this.post.param.param [unresolved] (101)
+    this.post.param.param.param [unresolved] (102)
+    this.model.attributeHasFieldErrors [unresolved] (103)
+    this.model.attributeHasFieldErrorCode [unresolved] (104)
+    this.status.isOk [unresolved] (105)
+    this.view.name [unresolved] (106)
+### STATUS: 0 BYTES: 1963
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e2-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: visitDate ### CMD: --context ### CMD: 2 
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (1)
+  s 101 in VisitController.processNewVisitForm:97-112
+      99| 			BindingResult result, RedirectAttributes redirectAttributes) {
+      100| 		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+    > 101| 			result.rejectValue("date", "typeMismatch.visitDate");
+      102| 		}
+      103| 
+src/main/resources/messages/messages.properties (2)
+  t 9
+      7| typeMismatch.date=invalid date
+      8| typeMismatch.birthDate=invalid date
+    > 9| typeMismatch.visitDate=Visit date must be in the future
+      10| owner=Owner
+      11| firstName=First Name
+  t 46
+      44| editPet=Edit Pet
+      45| ownerInformation=Owner Information
+    > 46| visitDate=Visit Date
+      47| editOwner=Edit Owner
+      48| addNewPet=Add New Pet
+src/main/resources/messages/messages_de.properties (2)
+  t 9
+      7| typeMismatch.date=ung�ltiges Datum
+      8| typeMismatch.birthDate=ung�ltiges Datum
+    > 9| typeMismatch.visitDate=Das Besuchsdatum muss in der Zukunft liegen
+      10| owner=Besitzer
+      11| firstName=Vorname
+  t 46
+      44| editPet=Haustier bearbeiten
+      45| ownerInformation=Besitzerinformationen
+    > 46| visitDate=Besuchsdatum
+      47| editOwner=Besitzer bearbeiten
+      48| addNewPet=Neues Haustier hinzufügen
+src/main/resources/messages/messages_es.properties (2)
+  t 9
+      7| typeMismatch.date=Fecha invalida
+      8| typeMismatch.birthDate=Fecha invalida
+    > 9| typeMismatch.visitDate=La fecha de la visita debe ser futura
+      10| owner=Propietario
+      11| firstName=Nombre
+  t 46
+      44| editPet=Editar mascota
+      45| ownerInformation=Información del propietario
+    > 46| visitDate=Fecha de visita
+      47| editOwner=Editar propietario
+      48| addNewPet=Agregar nueva mascota
+src/main/resources/messages/messages_fa.properties (2)
+  t 9
+      7| typeMismatch.date=تاریخ نامعتبر
+      8| typeMismatch.birthDate=تاریخ تولد نامعتبر
+    > 9| typeMismatch.visitDate=تاریخ ویزیت باید در آینده باشد
+      10| owner=مالک
+      11| firstName=نام
+  t 46
+      44| editPet=ویرایش حیوان خانگی
+      45| ownerInformation=اطلاعات مالک
+    > 46| visitDate=تاریخ ویزیت
+      47| editOwner=ویرایش مالک
+      48| addNewPet=افزودن حیوان خانگی جدید
+src/main/resources/messages/messages_hi.properties (2)
+  t 11
+      9| typeMismatch.date=\u0905\u092E\u093E\u0928\u094D\u092F \u0924\u093F\u0925\u093F
+      10| typeMismatch.birthDate=\u0905\u092E\u093E\u0928\u094D\u092F \u0924\u093F\u0925\u093F
+    > 11| typeMismatch.visitDate=\u092D\u0947\u091F\u0940 \u0915\u0940 \u0924\u093E\u0930\u0940\u0916 \u092D\u0935\u093F\u0937\u094D\u092F \u092E\u0947\u0902 \u0939\u094B\u0928\u0940 \u091A\u093E\u0939\u093F\u090F
+      12| owner=\u092E\u093E\u0932\u093F\u0915
+      13| firstName=\u092A\u0939\u0932\u093E \u0928\u093E\u092E
+  t 48
+      46| editPet=\u092A\u093E\u0932\u0924\u0942 \u0938\u0902\u092A\u093E\u0926\u093F\u0924 \u0915\u0930\u0947\u0902
+      47| ownerInformation=\u092E\u093E\u0932\u093F\u0915 \u0915\u0940 \u091C\u093E\u0928\u0915\u093E\u0930\u0940
+    > 48| visitDate=\u092F\u093E\u0924\u094D\u0930\u093E \u0915\u0940 \u0924\u093E\u0930\u0940\u0916
+      49| editOwner=\u092E\u093E\u0932\u093F\u0915 \u0938\u0902\u092A\u093E\u0926\u093F\u0924 \u0915\u0930\u0947\u0902
+      50| addNewPet=\u090F\u0915 \u0928\u092F\u093E \u092A\u093E\u0932\u0924\u0942 \u091C\u094B\u0921\u093C\u0947\u0902
+src/main/resources/messages/messages_ja.properties (2)
+  t 11
+      9| typeMismatch.date=無効な日付です
+      10| typeMismatch.birthDate=無効な日付です
+    > 11| typeMismatch.visitDate=診察日は未来の日付である必要があります
+      12| owner=オーナー
+      13| firstName=名
+  t 48
+      46| editPet=ペットを編集
+      47| ownerInformation=オーナー情報
+    > 48| visitDate=診察日
+      49| editOwner=オーナーを編集
+      50| addNewPet=新しいペットを追加
+src/main/resources/messages/messages_ko.properties (2)
+  t 9
+      7| typeMismatch.date=잘못된 날짜입니다
+      8| typeMismatch.birthDate=잘못된 날짜입니다
+    > 9| typeMismatch.visitDate=방문 날짜는 미래 날짜여야 합니다
+      10| owner=소유자
+      11| firstName=이름
+  t 46
+      44| editPet=반려동물 수정
+      45| ownerInformation=소유자 정보
+    > 46| visitDate=방문 날짜
+      47| editOwner=소유자 수정
+      48| addNewPet=새 반려동물 추가
+src/main/resources/messages/messages_pt.properties (2)
+  t 9
+      7| typeMismatch.date=Data invalida
+      8| typeMismatch.birthDate=Data de nascimento invalida
+    > 9| typeMismatch.visitDate=A data da visita deve estar no futuro
+      10| owner=Proprietário
+      11| firstName=Primeiro Nome
+  t 46
+      44| editPet=Editar animal
+      45| ownerInformation=Informações do proprietário
+    > 46| visitDate=Data da visita
+      47| editOwner=Editar proprietário
+      48| addNewPet=Adicionar novo animal
+src/main/resources/messages/messages_ru.properties (2)
+  t 9
+      7| typeMismatch.date=неправильная даные
+      8| typeMismatch.birthDate=неправильная дата
+    > 9| typeMismatch.visitDate=Дата визита должна быть в будущем
+      10| owner=Владелец
+      11| firstName=Имя
+  t 46
+      44| editPet=Редактировать питомца
+      45| ownerInformation=Информация о владельце
+    > 46| visitDate=Дата визита
+      47| editOwner=Редактировать владельца
+      48| addNewPet=Добавить нового питомца
+src/main/resources/messages/messages_tr.properties (2)
+  t 9
+      7| typeMismatch.date=geçersiz tarih
+      8| typeMismatch.birthDate=geçersiz tarih
+    > 9| typeMismatch.visitDate=Ziyaret tarihi gelecekte olmalıdır
+      10| owner=Sahip
+      11| firstName=Ad
+  t 46
+      44| editPet=Evcil Hayvanı Düzenle
+      45| ownerInformation=Sahip Bilgileri
+    > 46| visitDate=Ziyaret Tarihi
+      47| editOwner=Sahibi Düzenle
+      48| addNewPet=Yeni Evcil Hayvan Ekle
+src/main/resources/templates/owners/ownerDetails.html (1)
+  t 63
+      61|           <thead>
+      62|             <tr>
+    > 63|               <th th:text="#{visitDate}">Visit Date</th>
+      64|               <th th:text="#{description}">Description</th>
+      65|             </tr>
+src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java (1)
+  s 104 in VisitControllerTests.processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture:96-107
+      102| 				.param("description", "Visit Description"))
+      103| 			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+    > 104| 			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+      105| 			.andExpect(status().isOk())
+      106| 			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+23 hit(s) in 13 file(s)
+### STATUS: 0 BYTES: 7055
+
+### CMD: git ### CMD: -C ### CMD: $SCRATCH/edit/e2-sonnet-cg ### CMD: diff 
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+index b8b2700..de3e3b8 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+@@ -82,7 +82,7 @@ class VisitController {
+ 
+ 	@ModelAttribute("minVisitDate")
+ 	public LocalDate minVisitDate() {
+-		return LocalDate.now().plusDays(1);
++		return LocalDate.now();
+ 	}
+ 
+ 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+@@ -97,7 +97,7 @@ class VisitController {
+ 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+ 			BindingResult result, RedirectAttributes redirectAttributes) {
+-		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
++		if (visit.getDate() != null && visit.getDate().isBefore(LocalDate.now())) {
+ 			result.rejectValue("date", "typeMismatch.visitDate");
+ 		}
+ 
+diff --git a/src/main/resources/messages/messages.properties b/src/main/resources/messages/messages.properties
+index 070c9f0..2b90ef0 100644
+--- a/src/main/resources/messages/messages.properties
++++ b/src/main/resources/messages/messages.properties
+@@ -6,7 +6,7 @@ nonNumeric=must be all numeric
+ duplicateFormSubmission=Duplicate form submission is not allowed
+ typeMismatch.date=invalid date
+ typeMismatch.birthDate=invalid date
+-typeMismatch.visitDate=Visit date must be in the future
++typeMismatch.visitDate=Visit date cannot be in the past
+ owner=Owner
+ firstName=First Name
+ lastName=Last Name
+diff --git a/src/main/resources/messages/messages_pt.properties b/src/main/resources/messages/messages_pt.properties
+index c2efd77..ec291bc 100644
+--- a/src/main/resources/messages/messages_pt.properties
++++ b/src/main/resources/messages/messages_pt.properties
+@@ -6,7 +6,7 @@ nonNumeric=Deve ser tudo numerico
+ duplicateFormSubmission=O envio duplicado de formulario nao e permitido
+ typeMismatch.date=Data invalida
+ typeMismatch.birthDate=Data de nascimento invalida
+-typeMismatch.visitDate=A data da visita deve estar no futuro
++typeMismatch.visitDate=A data da visita não pode estar no passado
+ owner=Proprietário
+ firstName=Primeiro Nome
+ lastName=Sobrenome
+diff --git a/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java b/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+index b608caa..91657e7 100644
+--- a/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
++++ b/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+@@ -98,7 +98,7 @@ class VisitControllerTests {
+ 		mockMvc
+ 			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+ 				.param("name", "George")
+-				.param("date", LocalDate.now().toString())
++				.param("date", LocalDate.now().minusDays(1).toString())
+ 				.param("description", "Visit Description"))
+ 			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+ 			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+### STATUS: 0 BYTES: 3292
+

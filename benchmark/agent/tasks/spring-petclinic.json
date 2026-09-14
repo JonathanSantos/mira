@@ -1,0 +1,60 @@
+{
+  "repo": "spring-petclinic",
+  "seed": 20260914,
+  "tasks": [
+    {
+      "id": "spring-petclinic-impact",
+      "key": {
+        "homonym_sites": [
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:118",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:111",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:152"
+        ],
+        "sites": [
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:178",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:189",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:86",
+          "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:70"
+        ]
+      },
+      "kind": "impact",
+      "label": "Owner.getPet",
+      "prompt": "List every place in production code (exclude tests) that references Owner.getPet, the method declared at src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126. Other symbols are also named getPet; do not include their uses. Write the answer as JSON to the answer file: {\"sites\": [\"path/to/file:line\", ...]}, one entry per referencing line, paths relative to the repository root.",
+      "symbol": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126:20"
+    },
+    {
+      "id": "spring-petclinic-rename",
+      "key": {
+        "must_change": [
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:118",
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:111",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:152"
+        ],
+        "must_keep": [
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:117",
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126",
+          "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:178",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:189",
+          "src/main/java/org/springframework/samples/petclinic/owner/PetController.java:86",
+          "src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:70",
+          "src/test/java/org/springframework/samples/petclinic/PetClinicConcurrencyTests.java:51",
+          "src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:102",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:181",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:192",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:202",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:224",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:243",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:311",
+          "src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:312"
+        ],
+        "new_name": "getPetV2",
+        "old_name": "getPet"
+      },
+      "kind": "rename",
+      "label": "Owner.getPet",
+      "prompt": "Rename Owner.getPet, the method declared at src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144, to getPetV2. Update every reference, tests included, so the project still builds. Other symbols named getPet must stay unchanged. When you are done, reply with a one-line summary.",
+      "symbol": "src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144:20"
+    }
+  ]
+}

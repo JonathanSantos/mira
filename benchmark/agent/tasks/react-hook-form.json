@@ -1,0 +1,37 @@
+{
+  "repo": "react-hook-form",
+  "seed": 20260914,
+  "tasks": [
+    {
+      "id": "react-hook-form-rename",
+      "key": {
+        "must_change": [
+          "app/src/app.tsx:100",
+          "app/src/app.tsx:13",
+          "app/src/defaultValues.tsx:4",
+          "app/src/defaultValues.tsx:51"
+        ],
+        "must_keep": [
+          "app/src/app.tsx:101",
+          "app/src/app.tsx:14",
+          "app/src/defaultValuesAsync.tsx:48",
+          "app/src/defaultValuesAsync.tsx:7",
+          "src/__tests__/useFieldArray/replace.test.tsx:14",
+          "src/__tests__/useFieldArray/replace.test.tsx:29",
+          "src/__tests__/useFieldArray/replace.test.tsx:38",
+          "src/types/form.ts:125",
+          "src/types/form.ts:45",
+          "src/types/form.ts:837",
+          "src/types/form.ts:862",
+          "src/types/form.ts:964"
+        ],
+        "new_name": "DefaultValuesV2",
+        "old_name": "DefaultValues"
+      },
+      "kind": "rename",
+      "label": "DefaultValues",
+      "prompt": "Rename DefaultValues, the function declared at app/src/defaultValues.tsx:4, to DefaultValuesV2. Update every reference, tests included, so the project still builds. Other symbols named DefaultValues must stay unchanged. When you are done, reply with a one-line summary.",
+      "symbol": "app/src/defaultValues.tsx:4:10"
+    }
+  ]
+}

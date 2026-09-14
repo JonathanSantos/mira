@@ -1,0 +1,1916 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: status 
+{
+  "root": "$SCRATCH/field/react-hook-form",
+  "files": 424,
+  "symbols": 386,
+  "refs": 9805,
+  "imports": 962,
+  "words": 97706,
+  "edges": 417,
+  "by_language": {
+    "javascript": {
+      "files": 17,
+      "symbols": 36,
+      "refs": 128,
+      "imports": 38,
+      "words": 496
+    },
+    "typescript": {
+      "files": 407,
+      "symbols": 350,
+      "refs": 9677,
+      "imports": 924,
+      "words": 97210
+    }
+  },
+  "outdated": 0
+}
+### STATUS: 0 BYTES: 551
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: resolve ### CMD: register 
+{
+  "query": "register",
+  "definitions": []
+}
+### STATUS: 0 BYTES: 46
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: resolve ### CMD: useForm 
+{
+  "query": "useForm",
+  "definitions": []
+}
+### STATUS: 0 BYTES: 45
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: resolve ### CMD: createFormControl 
+{
+  "query": "createFormControl",
+  "definitions": []
+}
+### STATUS: 0 BYTES: 55
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: register ### CMD: --limit ### CMD: 40 
+{
+  "word": "register",
+  "hits": [
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 12,
+      "text": "  const { register, control, handleSubmit } = useForm\u003c{"
+    },
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 43,
+      "text": "          \u003cinput {...register('test1')} /\u003e"
+    },
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 44,
+      "text": "          \u003cinput type=\"checkbox\" {...register('test2')} /\u003e"
+    },
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 45,
+      "text": "          \u003cinput type=\"radio\" {...register('test3')} /\u003e"
+    },
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 46,
+      "text": "          \u003cselect {...register('test4')}\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 11,
+      "text": "    register,"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 51,
+      "text": "        {...register('nestItem.nest1', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 56,
+      "text": "        {...register('arrayItem.0.test1', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 60,
+      "text": "        {...register('firstName', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 65,
+      "text": "        {...register('lastName', { required: true, maxLength: 5 })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 71,
+      "text": "        {...register('min', { min: 10 })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 77,
+      "text": "        {...register('max', { max: 20 })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 83,
+      "text": "        {...register('minDate', { min: '2019-08-01' })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 89,
+      "text": "        {...register('maxDate', { max: '2019-08-01' })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 94,
+      "text": "        {...register('minLength', { minLength: 2 })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 99,
+      "text": "        {...register('minRequiredLength', { minLength: 2, required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 103,
+      "text": "      \u003cselect {...register('selectNumber', { required: true })}\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 110,
+      "text": "        {...register('pattern', { pattern: /\\d+/ })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 115,
+      "text": "      \u003cinput type=\"radio\" {...register('radio')} value=\"1\" /\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 117,
+      "text": "      \u003cinput type=\"radio\" value=\"2\" {...register('radio')} /\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 122,
+      "text": "        {...register('radio', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 125,
+      "text": "      \u003cinput type=\"checkbox\" {...register('checkbox', { required: true })} /\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 130,
+      "text": "        {...register('checkboxArray', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 135,
+      "text": "        {...register('checkboxArray', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 140,
+      "text": "        {...register('checkboxArray', { required: true })}"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 143,
+      "text": "      \u003cselect multiple {...register('multiple', { required: true })}\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 151,
+      "text": "        {...register('validate', {"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 43,
+      "text": "    register,"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 71,
+      "text": "      \u003cinput {...register('firstName')} placeholder=\"firstName\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 73,
+      "text": "      \u003cinput {...register('lastName')} placeholder=\"lastName\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 75,
+      "text": "      \u003cinput type=\"number\" {...register('min')} placeholder=\"min\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 77,
+      "text": "      \u003cinput type=\"number\" {...register('max')} placeholder=\"max\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 79,
+      "text": "      \u003cinput type=\"date\" {...register('minDate')} placeholder=\"minDate\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 81,
+      "text": "      \u003cinput type=\"date\" {...register('maxDate')} placeholder=\"maxDate\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 83,
+      "text": "      \u003cinput {...register('minLength')} placeholder=\"minLength\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 86,
+      "text": "        {...register('minRequiredLength')}"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 90,
+      "text": "      \u003cselect {...register('selectNumber')}\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 96,
+      "text": "      \u003cinput {...register('pattern')} placeholder=\"pattern\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 99,
+      "text": "      \u003cinput type=\"radio\" {...register('radio')} value=\"1\" /\u003e"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 101,
+      "text": "      \u003cinput type=\"radio\" {...register('radio')} value=\"2\" /\u003e"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 6108
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: createFormControl ### CMD: --limit ### CMD: 30 
+{
+  "word": "createFormControl",
+  "hits": [
+    {
+      "file": "src/__tests__/logic/createFormControl.test.ts",
+      "line": 1,
+      "text": "import { createFormControl } from '../../logic/createFormControl';"
+    },
+    {
+      "file": "src/__tests__/logic/createFormControl.test.ts",
+      "line": 14,
+      "text": "    const { control, setValue, subscribe } = createFormControl\u003c{"
+    },
+    {
+      "file": "src/__tests__/logic/createFormControl.test.ts",
+      "line": 46,
+      "text": "    const { register, control } = createFormControl({"
+    },
+    {
+      "file": "src/__tests__/logic/createFormControl.test.ts",
+      "line": 60,
+      "text": "    const { register, control } = createFormControl({"
+    },
+    {
+      "file": "src/__tests__/logic/createFormControl.test.ts",
+      "line": 76,
+      "text": "    const { register, control } = createFormControl({"
+    },
+    {
+      "file": "src/__tests__/logic/createFormControl.test.ts",
+      "line": 100,
+      "text": "      createFormControl\u003c{"
+    },
+    {
+      "file": "src/__tests__/useForm.test.tsx",
+      "line": 32,
+      "text": "  createFormControl,"
+    },
+    {
+      "file": "src/__tests__/useForm.test.tsx",
+      "line": 2847,
+      "text": "        createFormControl\u003cFormValues\u003e();"
+    },
+    {
+      "file": "src/__tests__/useForm.test.tsx",
+      "line": 2899,
+      "text": "        createFormControl\u003cFormValues\u003e();"
+    },
+    {
+      "file": "src/__tests__/useForm.test.tsx",
+      "line": 2983,
+      "text": "      const { handleSubmit, formControl } = createFormControl\u003cFormValues\u003e({"
+    },
+    {
+      "file": "src/__tests__/useForm.test.tsx",
+      "line": 3008,
+      "text": "      const next = createFormControl\u003cFormValues\u003e({"
+    },
+    {
+      "file": "src/__tests__/useForm.test.tsx",
+      "line": 3032,
+      "text": "        const { formControl, setError } = createFormControl\u003cFormValues\u003e({"
+    },
+    {
+      "file": "src/__tests__/useForm/getErrors.test.tsx",
+      "line": 10,
+      "text": "import { createFormControl } from '../../logic/createFormControl';"
+    },
+    {
+      "file": "src/__tests__/useForm/getErrors.test.tsx",
+      "line": 209,
+      "text": "    const formControl = createFormControl\u003c{ foo: string }\u003e();"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 145,
+      "text": "export function createFormControl\u003c"
+    },
+    {
+      "file": "src/logic/index.ts",
+      "line": 2,
+      "text": "export { createFormControl } from './createFormControl';"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 8,
+      "text": "import { createFormControl } from './logic';"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 71,
+      "text": "      const { formControl, ...rest } = createFormControl(props);"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 2865
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: validateField ### CMD: --limit ### CMD: 30 
+{
+  "word": "validateField",
+  "hits": [
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 3,
+      "text": "import validateField from '../../logic/validateField';"
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 19,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 45,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 68,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 92,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 111,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 135,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 162,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 189,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 210,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 234,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 258,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 282,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 306,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 330,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 348,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 377,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 396,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 427,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 453,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 482,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 511,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 531,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 559,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 584,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 618,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 647,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 666,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 698,
+      "text": "      await validateField("
+    },
+    {
+      "file": "src/__tests__/logic/validateField.test.tsx",
+      "line": 733,
+      "text": "      await validateField("
+    }
+  ]
+}
+### STATUS: 0 BYTES: 4117
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: symbols ### CMD: src/logic/createFormControl.ts 
+{
+  "file": "src/logic/createFormControl.ts",
+  "symbols": []
+}
+### STATUS: 0 BYTES: 63
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: symbols ### CMD: src/useForm.ts 
+{
+  "file": "src/useForm.ts",
+  "symbols": []
+}
+### STATUS: 0 BYTES: 47
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/useForm.ts ### CMD: 55 ### CMD: 105 
+{
+  "file": "src/useForm.ts",
+  "start_line": 55,
+  "end_line": 105,
+  "text": "\n  if (\n    !_formControl.current ||\n    (props.formControl \u0026\u0026 _formControlProp.current !== props.formControl)\n  ) {\n    _formControlProp.current = props.formControl;\n    if (props.formControl) {\n      _formControl.current = {\n        ...props.formControl,\n        formState,\n      };\n\n      if (props.defaultValues \u0026\u0026 !isFunction(props.defaultValues)) {\n        props.formControl.reset(props.defaultValues, props.resetOptions);\n      }\n    } else {\n      const { formControl, ...rest } = createFormControl(props);\n\n      _formControl.current = {\n        ...rest,\n        formState,\n      };\n    }\n  }\n\n  const control = _formControl.current.control;\n  control._options = props;\n\n  const getCurrentFormState = () =\u003e ({\n    ...control._formState,\n    defaultValues:\n      control._defaultValues as FormState\u003cTFieldValues\u003e['defaultValues'],\n  });\n\n  const { resyncIfNeeded, snapshot } =\n    useResyncOnReconnect\u003cFormState\u003cTFieldValues\u003e\u003e(getCurrentFormState);\n\n  useIsomorphicLayoutEffect(() =\u003e {\n    resyncIfNeeded(true, getCurrentFormState, updateFormState);\n\n    const unsubscribe = control._subscribe({\n      formState: control._proxyFormState,\n      callback: () =\u003e\n        updateFormState({\n          ...control._formState,\n          defaultValues:\n            control._defaultValues as FormState\u003cTFieldValues\u003e['defaultValues'],\n        }),\n      reRenderRoot: true,\n    });\n"
+}
+### STATUS: 0 BYTES: 1586
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: symbols ### CMD: src/logic/validateField.ts 
+{
+  "file": "src/logic/validateField.ts",
+  "symbols": []
+}
+### STATUS: 0 BYTES: 59
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: executeBuiltInValidation ### CMD: --limit ### CMD: 20 
+{
+  "word": "executeBuiltInValidation",
+  "hits": [
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 265,
+      "text": "        isValid = await executeBuiltInValidation({"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 747,
+      "text": "  const executeBuiltInValidation = async ({"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 841,
+      "text": "          (await executeBuiltInValidation({"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1317,
+      "text": "            isValid = await executeBuiltInValidation({"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1374,
+      "text": "            return await executeBuiltInValidation({"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1383,
+      "text": "      validationResult = isValid = await executeBuiltInValidation({"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1858,
+      "text": "        await executeBuiltInValidation({"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 1087
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: handleSubmit ### CMD: --limit ### CMD: 200 
+{
+  "word": "handleSubmit",
+  "hits": [
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 12,
+      "text": "  const { register, control, handleSubmit } = useForm\u003c{"
+    },
+    {
+      "file": "app/src/autoUnregister.tsx",
+      "line": 23,
+      "text": "    \u003cform onSubmit={handleSubmit((d) =\u003e console.log(d))}\u003e"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 12,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/basic.tsx",
+      "line": 45,
+      "text": "      onSubmit={handleSubmit((data) =\u003e {"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 44,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/basicSchemaValidation.tsx",
+      "line": 70,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/changeInputType.tsx",
+      "line": 5,
+      "text": "  const { register, handleSubmit, watch, getValues, resetField } = useForm\u003c{"
+    },
+    {
+      "file": "app/src/changeInputType.tsx",
+      "line": 30,
+      "text": "      onSubmit={handleSubmit((d) =\u003e {"
+    },
+    {
+      "file": "app/src/conditionalField.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/conditionalField.tsx",
+      "line": 40,
+      "text": "      onSubmit={handleSubmit((data) =\u003e {"
+    },
+    {
+      "file": "app/src/controller.tsx",
+      "line": 53,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/controller.tsx",
+      "line": 65,
+      "text": "    \u003cform onSubmit={handleSubmit(() =\u003e {})}\u003e"
+    },
+    {
+      "file": "app/src/customSchemaValidation.tsx",
+      "line": 48,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/customSchemaValidation.tsx",
+      "line": 74,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/formState.tsx",
+      "line": 11,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/formState.tsx",
+      "line": 46,
+      "text": "      onSubmit={handleSubmit((d) =\u003e {"
+    },
+    {
+      "file": "app/src/formStateWithNestedFields.tsx",
+      "line": 11,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/formStateWithNestedFields.tsx",
+      "line": 49,
+      "text": "    \u003cform onSubmit={handleSubmit(() =\u003e {})}\u003e"
+    },
+    {
+      "file": "app/src/formStateWithSchema.tsx",
+      "line": 24,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/formStateWithSchema.tsx",
+      "line": 58,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/isValid.tsx",
+      "line": 23,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/isValid.tsx",
+      "line": 63,
+      "text": "    \u003cform onSubmit={handleSubmit(() =\u003e {})}\u003e"
+    },
+    {
+      "file": "app/src/manualRegisterForm.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/manualRegisterForm.tsx",
+      "line": 45,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/reValidateMode.tsx",
+      "line": 12,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/reValidateMode.tsx",
+      "line": 26,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/setValue.tsx",
+      "line": 10,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/setValue.tsx",
+      "line": 65,
+      "text": "    \u003cform onSubmit={handleSubmit(() =\u003e {})}\u003e"
+    },
+    {
+      "file": "app/src/setValueCustomRegister.tsx",
+      "line": 10,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/setValueCustomRegister.tsx",
+      "line": 27,
+      "text": "    \u003cform onSubmit={handleSubmit(() =\u003e {})}\u003e"
+    },
+    {
+      "file": "app/src/setValueWithSchema.tsx",
+      "line": 21,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/setValueWithSchema.tsx",
+      "line": 45,
+      "text": "      onSubmit={handleSubmit((d) =\u003e {"
+    },
+    {
+      "file": "app/src/setValueWithTrigger.tsx",
+      "line": 10,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/setValueWithTrigger.tsx",
+      "line": 43,
+      "text": "    \u003cform onSubmit={handleSubmit(() =\u003e {})}\u003e"
+    },
+    {
+      "file": "app/src/useFieldArray.tsx",
+      "line": 14,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/useFieldArray.tsx",
+      "line": 60,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/useFieldArrayNested.tsx",
+      "line": 122,
+      "text": "  const { register, control, reset, setValue, handleSubmit } ="
+    },
+    {
+      "file": "app/src/useFieldArrayNested.tsx",
+      "line": 144,
+      "text": "    \u003cform onSubmit={handleSubmit((e) =\u003e setResult(e))}\u003e"
+    },
+    {
+      "file": "app/src/useFieldArrayUnregister.tsx",
+      "line": 49,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/useFieldArrayUnregister.tsx",
+      "line": 75,
+      "text": "      onSubmit={handleSubmit((data) =\u003e {"
+    },
+    {
+      "file": "app/src/useFormState.tsx",
+      "line": 54,
+      "text": "  const { register, handleSubmit, control, reset } = useForm\u003cFormInputs\u003e({"
+    },
+    {
+      "file": "app/src/useFormState.tsx",
+      "line": 62,
+      "text": "    \u003cform onSubmit={handleSubmit(onValid)}\u003e"
+    },
+    {
+      "file": "app/src/useWatchUseFieldArrayNested.tsx",
+      "line": 122,
+      "text": "  const { register, control, reset, setValue, handleSubmit } ="
+    },
+    {
+      "file": "app/src/useWatchUseFieldArrayNested.tsx",
+      "line": 143,
+      "text": "    \u003cform onSubmit={handleSubmit((e) =\u003e console.log(e))}\u003e"
+    },
+    {
+      "file": "app/src/validateFieldCriteria.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "app/src/validateFieldCriteria.tsx",
+      "line": 36,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/watch.tsx",
+      "line": 5,
+      "text": "  const { register, handleSubmit, watch } = useForm\u003c{"
+    },
+    {
+      "file": "app/src/watch.tsx",
+      "line": 23,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/watchUseFieldArray.tsx",
+      "line": 13,
+      "text": "  const { control, handleSubmit, reset, watch, register } = useForm\u003cFormInputs\u003e("
+    },
+    {
+      "file": "app/src/watchUseFieldArray.tsx",
+      "line": 46,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "app/src/watchUseFieldArrayNested.tsx",
+      "line": 110,
+      "text": "  const { register, control, reset, setValue, handleSubmit, watch } ="
+    },
+    {
+      "file": "app/src/watchUseFieldArrayNested.tsx",
+      "line": 133,
+      "text": "    \u003cform onSubmit={handleSubmit((e) =\u003e console.log(e))}\u003e"
+    },
+    {
+      "file": "examples/V6/FieldArray.tsx",
+      "line": 10,
+      "text": "  const { register, handleSubmit, errors } = useForm();"
+    },
+    {
+      "file": "examples/V6/FieldArray.tsx",
+      "line": 20,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/asyncFieldValidation.tsx",
+      "line": 8,
+      "text": "  const { register, handleSubmit, errors } = useForm();"
+    },
+    {
+      "file": "examples/V6/asyncFieldValidation.tsx",
+      "line": 17,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/asyncSetFormValues.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, reset } = useForm();"
+    },
+    {
+      "file": "examples/V6/asyncSetFormValues.tsx",
+      "line": 22,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/asyncSubmitValidation.tsx",
+      "line": 8,
+      "text": "  const { register, handleSubmit, errors, setError } = useForm();"
+    },
+    {
+      "file": "examples/V6/asyncSubmitValidation.tsx",
+      "line": 23,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/basic.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/basic.tsx",
+      "line": 13,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/basicValidation.tsx",
+      "line": 6,
+      "text": "  const { register, errors, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/basicValidation.tsx",
+      "line": 13,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/conditionalFields.tsx",
+      "line": 6,
+      "text": "  const { register, watch, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/conditionalFields.tsx",
+      "line": 15,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/custom-masked-input.tsx",
+      "line": 17,
+      "text": "  const { register, handleSubmit, setValue } = useForm();"
+    },
+    {
+      "file": "examples/V6/custom-masked-input.tsx",
+      "line": 21,
+      "text": "    \u003cForm onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/customInput.tsx",
+      "line": 24,
+      "text": "  const { register, handleSubmit, setValue } = useForm();"
+    },
+    {
+      "file": "examples/V6/customInput.tsx",
+      "line": 43,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/customMaskedInputWithController.tsx",
+      "line": 43,
+      "text": "  const { handleSubmit, errors, control } = useForm({"
+    },
+    {
+      "file": "examples/V6/customMaskedInputWithController.tsx",
+      "line": 50,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/customValidation.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, errors } = useForm();"
+    },
+    {
+      "file": "examples/V6/customValidation.tsx",
+      "line": 19,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/defaultValues.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit } = useForm({"
+    },
+    {
+      "file": "examples/V6/defaultValues.tsx",
+      "line": 20,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/dirtyTouchedSubmitted.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, formState } = useForm({"
+    },
+    {
+      "file": "examples/V6/dirtyTouchedSubmitted.tsx",
+      "line": 16,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/disableNativeValidation.tsx",
+      "line": 5,
+      "text": "  const { errors, handleSubmit, register } = useForm();"
+    },
+    {
+      "file": "examples/V6/disableNativeValidation.tsx",
+      "line": 12,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)} noValidate\u003e"
+    },
+    {
+      "file": "examples/V6/fieldArrayMinLength.tsx",
+      "line": 24,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V6/fieldArrayMinLength.tsx",
+      "line": 57,
+      "text": "    \u003cform onSubmit={handleSubmit(console.log)}\u003e"
+    },
+    {
+      "file": "examples/V6/formProvider.tsx",
+      "line": 7,
+      "text": "  const { register, handleSubmit } = methods;"
+    },
+    {
+      "file": "examples/V6/formProvider.tsx",
+      "line": 10,
+      "text": "      \u003cform onSubmit={handleSubmit((data) =\u003e console.log(data))}\u003e"
+    },
+    {
+      "file": "examples/V6/forwardRefToPassRefProp.tsx",
+      "line": 9,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/forwardRefToPassRefProp.tsx",
+      "line": 15,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/getValuesCompareFields.tsx",
+      "line": 6,
+      "text": "  const { register, errors, getValues, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/getValuesCompareFields.tsx",
+      "line": 11,
+      "text": "      \u003cform onSubmit={handleSubmit((data) =\u003e console.log(data))}\u003e"
+    },
+    {
+      "file": "examples/V6/initalFormState.tsx",
+      "line": 14,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/initalFormState.tsx",
+      "line": 24,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/nativeMultipleInput.tsx",
+      "line": 5,
+      "text": "  const { register, errors, handleSubmit } = useForm\u003c{"
+    },
+    {
+      "file": "examples/V6/nativeMultipleInput.tsx",
+      "line": 13,
+      "text": "  const onSubmit = handleSubmit\u003c{ email: string }\u003e((data) =\u003e {"
+    },
+    {
+      "file": "examples/V6/nestedFields.tsx",
+      "line": 83,
+      "text": "  const { register, errors, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/nestedFields.tsx",
+      "line": 90,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/normalizeField.tsx",
+      "line": 24,
+      "text": "      \u003cform onSubmit={form.handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/parseFormatInputValues.tsx",
+      "line": 18,
+      "text": "  const { control, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/parseFormatInputValues.tsx",
+      "line": 24,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/persistInputOnUnmount.tsx",
+      "line": 39,
+      "text": "  const { register, handleSubmit, setValue, control } = useForm({"
+    },
+    {
+      "file": "examples/V6/persistInputOnUnmount.tsx",
+      "line": 56,
+      "text": "      \u003cform onSubmit={handleSubmit(console.log)}\u003e"
+    },
+    {
+      "file": "examples/V6/registerWithErrorMessages.tsx",
+      "line": 6,
+      "text": "  const { register, errors, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/registerWithErrorMessages.tsx",
+      "line": 13,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/remoteTriggerFormSubmit.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V6/remoteTriggerFormSubmit.tsx",
+      "line": 35,
+      "text": "      \u003cbutton type=\"button\" onClick={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/resetForm.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, reset } = useForm({"
+    },
+    {
+      "file": "examples/V6/resetForm.tsx",
+      "line": 15,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/setValue.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, setValue } = useForm();"
+    },
+    {
+      "file": "examples/V6/setValue.tsx",
+      "line": 13,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/typescript/Control.tsx",
+      "line": 20,
+      "text": "  const { register, control, handleSubmit } = useForm\u003cFormValues\u003e();"
+    },
+    {
+      "file": "examples/V6/typescript/Control.tsx",
+      "line": 21,
+      "text": "  const onSubmit = handleSubmit((data) =\u003e alert(JSON.stringify(data)));"
+    },
+    {
+      "file": "examples/V6/typescript/NestedValue.tsx",
+      "line": 24,
+      "text": "  const { register, handleSubmit, watch, setValue, errors } = useForm\u003c{"
+    },
+    {
+      "file": "examples/V6/typescript/NestedValue.tsx",
+      "line": 32,
+      "text": "  const onSubmit = handleSubmit((data) =\u003e alert(JSON.stringify(data)));"
+    },
+    {
+      "file": "examples/V6/typescript/Resolver.tsx",
+      "line": 24,
+      "text": "  const { register, handleSubmit, errors } = useForm\u003cFormValues\u003e({"
+    },
+    {
+      "file": "examples/V6/typescript/Resolver.tsx",
+      "line": 27,
+      "text": "  const onSubmit = handleSubmit((data) =\u003e alert(JSON.stringify(data)));"
+    },
+    {
+      "file": "examples/V6/typescript/SubmitHandler.tsx",
+      "line": 11,
+      "text": "  const { register, handleSubmit } = useForm\u003cFormValues\u003e();"
+    },
+    {
+      "file": "examples/V6/typescript/SubmitHandler.tsx",
+      "line": 16,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/typescript/UseFormMethods.tsx",
+      "line": 44,
+      "text": "    \u003cform onSubmit={methods.handleSubmit(onSubmit)}\u003e{children(methods)}\u003c/form\u003e"
+    },
+    {
+      "file": "examples/V6/validationOnFieldBlur.tsx",
+      "line": 6,
+      "text": "  const { register, errors, handleSubmit } = useForm({"
+    },
+    {
+      "file": "examples/V6/validationOnFieldBlur.tsx",
+      "line": 15,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/validationOnFieldChange.tsx",
+      "line": 6,
+      "text": "  const { register, errors, handleSubmit } = useForm({"
+    },
+    {
+      "file": "examples/V6/validationOnFieldChange.tsx",
+      "line": 15,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V6/validationSchema.tsx",
+      "line": 13,
+      "text": "  const { register, handleSubmit, errors } = useForm({"
+    },
+    {
+      "file": "examples/V6/validationSchema.tsx",
+      "line": 21,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/FieldArray.tsx",
+      "line": 12,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/FieldArray.tsx",
+      "line": 24,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/asyncFieldValidation.tsx",
+      "line": 10,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/asyncFieldValidation.tsx",
+      "line": 21,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/asyncSetFormValues.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, reset } = useForm();"
+    },
+    {
+      "file": "examples/V7/asyncSetFormValues.tsx",
+      "line": 22,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/asyncSubmitValidation.tsx",
+      "line": 8,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/asyncSubmitValidation.tsx",
+      "line": 27,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/basic.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/basic.tsx",
+      "line": 13,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/basicValidation.tsx",
+      "line": 8,
+      "text": "  const { register, errors, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/basicValidation.tsx",
+      "line": 15,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/conditionalFields.tsx",
+      "line": 6,
+      "text": "  const { register, watch, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/conditionalFields.tsx",
+      "line": 15,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/customInput.tsx",
+      "line": 30,
+      "text": "  const { register, handleSubmit, setValue } = useForm();"
+    },
+    {
+      "file": "examples/V7/customInput.tsx",
+      "line": 49,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/customMaskedInputWithController.tsx",
+      "line": 46,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/customMaskedInputWithController.tsx",
+      "line": 57,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/customValidation.tsx",
+      "line": 8,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/customValidation.tsx",
+      "line": 23,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/defaultValues.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit } = useForm({"
+    },
+    {
+      "file": "examples/V7/defaultValues.tsx",
+      "line": 20,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/dirtyTouchedSubmitted.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, formState } = useForm({"
+    },
+    {
+      "file": "examples/V7/dirtyTouchedSubmitted.tsx",
+      "line": 16,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/disableNativeValidation.tsx",
+      "line": 7,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/disableNativeValidation.tsx",
+      "line": 16,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)} noValidate\u003e"
+    },
+    {
+      "file": "examples/V7/fieldArrayMinLength.tsx",
+      "line": 24,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/fieldArrayMinLength.tsx",
+      "line": 57,
+      "text": "    \u003cform onSubmit={handleSubmit(console.log)}\u003e"
+    },
+    {
+      "file": "examples/V7/formProvider.tsx",
+      "line": 7,
+      "text": "  const { register, handleSubmit } = methods;"
+    },
+    {
+      "file": "examples/V7/formProvider.tsx",
+      "line": 10,
+      "text": "      \u003cform onSubmit={handleSubmit((data) =\u003e console.log(data))}\u003e"
+    },
+    {
+      "file": "examples/V7/getValuesCompareFields.tsx",
+      "line": 10,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/getValuesCompareFields.tsx",
+      "line": 16,
+      "text": "      \u003cform onSubmit={handleSubmit((data) =\u003e console.log(data))}\u003e"
+    },
+    {
+      "file": "examples/V7/initalFormState.tsx",
+      "line": 14,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/initalFormState.tsx",
+      "line": 24,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/nativeMultipleInput.tsx",
+      "line": 8,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/nativeMultipleInput.tsx",
+      "line": 17,
+      "text": "  const onSubmit = handleSubmit\u003c{ email: string }\u003e((data) =\u003e {"
+    },
+    {
+      "file": "examples/V7/nestedFields.tsx",
+      "line": 76,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/nestedFields.tsx",
+      "line": 82,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/normalizeField.tsx",
+      "line": 24,
+      "text": "      \u003cform onSubmit={form.handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/parseFormatInputValues.tsx",
+      "line": 18,
+      "text": "  const { control, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/parseFormatInputValues.tsx",
+      "line": 24,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/registerWithErrorMessages.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/registerWithErrorMessages.tsx",
+      "line": 17,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/remoteTriggerFormSubmit.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit } = useForm();"
+    },
+    {
+      "file": "examples/V7/remoteTriggerFormSubmit.tsx",
+      "line": 34,
+      "text": "      \u003cbutton type=\"button\" onClick={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/resetForm.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, reset } = useForm({"
+    },
+    {
+      "file": "examples/V7/resetForm.tsx",
+      "line": 15,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/setValue.tsx",
+      "line": 6,
+      "text": "  const { register, handleSubmit, setValue } = useForm();"
+    },
+    {
+      "file": "examples/V7/setValue.tsx",
+      "line": 12,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/triggerFieldValidation.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/triggerFieldValidation.tsx",
+      "line": 15,
+      "text": "    \u003cform onSubmit={handleSubmit((data) =\u003e console.log(data))}\u003e"
+    },
+    {
+      "file": "examples/V7/typescript/Control.tsx",
+      "line": 20,
+      "text": "  const { register, control, handleSubmit } = useForm\u003cFormValues\u003e();"
+    },
+    {
+      "file": "examples/V7/typescript/Control.tsx",
+      "line": 21,
+      "text": "  const onSubmit = handleSubmit((data) =\u003e alert(JSON.stringify(data)));"
+    },
+    {
+      "file": "examples/V7/typescript/NestedValue.tsx",
+      "line": 24,
+      "text": "  const { register, handleSubmit, watch, setValue, errors } = useForm\u003c{"
+    },
+    {
+      "file": "examples/V7/typescript/NestedValue.tsx",
+      "line": 32,
+      "text": "  const onSubmit = handleSubmit((data) =\u003e alert(JSON.stringify(data)));"
+    },
+    {
+      "file": "examples/V7/typescript/Resolver.tsx",
+      "line": 24,
+      "text": "  const { register, handleSubmit, errors } = useForm\u003cFormValues\u003e({"
+    },
+    {
+      "file": "examples/V7/typescript/Resolver.tsx",
+      "line": 27,
+      "text": "  const onSubmit = handleSubmit((data) =\u003e alert(JSON.stringify(data)));"
+    },
+    {
+      "file": "examples/V7/typescript/SubmitHandler.tsx",
+      "line": 11,
+      "text": "  const { register, handleSubmit } = useForm\u003cFormValues\u003e();"
+    },
+    {
+      "file": "examples/V7/typescript/SubmitHandler.tsx",
+      "line": 16,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/typescript/UseFormMethods.tsx",
+      "line": 41,
+      "text": "    \u003cform onSubmit={methods.handleSubmit(onSubmit)}\u003e{children(methods)}\u003c/form\u003e"
+    },
+    {
+      "file": "examples/V7/useFieldArraySimpleExample.tsx",
+      "line": 5,
+      "text": "  const { register, control, handleSubmit } = useForm({"
+    },
+    {
+      "file": "examples/V7/useFieldArraySimpleExample.tsx",
+      "line": 19,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/validationOnFieldBlur.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/validationOnFieldBlur.tsx",
+      "line": 19,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/validationOnFieldChange.tsx",
+      "line": 9,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/validationOnFieldChange.tsx",
+      "line": 19,
+      "text": "      \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "examples/V7/validationSchema.tsx",
+      "line": 15,
+      "text": "    handleSubmit,"
+    },
+    {
+      "file": "examples/V7/validationSchema.tsx",
+      "line": 25,
+      "text": "    \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 205,
+      "text": "        const { control, handleSubmit } = useForm({"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 213,
+      "text": "          \u003cform onSubmit={handleSubmit(onSubmit)}\u003e"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 391,
+      "text": "        handleSubmit,"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 399,
+      "text": "        \u003cform onSubmit={handleSubmit(noop)}\u003e"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 585,
+      "text": "      const { control, handleSubmit } = useForm();"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 588,
+      "text": "        \u003cform onSubmit={handleSubmit(onValid, onInvalid)}\u003e"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 1237,
+      "text": "        handleSubmit,"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 1250,
+      "text": "        \u003cform onSubmit={handleSubmit(noop)}\u003e"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 1583,
+      "text": "      const { control, handleSubmit } = useForm\u003c{ numbers: number[] }\u003e();"
+    },
+    {
+      "file": "src/__tests__/controller.test.tsx",
+      "line": 1586,
+      "text": "        \u003cform onSubmit={handleSubmit(noop)}\u003e"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 30110
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 145 ### CMD: 205 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 145,
+  "end_line": 205,
+  "text": "export function createFormControl\u003c\n  TFieldValues extends FieldValues = FieldValues,\n  TContext = any,\n  TTransformedValues = TFieldValues,\n\u003e(\n  props: UseFormProps\u003cTFieldValues, TContext, TTransformedValues\u003e = {},\n): Omit\u003c\n  UseFormReturn\u003cTFieldValues, TContext, TTransformedValues\u003e,\n  'formState'\n\u003e \u0026 {\n  formControl: Omit\u003c\n    UseFormReturn\u003cTFieldValues, TContext, TTransformedValues\u003e,\n    'formState'\n  \u003e;\n} {\n  let _options = {\n    ...defaultOptions,\n    ...props,\n  };\n  let _formState: FormState\u003cTFieldValues\u003e \u0026 {\n    values?: TFieldValues;\n    name?: string;\n    type?: EventType;\n  } = {\n    ...cloneObject(DEFAULT_FORM_STATE),\n    isLoading: isFunction(_options.defaultValues),\n    errors: _options.errors || {},\n    disabled: _options.disabled || false,\n  };\n  let _fields: FieldRefs = {};\n  let _defaultValues =\n    isObject(_options.defaultValues) || isObject(_options.values)\n      ? cloneObject(_options.defaultValues || _options.values) || {}\n      : {};\n  let _formValues = _options.shouldUnregister\n    ? ({} as TFieldValues)\n    : (cloneObject(_defaultValues) as TFieldValues);\n  let _state = {\n    action: false,\n    actionArrayLengths: new Map\u003cInternalFieldName, number\u003e(),\n    mount: false,\n    watch: false,\n    keepIsValid: false,\n  };\n  let _names: Names = {\n    mount: new Set(),\n    disabled: new Set(),\n    unMount: new Set(),\n    array: new Set(),\n    watch: new Set(),\n    registerName: new Set(),\n  };\n  const delayErrorCallbacks: Partial\u003cRecord\u003cInternalFieldName, DelayCallback\u003e\u003e =\n    {};\n  const timers: Partial\u003cRecord\u003cInternalFieldName, number\u003e\u003e = {};\n  let _valuesSubscriberCount = 0;\n  let _validationModeBeforeSubmit = getValidationModes(_options.mode);\n  let _validationModeAfterSubmit = getValidationModes(_options.reValidateMode);\n  const defaultProxyFormState: ReadFormState = {\n    isDirty: false,\n    dirtyFields: false,"
+}
+### STATUS: 0 BYTES: 2154
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 747 ### CMD: 805 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 747,
+  "end_line": 805,
+  "text": "  const executeBuiltInValidation = async ({\n    fields,\n    onlyCheckValid,\n    name,\n    eventType,\n    context = {\n      valid: true,\n      runRootValidation: false,\n    },\n  }: {\n    fields: FieldRefs;\n    onlyCheckValid?: boolean;\n    name?: FieldPath\u003cTFieldValues\u003e | FieldPath\u003cTFieldValues\u003e[];\n    eventType: ValidateFormEventType;\n    context?: {\n      valid: boolean;\n      runRootValidation?: boolean;\n    };\n  }) =\u003e {\n    if (props.validate) {\n      context.runRootValidation = true;\n      const result = await validateForm({\n        name,\n        eventType,\n      });\n\n      if (!result) {\n        context.valid = false;\n\n        if (onlyCheckValid) {\n          return context.valid;\n        }\n      }\n    }\n\n    for (const name in fields) {\n      const field = fields[name];\n\n      if (field) {\n        const { _f, ...fieldValue } = field as Field;\n\n        if (_f) {\n          const isFieldArrayRoot = _names.array.has(_f.name);\n          const isPromiseFunction =\n            field._f \u0026\u0026 hasPromiseValidation((field as Field)._f);\n          const shouldTrackIsValidatingState = _isTracked(\n            'isValidating',\n            'validatingFields',\n          );\n\n          if (isPromiseFunction \u0026\u0026 shouldTrackIsValidatingState) {\n            _updateIsValidating([_f.name], true);\n          }\n\n          const fieldError = await validateField(\n            field as Field,\n            _names.disabled,\n            _formValues,\n            shouldDisplayAllAssociatedErrors,"
+}
+### STATUS: 0 BYTES: 1687
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 1825 ### CMD: 1900 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 1825,
+  "end_line": 1900,
+  "text": "  };\n\n  const handleSubmit: UseFormHandleSubmit\u003cTFieldValues, TTransformedValues\u003e =\n    (onValid, onInvalid) =\u003e async (e) =\u003e {\n      let result: any = undefined;\n      let onValidError = undefined;\n      if (e) {\n        e.preventDefault \u0026\u0026 e.preventDefault();\n        (e as React.BaseSyntheticEvent).persist \u0026\u0026\n          (e as React.BaseSyntheticEvent).persist();\n      }\n      let fieldValues:\n        | TFieldValues\n        | TTransformedValues\n        | Record\u003cstring, never\u003e = cloneObject(_formValues);\n\n      _subjects.state.next({\n        isSubmitting: true,\n      });\n\n      if (_options.resolver) {\n        const resetCallId = _resetCallId;\n        const { errors, values } = await _runSchema();\n\n        if (resetCallId !== _resetCallId) {\n          return;\n        }\n\n        _updateIsValidating();\n        Object.keys(delayErrorCallbacks).forEach(cancelDelayedError);\n        _formState.errors = errors;\n        fieldValues = cloneObject(values);\n      } else {\n        await executeBuiltInValidation({\n          fields: _fields,\n          eventType: EVENTS.SUBMIT,\n        });\n\n        unset(_formState.errors, ROOT_ERROR_TYPE);\n      }\n\n      if (_names.disabled.size) {\n        for (const name of _names.disabled) {\n          unset(fieldValues, name);\n        }\n      }\n\n      if (isEmptyObject(_formState.errors)) {\n        _subjects.state.next({\n          errors: {},\n        });\n        try {\n          result = await onValid(fieldValues as TTransformedValues, e);\n        } catch (error) {\n          onValidError = error;\n        }\n      } else {\n        if (onInvalid) {\n          await onInvalid({ ..._formState.errors }, e);\n        }\n\n        _focusError();\n        setTimeout(_focusError);\n      }\n\n      _subjects.state.next({\n        isSubmitted: true,\n        isSubmitting: false,\n        isSubmitSuccessful: isEmptyObject(_formState.errors) \u0026\u0026 !onValidError,\n        submitCount: _formState.submitCount + 1,\n        errors: _formState.errors,\n      });\n      if (onValidError) {\n        throw onValidError;\n      }\n      return result;"
+}
+### STATUS: 0 BYTES: 2300
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: updateValidAndValue ### CMD: --limit ### CMD: 20 
+{
+  "word": "updateValidAndValue",
+  "hits": [
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 463,
+      "text": "  const updateValidAndValue = ("
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1722,
+      "text": "      updateValidAndValue(name, true, options.value);"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1784,
+      "text": "          updateValidAndValue(name, false, undefined, fieldRef);"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 492
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: INPUT_VALIDATION_RULES ### CMD: --limit ### CMD: 30 
+{
+  "word": "INPUT_VALIDATION_RULES",
+  "hits": [
+    {
+      "file": "src/constants.ts",
+      "line": 18,
+      "text": "export const INPUT_VALIDATION_RULES = {"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 3,
+      "text": "  INPUT_VALIDATION_RULES,"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 728,
+      "text": "              type: error.type || INPUT_VALIDATION_RULES.validate,"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 735,
+      "text": "          type: INPUT_VALIDATION_RULES.validate,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 1,
+      "text": "import { INPUT_VALIDATION_RULES } from '../constants';"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 93,
+      "text": "    maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 94,
+      "text": "    minType: MinType = INPUT_VALIDATION_RULES.minLength,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 120,
+      "text": "        type: INPUT_VALIDATION_RULES.required,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 123,
+      "text": "        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 182,
+      "text": "        INPUT_VALIDATION_RULES.max,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 183,
+      "text": "        INPUT_VALIDATION_RULES.min,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 224,
+      "text": "        type: INPUT_VALIDATION_RULES.pattern,"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 227,
+      "text": "        ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message),"
+    },
+    {
+      "file": "src/logic/validateField.ts",
+      "line": 245,
+      "text": "            INPUT_VALIDATION_RULES.validate,"
+    },
+    {
+      "file": "src/types/validator.ts",
+      "line": 1,
+      "text": "import type { EVENTS, INPUT_VALIDATION_RULES } from '../constants';"
+    },
+    {
+      "file": "src/types/validator.ts",
+      "line": 96,
+      "text": "export type InputValidationRules = typeof INPUT_VALIDATION_RULES;"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 2348
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 1685 ### CMD: 1760 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 1685,
+  "end_line": 1760,
+  "text": "      _names.disabled.has(name)\n    ) {\n      const wasDisabled = _names.disabled.has(name);\n      const isDisabled = !!disabled;\n      const disabledStateChanged = wasDisabled !== isDisabled;\n\n      disabled ? _names.disabled.add(name) : _names.disabled.delete(name);\n      disabledStateChanged \u0026\u0026 _state.mount \u0026\u0026 !_state.action \u0026\u0026 _setValid();\n    }\n  };\n\n  const register: UseFormRegister\u003cTFieldValues\u003e = (name, options = {}) =\u003e {\n    let field = get(_fields, name);\n    const disabledIsDefined =\n      isBoolean(options.disabled) || isBoolean(_options.disabled);\n    const shouldRevalidateRemount =\n      !_names.registerName.has(name) \u0026\u0026 field \u0026\u0026 field._f \u0026\u0026 !field._f.mount;\n\n    set(_fields, name, {\n      ...(field || {}),\n      _f: {\n        ...(field \u0026\u0026 field._f ? field._f : { ref: { name } }),\n        name,\n        mount: true,\n        ...options,\n      },\n    });\n    _names.mount.add(name);\n\n    if (field \u0026\u0026 !shouldRevalidateRemount) {\n      _setDisabledField({\n        disabled: isBoolean(options.disabled)\n          ? options.disabled\n          : _options.disabled,\n        name,\n      });\n    } else {\n      updateValidAndValue(name, true, options.value);\n    }\n\n    return {\n      ...(disabledIsDefined\n        ? { disabled: options.disabled || _options.disabled }\n        : {}),\n      ...(_options.progressive\n        ? {\n            required: !!options.required,\n            min: getRuleValue(options.min),\n            max: getRuleValue(options.max),\n            minLength: getRuleValue\u003cnumber\u003e(options.minLength) as number,\n            maxLength: getRuleValue(options.maxLength) as number,\n            pattern: getRuleValue(options.pattern) as string,\n          }\n        : {}),\n      name,\n      onChange,\n      onBlur: onChange,\n      ref: (ref: HTMLInputElement | null): void =\u003e {\n        if (ref) {\n          _names.registerName.add(name);\n          register(name, options);\n          _names.registerName.delete(name);\n          field = get(_fields, name);\n\n          const fieldRef = isUndefined(ref.value)\n            ? ref.querySelectorAll\n              ? (ref.querySelectorAll('input,select,textarea')[0] as Ref) || ref\n              : ref\n            : ref;\n          const radioOrCheckbox = isRadioOrCheckbox(fieldRef);\n          const refs = field._f.refs || [];\n\n          if (\n            radioOrCheckbox\n              ? refs.find((option: Ref) =\u003e option === fieldRef)\n              : fieldRef === field._f.ref"
+}
+### STATUS: 0 BYTES: 2738
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 1760 ### CMD: 1825 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 1760,
+  "end_line": 1825,
+  "text": "              : fieldRef === field._f.ref\n          ) {\n            return;\n          }\n\n          const newField = {\n            ...field._f,\n          };\n          if (radioOrCheckbox) {\n            newField.refs = [\n              ...refs.filter(live),\n              fieldRef,\n              ...(Array.isArray(get(_defaultValues, name)) ? [{}] : []),\n            ];\n            newField.ref = { type: fieldRef.type, name };\n          } else {\n            newField.ref = fieldRef;\n            delete newField.refs;\n          }\n\n          set(_fields, name, {\n            _f: newField,\n          });\n\n          updateValidAndValue(name, false, undefined, fieldRef);\n        } else {\n          field = get(_fields, name, {});\n\n          if (field._f) {\n            field._f.mount = false;\n          }\n\n          (_options.shouldUnregister || options.shouldUnregister) \u0026\u0026\n            !(isNameInFieldArray(_names.array, name) \u0026\u0026 _state.action) \u0026\u0026\n            _names.unMount.add(name);\n        }\n      },\n    };\n  };\n\n  const _focusError = () =\u003e\n    _options.shouldFocusError \u0026\u0026\n    !_options.shouldUseNativeValidation \u0026\u0026\n    iterateFieldsByAction(_fields, _focusInput, _names.mount);\n\n  const _disableForm = (disabled?: boolean) =\u003e {\n    if (isBoolean(disabled)) {\n      _subjects.state.next({ disabled });\n      iterateFieldsByAction(\n        _fields,\n        (ref, name) =\u003e {\n          const currentField: Field = get(_fields, name);\n          if (currentField) {\n            ref.disabled = currentField._f.disabled || disabled;\n\n            if (Array.isArray(currentField._f.refs)) {\n              currentField._f.refs.forEach((inputRef) =\u003e {\n                inputRef.disabled = currentField._f.disabled || disabled;\n              });\n            }\n          }\n        },\n        0,\n      );\n    }\n  };"
+}
+### STATUS: 0 BYTES: 2038
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/validateField.ts ### CMD: 18 ### CMD: 60 
+{
+  "file": "src/logic/validateField.ts",
+  "start_line": 18,
+  "end_line": 60,
+  "text": "import isFileInput from '../utils/isFileInput';\nimport isFunction from '../utils/isFunction';\nimport isHTMLElement from '../utils/isHTMLElement';\nimport isNullOrUndefined from '../utils/isNullOrUndefined';\nimport isObject from '../utils/isObject';\nimport isRadioInput from '../utils/isRadioInput';\nimport isRegex from '../utils/isRegex';\nimport isString from '../utils/isString';\nimport isUndefined from '../utils/isUndefined';\n\nimport appendErrors from './appendErrors';\nimport getCheckboxValue from './getCheckboxValue';\nimport getRadioValue from './getRadioValue';\nimport getValidateError from './getValidateError';\nimport getValueAndMessage from './getValueAndMessage';\n\nexport default async \u003cT extends FieldValues\u003e(\n  field: Field,\n  disabledFieldNames: InternalNameSet,\n  formValues: T,\n  validateAllFieldCriteria: boolean,\n  shouldUseNativeValidation?: boolean,\n  isFieldArray?: boolean,\n): Promise\u003cInternalFieldErrors\u003e =\u003e {\n  const {\n    ref,\n    refs,\n    required,\n    maxLength,\n    minLength,\n    min,\n    max,\n    pattern,\n    validate,\n    name,\n    valueAsNumber,\n    mount,\n  } = field._f;\n  const inputValue: NativeFieldValue = get(formValues, name);\n  if (!mount || disabledFieldNames.has(name)) {\n    return {};\n  }\n  const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);"
+}
+### STATUS: 0 BYTES: 1476
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/validateField.ts ### CMD: 96 ### CMD: 132 
+{
+  "file": "src/logic/validateField.ts",
+  "start_line": 96,
+  "end_line": 132,
+  "text": "    const message = exceedMax ? maxLengthMessage : minLengthMessage;\n    error[name] = {\n      type: exceedMax ? maxType : minType,\n      message,\n      ref,\n      ...appendErrorsCurry(exceedMax ? maxType : minType, message),\n    };\n  };\n\n  if (\n    isFieldArray\n      ? !Array.isArray(inputValue) || !inputValue.length\n      : required \u0026\u0026\n        ((!isRadioOrCheckbox \u0026\u0026 (isEmpty || isNullOrUndefined(inputValue))) ||\n          (isBoolean(inputValue) \u0026\u0026 !inputValue) ||\n          (isCheckBox \u0026\u0026 !getCheckboxValue(refs).isValid) ||\n          (isRadio \u0026\u0026 !getRadioValue(refs).isValid))\n  ) {\n    const { value, message } = isString(required)\n      ? { value: !!required, message: required }\n      : getValueAndMessage(required);\n\n    if (value) {\n      error[name] = {\n        type: INPUT_VALIDATION_RULES.required,\n        message,\n        ref: inputRef,\n        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),\n      };\n      if (!validateAllFieldCriteria) {\n        setCustomValidity(message);\n        return error;\n      }\n    }\n  }\n\n  if (!isEmpty \u0026\u0026 (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {"
+}
+### STATUS: 0 BYTES: 1316
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 805 ### CMD: 850 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 805,
+  "end_line": 850,
+  "text": "            shouldDisplayAllAssociatedErrors,\n            _options.shouldUseNativeValidation \u0026\u0026 !onlyCheckValid,\n            isFieldArrayRoot,\n          );\n\n          if (isPromiseFunction \u0026\u0026 shouldTrackIsValidatingState) {\n            _updateIsValidating([_f.name]);\n          }\n\n          if (fieldError[_f.name]) {\n            context.valid = false;\n\n            if (onlyCheckValid) {\n              break;\n            }\n          }\n\n          if (!onlyCheckValid) {\n            cancelDelayedError(_f.name);\n            get(fieldError, _f.name)\n              ? isFieldArrayRoot\n                ? updateFieldArrayRootError(\n                    _formState.errors,\n                    fieldError,\n                    _f.name,\n                  )\n                : set(_formState.errors, _f.name, fieldError[_f.name])\n              : unset(_formState.errors, _f.name);\n          }\n\n          if (props.shouldUseNativeValidation \u0026\u0026 fieldError[_f.name]) {\n            break;\n          }\n        }\n\n        !isEmptyObject(fieldValue) \u0026\u0026\n          (await executeBuiltInValidation({\n            context,\n            onlyCheckValid,\n            fields: fieldValue,\n            name: name as FieldPath\u003cTFieldValues\u003e,\n            eventType,\n          }));\n      }\n    }\n"
+}
+### STATUS: 0 BYTES: 1455
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/validateField.ts ### CMD: 60 ### CMD: 96 
+{
+  "file": "src/logic/validateField.ts",
+  "start_line": 60,
+  "end_line": 96,
+  "text": "  const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);\n  const setCustomValidity = (message?: string | boolean) =\u003e {\n    if (shouldUseNativeValidation \u0026\u0026 inputRef.reportValidity) {\n      const validityMessage = isBoolean(message) ? '' : message || '';\n      if (refs) {\n        refs.forEach((ref) =\u003e ref.setCustomValidity(validityMessage));\n      } else {\n        inputRef.setCustomValidity(validityMessage);\n      }\n      inputRef.reportValidity();\n    }\n  };\n  const error: InternalFieldErrors = {};\n  const isRadio = isRadioInput(ref);\n  const isCheckBox = isCheckBoxInput(ref);\n  const isRadioOrCheckbox = isRadio || isCheckBox;\n  const isEmpty =\n    ((valueAsNumber || isFileInput(ref)) \u0026\u0026\n      isUndefined(ref.value) \u0026\u0026\n      isUndefined(inputValue)) ||\n    (isHTMLElement(ref) \u0026\u0026 ref.value === '') ||\n    inputValue === '' ||\n    (Array.isArray(inputValue) \u0026\u0026 !inputValue.length);\n  const appendErrorsCurry = appendErrors.bind(\n    null,\n    name,\n    validateAllFieldCriteria,\n    error,\n  );\n  const getMinMaxMessage = (\n    exceedMax: boolean,\n    maxLengthMessage: Message,\n    minLengthMessage: Message,\n    maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,\n    minType: MinType = INPUT_VALIDATION_RULES.minLength,\n  ) =\u003e {\n    const message = exceedMax ? maxLengthMessage : minLengthMessage;"
+}
+### STATUS: 0 BYTES: 1529
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: _disableForm ### CMD: --limit ### CMD: 20 
+{
+  "word": "_disableForm",
+  "hits": [
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 1805,
+      "text": "  const _disableForm = (disabled?: boolean) =\u003e {"
+    },
+    {
+      "file": "src/logic/createFormControl.ts",
+      "line": 2219,
+      "text": "      _disableForm,"
+    },
+    {
+      "file": "src/types/form.ts",
+      "line": 981,
+      "text": "  _disableForm: (disabled?: boolean) =\u003e void;"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 120,
+      "text": "    () =\u003e control._disableForm(props.disabled),"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 579
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: search ### CMD: _formControl ### CMD: --limit ### CMD: 30 
+{
+  "word": "_formControl",
+  "hits": [
+    {
+      "file": "src/useForm.ts",
+      "line": 39,
+      "text": "  const _formControl = React.useRef\u003c"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 57,
+      "text": "    !_formControl.current ||"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 62,
+      "text": "      _formControl.current = {"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 73,
+      "text": "      _formControl.current = {"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 80,
+      "text": "  const control = _formControl.current.control;"
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 188,
+      "text": "  _formControl.current.formState = React.useMemo("
+    },
+    {
+      "file": "src/useForm.ts",
+      "line": 193,
+      "text": "  return _formControl.current;"
+    }
+  ]
+}
+### STATUS: 0 BYTES: 861
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: resolve ### CMD: FieldRefs 
+{
+  "query": "FieldRefs",
+  "definitions": [
+    {
+      "id": 291,
+      "name": "FieldRefs",
+      "qualified_name": "FieldRefs",
+      "kind": "type",
+      "exported": true,
+      "signature": "export type FieldRefs",
+      "file": "src/types/fields.ts",
+      "start_line": 53,
+      "end_line": 55,
+      "snippet": "export type FieldRefs = Partial\u003c{\n  [key: InternalFieldName]: Field | FieldRefs;\n}\u003e;",
+      "callers": [],
+      "callees": []
+    }
+  ]
+}
+### STATUS: 0 BYTES: 474
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/constants.ts ### CMD: 1 ### CMD: 35 
+{
+  "file": "src/constants.ts",
+  "start_line": 1,
+  "end_line": 30,
+  "text": "export const EVENTS = {\n  BLUR: 'blur',\n  FOCUS_OUT: 'focusout',\n  CHANGE: 'change',\n  SUBMIT: 'submit',\n  TRIGGER: 'trigger',\n  VALID: 'valid',\n} as const;\n\nexport const VALIDATION_MODE = {\n  onBlur: 'onBlur',\n  onChange: 'onChange',\n  onSubmit: 'onSubmit',\n  onTouched: 'onTouched',\n  all: 'all',\n} as const;\n\nexport const INPUT_VALIDATION_RULES = {\n  max: 'max',\n  min: 'min',\n  maxLength: 'maxLength',\n  minLength: 'minLength',\n  pattern: 'pattern',\n  required: 'required',\n  validate: 'validate',\n} as const;\n\nexport const ROOT_ERROR_TYPE = 'root';\n\nexport const PROTOTYPE_KEYWORDS = ['__proto__', 'constructor', 'prototype'];"
+}
+### STATUS: 0 BYTES: 743
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 2170 ### CMD: 2260 
+{
+  "file": "src/logic/createFormControl.ts",
+  "start_line": 2170,
+  "end_line": 2260,
+  "text": "\n  const resetDefaultValues: UseFormResetDefaultValues\u003cTFieldValues\u003e = (\n    values,\n    options = {},\n  ) =\u003e {\n    _defaultValues = cloneObject(values) as Partial\u003ctypeof _defaultValues\u003e;\n\n    if (!options.keepDirty) {\n      const newDirtyFields = getDirtyFields(\n        _defaultValues,\n        _formValues,\n        undefined,\n        _fields,\n      );\n      _formState.dirtyFields = newDirtyFields as typeof _formState.dirtyFields;\n      _formState.isDirty = !isEmptyObject(newDirtyFields);\n    }\n\n    if (!options.keepIsValid) {\n      _setValid();\n    }\n\n    _subjects.state.next({\n      ..._formState,\n      defaultValues: _defaultValues as FormState\u003cTFieldValues\u003e['defaultValues'],\n    });\n  };\n\n  const methods = {\n    control: {\n      register,\n      unregister,\n      getFieldState,\n      handleSubmit,\n      setError,\n      _subscribe,\n      _runSchema,\n      _updateIsValidating,\n      _focusError,\n      _getWatch,\n      _getDirty,\n      _setValid,\n      _setFieldArray,\n      _setDisabledField,\n      _setErrors,\n      _getFieldArray,\n      _reset,\n      _resetDefaultValues,\n      _removeUnmounted,\n      _disableForm,\n      _subjects,\n      _proxyFormState,\n      get _fields() {\n        return _fields;\n      },\n      get _formValues() {\n        return _formValues;\n      },\n      get _state() {\n        return _state;\n      },\n      set _state(value) {\n        _state = value;\n      },\n      get _defaultValues() {\n        return _defaultValues;\n      },\n      get _names() {\n        return _names;\n      },\n      set _names(value) {\n        _names = value;\n      },\n      get _formState() {\n        return _formState;\n      },\n      get _options() {\n        return _options;\n      },\n      set _options(value) {\n        _options = {\n          ..._options,\n          ...value,\n        };\n        _validationModeBeforeSubmit = getValidationModes(_options.mode);\n        _validationModeAfterSubmit = getValidationModes(\n          _options.reValidateMode,\n        );\n        shouldDisplayAllAssociatedErrors =\n          _options.criteriaMode === VALIDATION_MODE.all;\n      },"
+}
+### STATUS: 0 BYTES: 2315
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/useForm.ts ### CMD: 184 ### CMD: 195 
+{
+  "file": "src/useForm.ts",
+  "start_line": 184,
+  "end_line": 194,
+  "text": "\n    control._removeUnmounted();\n  });\n\n  _formControl.current.formState = React.useMemo(\n    () =\u003e getProxyFormState(formState, control),\n    [control, formState],\n  );\n\n  return _formControl.current;\n}"
+}
+### STATUS: 0 BYTES: 302
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --json ### CMD: snippet ### CMD: src/types/fields.ts ### CMD: 25 ### CMD: 55 
+{
+  "file": "src/types/fields.ts",
+  "start_line": 25,
+  "end_line": 55,
+  "text": "\nexport type FieldValues = Record\u003cstring, any\u003e;\n\nexport type NativeFieldValue =\n  | string\n  | number\n  | boolean\n  | null\n  | undefined\n  | unknown[];\n\nexport type FieldElement\u003cTFieldValues extends FieldValues = FieldValues\u003e =\n  | HTMLInputElement\n  | HTMLSelectElement\n  | HTMLTextAreaElement\n  | CustomElement\u003cTFieldValues\u003e;\n\nexport type Ref = FieldElement;\n\nexport type Field = {\n  _f: {\n    ref: Ref;\n    name: InternalFieldName;\n    refs?: HTMLInputElement[];\n    mount?: boolean;\n  } \u0026 RegisterOptions;\n};\n\nexport type FieldRefs = Partial\u003c{\n  [key: InternalFieldName]: Field | FieldRefs;\n}\u003e;"
+}
+### STATUS: 0 BYTES: 760
+

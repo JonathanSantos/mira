@@ -1,0 +1,61 @@
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+index b8b2700..de3e3b8 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+@@ -82,7 +82,7 @@ class VisitController {
+ 
+ 	@ModelAttribute("minVisitDate")
+ 	public LocalDate minVisitDate() {
+-		return LocalDate.now().plusDays(1);
++		return LocalDate.now();
+ 	}
+ 
+ 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+@@ -97,7 +97,7 @@ class VisitController {
+ 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+ 			BindingResult result, RedirectAttributes redirectAttributes) {
+-		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
++		if (visit.getDate() != null && visit.getDate().isBefore(LocalDate.now())) {
+ 			result.rejectValue("date", "typeMismatch.visitDate");
+ 		}
+ 
+diff --git a/src/main/resources/messages/messages.properties b/src/main/resources/messages/messages.properties
+index 070c9f0..2b90ef0 100644
+--- a/src/main/resources/messages/messages.properties
++++ b/src/main/resources/messages/messages.properties
+@@ -6,7 +6,7 @@ nonNumeric=must be all numeric
+ duplicateFormSubmission=Duplicate form submission is not allowed
+ typeMismatch.date=invalid date
+ typeMismatch.birthDate=invalid date
+-typeMismatch.visitDate=Visit date must be in the future
++typeMismatch.visitDate=Visit date cannot be in the past
+ owner=Owner
+ firstName=First Name
+ lastName=Last Name
+diff --git a/src/main/resources/messages/messages_pt.properties b/src/main/resources/messages/messages_pt.properties
+index c2efd77..ec291bc 100644
+--- a/src/main/resources/messages/messages_pt.properties
++++ b/src/main/resources/messages/messages_pt.properties
+@@ -6,7 +6,7 @@ nonNumeric=Deve ser tudo numerico
+ duplicateFormSubmission=O envio duplicado de formulario nao e permitido
+ typeMismatch.date=Data invalida
+ typeMismatch.birthDate=Data de nascimento invalida
+-typeMismatch.visitDate=A data da visita deve estar no futuro
++typeMismatch.visitDate=A data da visita não pode estar no passado
+ owner=Proprietário
+ firstName=Primeiro Nome
+ lastName=Sobrenome
+diff --git a/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java b/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+index b608caa..91657e7 100644
+--- a/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
++++ b/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+@@ -98,7 +98,7 @@ class VisitControllerTests {
+ 		mockMvc
+ 			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+ 				.param("name", "George")
+-				.param("date", LocalDate.now().toString())
++				.param("date", LocalDate.now().minusDays(1).toString())
+ 				.param("description", "Visit Description"))
+ 			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+ 			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))

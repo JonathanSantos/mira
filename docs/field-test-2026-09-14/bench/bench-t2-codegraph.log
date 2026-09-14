@@ -1,0 +1,1310 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: files ### CMD: --dirs-only ### CMD: --no-tests 
+. files=249 symbols=779
+  app/ files=46 symbols=130
+    src/ files=45 symbols=130
+  examples/ files=72 symbols=204
+    V6/ files=37 symbols=106
+    V7/ files=35 symbols=98
+  scripts/ files=18 symbols=46
+    README/ files=10 symbols=28
+    jest/ files=2 symbols=4
+    rollup/ files=5 symbols=6
+  src/ files=111 symbols=399
+    logic/ files=33 symbols=102
+    types/ files=14 symbols=195
+    utils/ files=46 symbols=59
+### STATUS: 0 BYTES: 416
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: files ### CMD: src ### CMD: --depth ### CMD: 1 ### CMD: --no-tests 
+src files=111 symbols=399
+  logic/ files=33 symbols=102
+    appendErrors.ts symbols=1
+    collectDirtyFieldNames.ts symbols=2
+    createFormControl.ts symbols=58
+    generateId.ts symbols=1
+    generateWatchOutput.ts symbols=1
+    getCheckboxValue.ts symbols=4
+    getDirtyFields.ts symbols=6
+    getEventValue.ts symbols=2
+    getFieldArrayItemNames.ts symbols=1
+    getFieldValue.ts symbols=1
+    getFieldValueAs.ts symbols=1
+    getFocusFieldName.ts symbols=1
+    getNullAncestorValue.ts symbols=1
+    getProxyFormState.ts symbols=1
+    getRadioValue.ts symbols=3
+    getResolverOptions.ts symbols=1
+    getRuleValue.ts symbols=1
+    getValidateError.ts symbols=1
+    getValidationModes.ts symbols=1
+    getValueAndMessage.ts symbols=1
+    hasPromiseValidation.ts symbols=2
+    hasValidation.ts symbols=1
+    index.ts symbols=0
+    isNameInFieldArray.ts symbols=1
+    isWatched.ts symbols=1
+    iterateFieldsByAction.ts symbols=1
+    schemaErrorLookup.ts symbols=1
+    shouldRenderFormState.ts symbols=1
+    shouldSubscribeByName.ts symbols=1
+    skipValidation.ts symbols=1
+    unsetEmptyArray.ts symbols=1
+    updateFieldArrayRootError.ts symbols=1
+    validateField.ts symbols=1
+  types/ files=14 symbols=195
+    path/ files=3 symbols=49
+    controller.ts symbols=5
+    errors.ts symbols=10
+    events.ts symbols=1
+    fieldArray.ts symbols=14
+    fields.ts symbols=10
+    form.ts symbols=62
+    index.ts symbols=0
+    resolvers.ts symbols=5
+    utils.ts symbols=21
+    validator.ts symbols=12
+    watch.ts symbols=6
+  utils/ files=46 symbols=59
+    append.ts symbols=1
+    cloneObject.ts symbols=1
+    compact.ts symbols=1
+    convertToArrayPayload.ts symbols=1
+    createSubject.ts symbols=4
+    deepEqual.ts symbols=2
+    extractFormValues.ts symbols=1
+    fillEmptyArray.ts symbols=1
+    flatten.ts symbols=3
+    formData.ts symbols=1
+    get.ts symbols=1
+    has.ts symbols=2
+    index.ts symbols=0
+    insert.ts symbols=1
+    isBoolean.ts symbols=1
+    isCheckBoxInput.ts symbols=1
+    isDateObject.ts symbols=1
+    isEmptyObject.ts symbols=1
+    isFileInput.ts symbols=1
+    isFunction.ts symbols=1
+    isHTMLElement.ts symbols=1
+    isKey.ts symbols=2
+    isMultipleSelect.ts symbols=1
+    isNullOrUndefined.ts symbols=1
+    isObject.ts symbols=2
+    isPlainObject.ts symbols=1
+    isPrimitive.ts symbols=1
+    isRadioInput.ts symbols=1
+    isRadioOrCheckbox.ts symbols=1
+    isRegex.ts symbols=1
+    isString.ts symbols=1
+    isUndefined.ts symbols=1
+    isWeb.ts symbols=0
+    json.ts symbols=3
+    live.ts symbols=1
+    move.ts symbols=1
+    noop.ts symbols=1
+    objectHasFunction.ts symbols=1
+    prepend.ts symbols=1
+    remove.ts symbols=2
+    set.ts symbols=1
+    sleep.ts symbols=1
+    stringToPath.ts symbols=2
+    swap.ts symbols=1
+    unset.ts symbols=3
+    update.ts symbols=1
+  constants.ts symbols=5
+  controller.tsx symbols=1
+  errorMessage.tsx symbols=2
+  fieldArray.tsx symbols=2
+  form.tsx symbols=3
+  formState.tsx symbols=5
+  index.react-server.ts symbols=0
+  index.ts symbols=0
+  useController.ts symbols=1
+  useFieldArray.ts symbols=10
+  useForm.ts symbols=2
+  useFormContext.tsx symbols=3
+  useFormControlContext.ts symbols=2
+  useFormState.ts symbols=2
+  useIsomorphicLayoutEffect.ts symbols=1
+  useResyncOnReconnect.ts symbols=1
+  useWatch.ts symbols=2
+  watch.tsx symbols=1
+### STATUS: 0 BYTES: 3314
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: useForm 
+useForm function src/useForm.ts:32-194 [exported]
+  export function useForm< TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues = TFieldValues, >( props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {}, ): UseFormReturn<TFieldValues, TContext, TTransformedValues>
+  | export function useForm<
+  |   TFieldValues extends FieldValues = FieldValues,
+  |   TContext = any,
+  |   TTransformedValues = TFieldValues,
+  | >(
+  |   props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {},
+  | ): UseFormReturn<TFieldValues, TContext, TTransformedValues> {
+  |   const _formControl = React.useRef<
+  callers (1):
+    renderMessage.Fixture function src/__tests__/errorMessage.test.tsx:25-31
+  callees (7):
+    createFormControl function src/logic/createFormControl.ts:145-2285
+    getProxyFormState function src/logic/getProxyFormState.ts:4-32
+    useIsomorphicLayoutEffect variable src/useIsomorphicLayoutEffect.ts:5-7
+    useResyncOnReconnect function src/useResyncOnReconnect.ts:6-52
+    cloneObject function src/utils/cloneObject.ts:3-35
+    deepEqual function src/utils/deepEqual.ts:9-81
+    isFunction function src/utils/isFunction.ts:1-2
+### STATUS: 0 BYTES: 1192
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: register ### CMD: --depth ### CMD: 1 
+createFormControl.register function src/logic/createFormControl.ts:1696-1798
+  const register: UseFormRegister<TFieldValues> = (name, options = {}) =>
+  |   const register: UseFormRegister<TFieldValues> = (name, options = {}) => {
+  |     let field = get(_fields, name);
+  |     const disabledIsDefined =
+  |       isBoolean(options.disabled) || isBoolean(_options.disabled);
+  |     const shouldRevalidateRemount =
+  |       !_names.registerName.has(name) && field && field._f && !field._f.mount;
+  | 
+  |     set(_fields, name, {
+  callers (1):
+    createFormControl.register function src/logic/createFormControl.ts:1696-1798
+  callees (11):
+    createFormControl.updateValidAndValue function src/logic/createFormControl.ts:463-525
+    createFormControl._setDisabledField function src/logic/createFormControl.ts:1678-1694
+    createFormControl.register function src/logic/createFormControl.ts:1696-1798
+    getRuleValue function src/logic/getRuleValue.ts:10-21
+    isNameInFieldArray function src/logic/isNameInFieldArray.ts:3-9
+    get function src/utils/get.ts:9-32
+    has function src/utils/has.ts:10-27
+    isBoolean function src/utils/isBoolean.ts:1-1
+    isRadioOrCheckbox function src/utils/isRadioOrCheckbox.ts:6-7
+    isUndefined function src/utils/isUndefined.ts:1-1
+    set function src/utils/set.ts:8-39
+### STATUS: 0 BYTES: 1318
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/useForm.ts ### CMD: 32 ### CMD: 110 
+src/useForm.ts:32-110
+export function useForm<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+  TTransformedValues = TFieldValues,
+>(
+  props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {},
+): UseFormReturn<TFieldValues, TContext, TTransformedValues> {
+  const _formControl = React.useRef<
+    UseFormReturn<TFieldValues, TContext, TTransformedValues> | undefined
+  >(undefined);
+  const _values = React.useRef<typeof props.values>(undefined);
+  const _formControlProp = React.useRef(props.formControl);
+  const [formState, updateFormState] = React.useState<FormState<TFieldValues>>(
+    () => ({
+      ...cloneObject(DEFAULT_FORM_STATE),
+      isLoading: isFunction(props.defaultValues),
+      errors: props.errors || {},
+      disabled: props.disabled || false,
+      defaultValues: isFunction(props.defaultValues)
+        ? undefined
+        : props.defaultValues,
+    }),
+  );
+
+  if (
+    !_formControl.current ||
+    (props.formControl && _formControlProp.current !== props.formControl)
+  ) {
+    _formControlProp.current = props.formControl;
+    if (props.formControl) {
+      _formControl.current = {
+        ...props.formControl,
+        formState,
+      };
+
+      if (props.defaultValues && !isFunction(props.defaultValues)) {
+        props.formControl.reset(props.defaultValues, props.resetOptions);
+      }
+    } else {
+      const { formControl, ...rest } = createFormControl(props);
+
+      _formControl.current = {
+        ...rest,
+        formState,
+      };
+    }
+  }
+
+  const control = _formControl.current.control;
+  control._options = props;
+
+  const getCurrentFormState = () => ({
+    ...control._formState,
+    defaultValues:
+      control._defaultValues as FormState<TFieldValues>['defaultValues'],
+  });
+
+  const { resyncIfNeeded, snapshot } =
+    useResyncOnReconnect<FormState<TFieldValues>>(getCurrentFormState);
+
+  useIsomorphicLayoutEffect(() => {
+    resyncIfNeeded(true, getCurrentFormState, updateFormState);
+
+    const unsubscribe = control._subscribe({
+      formState: control._proxyFormState,
+      callback: () =>
+        updateFormState({
+          ...control._formState,
+          defaultValues:
+            control._defaultValues as FormState<TFieldValues>['defaultValues'],
+        }),
+      reRenderRoot: true,
+    });
+
+    updateFormState((data) => ({
+      ...data,
+      isReady: true,
+    }));
+### STATUS: 0 BYTES: 2374
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 1696 ### CMD: 1798 
+src/logic/createFormControl.ts:1696-1798
+  const register: UseFormRegister<TFieldValues> = (name, options = {}) => {
+    let field = get(_fields, name);
+    const disabledIsDefined =
+      isBoolean(options.disabled) || isBoolean(_options.disabled);
+    const shouldRevalidateRemount =
+      !_names.registerName.has(name) && field && field._f && !field._f.mount;
+
+    set(_fields, name, {
+      ...(field || {}),
+      _f: {
+        ...(field && field._f ? field._f : { ref: { name } }),
+        name,
+        mount: true,
+        ...options,
+      },
+    });
+    _names.mount.add(name);
+
+    if (field && !shouldRevalidateRemount) {
+      _setDisabledField({
+        disabled: isBoolean(options.disabled)
+          ? options.disabled
+          : _options.disabled,
+        name,
+      });
+    } else {
+      updateValidAndValue(name, true, options.value);
+    }
+
+    return {
+      ...(disabledIsDefined
+        ? { disabled: options.disabled || _options.disabled }
+        : {}),
+      ...(_options.progressive
+        ? {
+            required: !!options.required,
+            min: getRuleValue(options.min),
+            max: getRuleValue(options.max),
+            minLength: getRuleValue<number>(options.minLength) as number,
+            maxLength: getRuleValue(options.maxLength) as number,
+            pattern: getRuleValue(options.pattern) as string,
+          }
+        : {}),
+      name,
+      onChange,
+      onBlur: onChange,
+      ref: (ref: HTMLInputElement | null): void => {
+        if (ref) {
+          _names.registerName.add(name);
+          register(name, options);
+          _names.registerName.delete(name);
+          field = get(_fields, name);
+
+          const fieldRef = isUndefined(ref.value)
+            ? ref.querySelectorAll
+              ? (ref.querySelectorAll('input,select,textarea')[0] as Ref) || ref
+              : ref
+            : ref;
+          const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
+          const refs = field._f.refs || [];
+
+          if (
+            radioOrCheckbox
+              ? refs.find((option: Ref) => option === fieldRef)
+              : fieldRef === field._f.ref
+          ) {
+            return;
+          }
+
+          const newField = {
+            ...field._f,
+          };
+          if (radioOrCheckbox) {
+            newField.refs = [
+              ...refs.filter(live),
+              fieldRef,
+              ...(Array.isArray(get(_defaultValues, name)) ? [{}] : []),
+            ];
+            newField.ref = { type: fieldRef.type, name };
+          } else {
+            newField.ref = fieldRef;
+            delete newField.refs;
+          }
+
+          set(_fields, name, {
+            _f: newField,
+          });
+
+          updateValidAndValue(name, false, undefined, fieldRef);
+        } else {
+          field = get(_fields, name, {});
+
+          if (field._f) {
+            field._f.mount = false;
+          }
+
+          (_options.shouldUnregister || options.shouldUnregister) &&
+            !(isNameInFieldArray(_names.array, name) && _state.action) &&
+            _names.unMount.add(name);
+        }
+      },
+    };
+  };
+### STATUS: 0 BYTES: 3099
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: handleSubmit ### CMD: --depth ### CMD: 1 
+createFormControl.handleSubmit function src/logic/createFormControl.ts:1827-1901
+  const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> = (onValid, onInvalid) =>
+  |   const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> =
+  |     (onValid, onInvalid) => async (e) => {
+  |       let result: any = undefined;
+  |       let onValidError = undefined;
+  |       if (e) {
+  |         e.preventDefault && e.preventDefault();
+  |         (e as React.BaseSyntheticEvent).persist &&
+  |           (e as React.BaseSyntheticEvent).persist();
+  callers (0):
+  callees (7):
+    createFormControl._updateIsValidating function src/logic/createFormControl.ts:279-294
+    createFormControl._runSchema function src/logic/createFormControl.ts:648-660
+    createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+    createFormControl._focusError function src/logic/createFormControl.ts:1800-1803
+    cloneObject function src/utils/cloneObject.ts:3-35
+    isEmptyObject function src/utils/isEmptyObject.ts:5-6
+    unset function src/utils/unset.ts:36-68
+### STATUS: 0 BYTES: 1110
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: validateField ### CMD: --depth ### CMD: 1 
+validateField function src/logic/validateField.ts:34-301 [exported]
+  export default async <T extends FieldValues>( field: Field, disabledFieldNames: InternalNameSet, formValues: T, validateAllFieldCriteria: boolean, shouldUseNativeValidation?: boolean, isFieldArray?: boolean, ): Promise<InternalFieldErrors> =>
+  | export default async <T extends FieldValues>(
+  |   field: Field,
+  |   disabledFieldNames: InternalNameSet,
+  |   formValues: T,
+  |   validateAllFieldCriteria: boolean,
+  |   shouldUseNativeValidation?: boolean,
+  |   isFieldArray?: boolean,
+  | ): Promise<InternalFieldErrors> => {
+  callers (3):
+    createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+    createFormControl.onChange function src/logic/createFormControl.ts:1174-1338
+    useFieldArray function src/useFieldArray.ts:61-548
+  callees (18):
+    getCheckboxValue function src/logic/getCheckboxValue.ts:15-41
+    getRadioValue function src/logic/getRadioValue.ts:11-23
+    getValidateError function src/logic/getValidateError.ts:5-21
+    getValueAndMessage function src/logic/getValueAndMessage.ts:5-11
+    get function src/utils/get.ts:9-32
+    isBoolean function src/utils/isBoolean.ts:1-1
+    isCheckBoxInput function src/utils/isCheckBoxInput.ts:3-4
+    isDateObject function src/utils/isDateObject.ts:1-1
+    isEmptyObject function src/utils/isEmptyObject.ts:5-6
+    isFileInput function src/utils/isFileInput.ts:3-4
+    isFunction function src/utils/isFunction.ts:1-2
+    isHTMLElement function src/utils/isHTMLElement.ts:3-13
+    isNullOrUndefined function src/utils/isNullOrUndefined.ts:1-1
+    isObject function src/utils/isObject.ts:7-11
+    isRadioInput function src/utils/isRadioInput.ts:3-4
+    isRegex function src/utils/isRegex.ts:1-1
+    isString function src/utils/isString.ts:1-1
+    isUndefined function src/utils/isUndefined.ts:1-1
+### STATUS: 0 BYTES: 1872
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: symbols ### CMD: src/logic/createFormControl.ts ### CMD: --compact 
+src/logic/createFormControl.ts (58 symbols)
+110-114 variable defaultOptions
+116-116 variable FORM_ERROR_TYPE
+118-129 function updateDirtyFields
+131-143 variable DEFAULT_FORM_STATE [exported]
+145-2285 function createFormControl [exported]
+  218-219 function _isTracked
+  231-236 function debounce
+  238-242 function cancelDelayedError
+  244-252 function cancelDelayedErrorTree
+  254-277 function _setValid
+  279-294 function _updateIsValidating
+  296-303 function _updateDirtyFields
+  305-375 function _setFieldArray
+  377-383 function updateErrors
+  385-392 function _setErrors
+  394-414 function hasExplicitNullIntermediate
+  416-461 function isStaleArrayField
+  463-525 function updateValidAndValue
+  527-601 function updateTouchAndDirty
+  603-646 function shouldRenderByError
+  648-660 function _runSchema
+  662-704 function executeSchemaAndUpdateState
+  706-745 function validateForm
+  747-852 function executeBuiltInValidation
+  854-866 function _removeUnmounted
+  868-871 function _getDirty
+  873-890 function _getWatch
+  892-901 function _getFieldArray
+  903-991 function setFieldValue
+  993-1041 function setFieldValues
+  1043-1130 function _setValue
+  1132-1133 function setValue
+  1135-1172 function setValues
+  1174-1338 function onChange
+    1180-1185 function _updateIsFieldValueUpdated
+  1340-1346 function _focusInput
+  1348-1431 function trigger
+  1433-1455 function getValues
+  1457-1464 function getErrors
+  1466-1480 function getFieldState
+  1482-1501 function clearErrors
+  1503-1530 function setError
+  1532-1572 function watch
+  1574-1621 function _subscribe
+  1623-1636 function subscribe
+  1638-1676 function unregister
+  1678-1694 function _setDisabledField
+  1696-1798 function register
+  1800-1803 function _focusError
+  1805-1825 function _disableForm
+  1827-1901 function handleSubmit
+  1903-1939 function resetField
+  1941-2110 function _reset
+  2112-2118 function reset
+  2120-2138 function setFocus
+  2140-2158 function _setFormState
+  2162-2169 function _resetDefaultValues
+  2171-2196 function resetDefaultValues
+### STATUS: 0 BYTES: 2046
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 1827 ### CMD: 1901 
+src/logic/createFormControl.ts:1827-1901
+  const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> =
+    (onValid, onInvalid) => async (e) => {
+      let result: any = undefined;
+      let onValidError = undefined;
+      if (e) {
+        e.preventDefault && e.preventDefault();
+        (e as React.BaseSyntheticEvent).persist &&
+          (e as React.BaseSyntheticEvent).persist();
+      }
+      let fieldValues:
+        | TFieldValues
+        | TTransformedValues
+        | Record<string, never> = cloneObject(_formValues);
+
+      _subjects.state.next({
+        isSubmitting: true,
+      });
+
+      if (_options.resolver) {
+        const resetCallId = _resetCallId;
+        const { errors, values } = await _runSchema();
+
+        if (resetCallId !== _resetCallId) {
+          return;
+        }
+
+        _updateIsValidating();
+        Object.keys(delayErrorCallbacks).forEach(cancelDelayedError);
+        _formState.errors = errors;
+        fieldValues = cloneObject(values);
+      } else {
+        await executeBuiltInValidation({
+          fields: _fields,
+          eventType: EVENTS.SUBMIT,
+        });
+
+        unset(_formState.errors, ROOT_ERROR_TYPE);
+      }
+
+      if (_names.disabled.size) {
+        for (const name of _names.disabled) {
+          unset(fieldValues, name);
+        }
+      }
+
+      if (isEmptyObject(_formState.errors)) {
+        _subjects.state.next({
+          errors: {},
+        });
+        try {
+          result = await onValid(fieldValues as TTransformedValues, e);
+        } catch (error) {
+          onValidError = error;
+        }
+      } else {
+        if (onInvalid) {
+          await onInvalid({ ..._formState.errors }, e);
+        }
+
+        _focusError();
+        setTimeout(_focusError);
+      }
+
+      _subjects.state.next({
+        isSubmitted: true,
+        isSubmitting: false,
+        isSubmitSuccessful: isEmptyObject(_formState.errors) && !onValidError,
+        submitCount: _formState.submitCount + 1,
+        errors: _formState.errors,
+      });
+      if (onValidError) {
+        throw onValidError;
+      }
+      return result;
+    };
+### STATUS: 0 BYTES: 2105
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 747 ### CMD: 852 
+src/logic/createFormControl.ts:747-852
+  const executeBuiltInValidation = async ({
+    fields,
+    onlyCheckValid,
+    name,
+    eventType,
+    context = {
+      valid: true,
+      runRootValidation: false,
+    },
+  }: {
+    fields: FieldRefs;
+    onlyCheckValid?: boolean;
+    name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
+    eventType: ValidateFormEventType;
+    context?: {
+      valid: boolean;
+      runRootValidation?: boolean;
+    };
+  }) => {
+    if (props.validate) {
+      context.runRootValidation = true;
+      const result = await validateForm({
+        name,
+        eventType,
+      });
+
+      if (!result) {
+        context.valid = false;
+
+        if (onlyCheckValid) {
+          return context.valid;
+        }
+      }
+    }
+
+    for (const name in fields) {
+      const field = fields[name];
+
+      if (field) {
+        const { _f, ...fieldValue } = field as Field;
+
+        if (_f) {
+          const isFieldArrayRoot = _names.array.has(_f.name);
+          const isPromiseFunction =
+            field._f && hasPromiseValidation((field as Field)._f);
+          const shouldTrackIsValidatingState = _isTracked(
+            'isValidating',
+            'validatingFields',
+          );
+
+          if (isPromiseFunction && shouldTrackIsValidatingState) {
+            _updateIsValidating([_f.name], true);
+          }
+
+          const fieldError = await validateField(
+            field as Field,
+            _names.disabled,
+            _formValues,
+            shouldDisplayAllAssociatedErrors,
+            _options.shouldUseNativeValidation && !onlyCheckValid,
+            isFieldArrayRoot,
+          );
+
+          if (isPromiseFunction && shouldTrackIsValidatingState) {
+            _updateIsValidating([_f.name]);
+          }
+
+          if (fieldError[_f.name]) {
+            context.valid = false;
+
+            if (onlyCheckValid) {
+              break;
+            }
+          }
+
+          if (!onlyCheckValid) {
+            cancelDelayedError(_f.name);
+            get(fieldError, _f.name)
+              ? isFieldArrayRoot
+                ? updateFieldArrayRootError(
+                    _formState.errors,
+                    fieldError,
+                    _f.name,
+                  )
+                : set(_formState.errors, _f.name, fieldError[_f.name])
+              : unset(_formState.errors, _f.name);
+          }
+
+          if (props.shouldUseNativeValidation && fieldError[_f.name]) {
+            break;
+          }
+        }
+
+        !isEmptyObject(fieldValue) &&
+          (await executeBuiltInValidation({
+            context,
+            onlyCheckValid,
+            fields: fieldValue,
+            name: name as FieldPath<TFieldValues>,
+            eventType,
+          }));
+      }
+    }
+
+    return context.valid;
+  };
+### STATUS: 0 BYTES: 2769
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 145 ### CMD: 217 
+src/logic/createFormControl.ts:145-217
+export function createFormControl<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+  TTransformedValues = TFieldValues,
+>(
+  props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {},
+): Omit<
+  UseFormReturn<TFieldValues, TContext, TTransformedValues>,
+  'formState'
+> & {
+  formControl: Omit<
+    UseFormReturn<TFieldValues, TContext, TTransformedValues>,
+    'formState'
+  >;
+} {
+  let _options = {
+    ...defaultOptions,
+    ...props,
+  };
+  let _formState: FormState<TFieldValues> & {
+    values?: TFieldValues;
+    name?: string;
+    type?: EventType;
+  } = {
+    ...cloneObject(DEFAULT_FORM_STATE),
+    isLoading: isFunction(_options.defaultValues),
+    errors: _options.errors || {},
+    disabled: _options.disabled || false,
+  };
+  let _fields: FieldRefs = {};
+  let _defaultValues =
+    isObject(_options.defaultValues) || isObject(_options.values)
+      ? cloneObject(_options.defaultValues || _options.values) || {}
+      : {};
+  let _formValues = _options.shouldUnregister
+    ? ({} as TFieldValues)
+    : (cloneObject(_defaultValues) as TFieldValues);
+  let _state = {
+    action: false,
+    actionArrayLengths: new Map<InternalFieldName, number>(),
+    mount: false,
+    watch: false,
+    keepIsValid: false,
+  };
+  let _names: Names = {
+    mount: new Set(),
+    disabled: new Set(),
+    unMount: new Set(),
+    array: new Set(),
+    watch: new Set(),
+    registerName: new Set(),
+  };
+  const delayErrorCallbacks: Partial<Record<InternalFieldName, DelayCallback>> =
+    {};
+  const timers: Partial<Record<InternalFieldName, number>> = {};
+  let _valuesSubscriberCount = 0;
+  let _validationModeBeforeSubmit = getValidationModes(_options.mode);
+  let _validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
+  const defaultProxyFormState: ReadFormState = {
+    isDirty: false,
+    dirtyFields: false,
+    validatingFields: false,
+    touchedFields: false,
+    isValidating: false,
+    isValid: false,
+    errors: false,
+  };
+  const _proxyFormState: ReadFormState = {
+    ...defaultProxyFormState,
+  };
+  let _proxySubscribeFormState = {
+    ..._proxyFormState,
+  };
+### STATUS: 0 BYTES: 2169
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 2197 ### CMD: 2285 
+src/logic/createFormControl.ts:2197-2285
+
+  const methods = {
+    control: {
+      register,
+      unregister,
+      getFieldState,
+      handleSubmit,
+      setError,
+      _subscribe,
+      _runSchema,
+      _updateIsValidating,
+      _focusError,
+      _getWatch,
+      _getDirty,
+      _setValid,
+      _setFieldArray,
+      _setDisabledField,
+      _setErrors,
+      _getFieldArray,
+      _reset,
+      _resetDefaultValues,
+      _removeUnmounted,
+      _disableForm,
+      _subjects,
+      _proxyFormState,
+      get _fields() {
+        return _fields;
+      },
+      get _formValues() {
+        return _formValues;
+      },
+      get _state() {
+        return _state;
+      },
+      set _state(value) {
+        _state = value;
+      },
+      get _defaultValues() {
+        return _defaultValues;
+      },
+      get _names() {
+        return _names;
+      },
+      set _names(value) {
+        _names = value;
+      },
+      get _formState() {
+        return _formState;
+      },
+      get _options() {
+        return _options;
+      },
+      set _options(value) {
+        _options = {
+          ..._options,
+          ...value,
+        };
+        _validationModeBeforeSubmit = getValidationModes(_options.mode);
+        _validationModeAfterSubmit = getValidationModes(
+          _options.reValidateMode,
+        );
+        shouldDisplayAllAssociatedErrors =
+          _options.criteriaMode === VALIDATION_MODE.all;
+      },
+    },
+    subscribe,
+    trigger,
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    setValues,
+    getValues,
+    getErrors,
+    reset,
+    resetField,
+    resetDefaultValues,
+    clearErrors,
+    unregister,
+    setError,
+    setFocus,
+    getFieldState,
+  };
+
+  return {
+    ...methods,
+    formControl: methods,
+  };
+}
+### STATUS: 0 BYTES: 1763
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/useForm.ts ### CMD: 170 ### CMD: 194 
+src/useForm.ts:170-194
+      control._resetDefaultValues();
+    }
+  }, [control, props.values]);
+
+  React.useEffect(() => {
+    if (!control._state.mount) {
+      control._setValid();
+      control._state.mount = true;
+    }
+
+    if (control._state.watch) {
+      control._state.watch = false;
+      control._subjects.state.next({ ...control._formState });
+    }
+
+    control._removeUnmounted();
+  });
+
+  _formControl.current.formState = React.useMemo(
+    () => getProxyFormState(formState, control),
+    [control, formState],
+  );
+
+  return _formControl.current;
+}
+### STATUS: 0 BYTES: 566
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: symbols ### CMD: src/constants.ts 
+src/constants.ts (5 symbols)
+1-8 variable EVENTS [exported]  export const EVENTS
+10-16 variable VALIDATION_MODE [exported]  export const VALIDATION_MODE
+18-26 variable INPUT_VALIDATION_RULES [exported]  export const INPUT_VALIDATION_RULES
+28-28 variable ROOT_ERROR_TYPE [exported]  export const ROOT_ERROR_TYPE
+30-30 variable PROTOTYPE_KEYWORDS [exported]  export const PROTOTYPE_KEYWORDS
+### STATUS: 0 BYTES: 388
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: required ### CMD: --path ### CMD: src/logic/validateField.ts 
+src/logic/validateField.ts (7)
+    45: required,
+    108: : required &&
+    114: const { value, message } = isString(required)
+    115: ? { value: !!required, message: required }
+    116: : getValueAndMessage(required);
+    120: type: INPUT_VALIDATION_RULES.required,
+    123: ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+7 hit(s) in 1 file(s)
+### STATUS: 0 BYTES: 362
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/validateField.ts ### CMD: 34 ### CMD: 135 
+src/logic/validateField.ts:34-135
+export default async <T extends FieldValues>(
+  field: Field,
+  disabledFieldNames: InternalNameSet,
+  formValues: T,
+  validateAllFieldCriteria: boolean,
+  shouldUseNativeValidation?: boolean,
+  isFieldArray?: boolean,
+): Promise<InternalFieldErrors> => {
+  const {
+    ref,
+    refs,
+    required,
+    maxLength,
+    minLength,
+    min,
+    max,
+    pattern,
+    validate,
+    name,
+    valueAsNumber,
+    mount,
+  } = field._f;
+  const inputValue: NativeFieldValue = get(formValues, name);
+  if (!mount || disabledFieldNames.has(name)) {
+    return {};
+  }
+  const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);
+  const setCustomValidity = (message?: string | boolean) => {
+    if (shouldUseNativeValidation && inputRef.reportValidity) {
+      const validityMessage = isBoolean(message) ? '' : message || '';
+      if (refs) {
+        refs.forEach((ref) => ref.setCustomValidity(validityMessage));
+      } else {
+        inputRef.setCustomValidity(validityMessage);
+      }
+      inputRef.reportValidity();
+    }
+  };
+  const error: InternalFieldErrors = {};
+  const isRadio = isRadioInput(ref);
+  const isCheckBox = isCheckBoxInput(ref);
+  const isRadioOrCheckbox = isRadio || isCheckBox;
+  const isEmpty =
+    ((valueAsNumber || isFileInput(ref)) &&
+      isUndefined(ref.value) &&
+      isUndefined(inputValue)) ||
+    (isHTMLElement(ref) && ref.value === '') ||
+    inputValue === '' ||
+    (Array.isArray(inputValue) && !inputValue.length);
+  const appendErrorsCurry = appendErrors.bind(
+    null,
+    name,
+    validateAllFieldCriteria,
+    error,
+  );
+  const getMinMaxMessage = (
+    exceedMax: boolean,
+    maxLengthMessage: Message,
+    minLengthMessage: Message,
+    maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,
+    minType: MinType = INPUT_VALIDATION_RULES.minLength,
+  ) => {
+    const message = exceedMax ? maxLengthMessage : minLengthMessage;
+    error[name] = {
+      type: exceedMax ? maxType : minType,
+      message,
+      ref,
+      ...appendErrorsCurry(exceedMax ? maxType : minType, message),
+    };
+  };
+
+  if (
+    isFieldArray
+      ? !Array.isArray(inputValue) || !inputValue.length
+      : required &&
+        ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
+          (isBoolean(inputValue) && !inputValue) ||
+          (isCheckBox && !getCheckboxValue(refs).isValid) ||
+          (isRadio && !getRadioValue(refs).isValid))
+  ) {
+    const { value, message } = isString(required)
+      ? { value: !!required, message: required }
+      : getValueAndMessage(required);
+
+    if (value) {
+      error[name] = {
+        type: INPUT_VALIDATION_RULES.required,
+        message,
+        ref: inputRef,
+        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+      };
+      if (!validateAllFieldCriteria) {
+        setCustomValidity(message);
+        return error;
+      }
+    }
+  }
+
+  if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
+    let exceedMax;
+    let exceedMin;
+    const maxOutput = getValueAndMessage(max);
+### STATUS: 0 BYTES: 3070
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/constants.ts ### CMD: 18 ### CMD: 28 
+src/constants.ts:18-28
+export const INPUT_VALIDATION_RULES = {
+  max: 'max',
+  min: 'min',
+  maxLength: 'maxLength',
+  minLength: 'minLength',
+  pattern: 'pattern',
+  required: 'required',
+  validate: 'validate',
+} as const;
+
+export const ROOT_ERROR_TYPE = 'root';
+### STATUS: 0 BYTES: 264
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Field ### CMD: --include-body 
+Field function app/src/controller.tsx:46-201 [exported jsx]
+  export default function Field()
+  | export default function Field() {
+  |   const { mode } = useParams();
+  |   const methods = useForm<Form>({
+  |     defaultValues,
+  |     mode: mode as keyof ValidationMode,
+  |   });
+  |   const {
+  |     handleSubmit,
+  body:
+  | export default function Field() {
+  |   const { mode } = useParams();
+  |   const methods = useForm<Form>({
+  |     defaultValues,
+  |     mode: mode as keyof ValidationMode,
+  |   });
+  |   const {
+  |     handleSubmit,
+  |     formState: { errors },
+  |     reset,
+  |     control,
+  |   } = methods;
+  | 
+  |   const [, setRerender] = React.useState(0);
+  |   renderCount++;
+  | 
+  |   const rerender = () => setRerender(Math.random());
+  | 
+  |   return (
+  |     <form onSubmit={handleSubmit(() => {})}>
+  |       <div className="container">
+  |         <section id="input-checkbox">
+  |           <label>MUI Checkbox</label>
+  |           <Controller
+  |             name="Checkbox"
+  |             control={control}
+  |             rules={{ required: true }}
+  |             render={({ field: props }) => (
+  |               <Checkbox
+  |                 {...props}
+  |                 onChange={(e) => props.onChange(e.target.checked)}
+  |               />
+  |             )}
+  |           />
+  |         </section>
+  | 
+  |         {errors.Checkbox && <p id="Checkbox">Checkbox Error</p>}
+  | 
+  |         <section id="input-radio-group">
+  |           <label>Radio Group</label>
+  |           <Controller
+  |             render={({ field }) => (
+  |               <RadioGroup aria-label="gender" {...field} name="gender1">
+  |                 <FormControlLabel
+  |                   value="female"
+  |                   control={<Radio />}
+  |                   label="Female"
+  |                 />
+  |                 <FormControlLabel
+  |                   value="male"
+  |                   control={<Radio />}
+  |                   label="Male"
+  |                 />
+  |                 <FormControlLabel
+  |                   value="other"
+  |                   control={<Radio />}
+  |                   label="Other"
+  |                 />
+  |               </RadioGroup>
+  |             )}
+  |             rules={{ required: true }}
+  |             name="RadioGroup"
+  |             control={control}
+  |           />
+  |         </section>
+  | 
+  |         {errors.RadioGroup && <p id="RadioGroup">RadioGroup Error</p>}
+  | 
+  |         <section id="input-textField">
+  |           <label>MUI TextField</label>
+  |           <Controller
+  |             render={({ field }) => <TextField {...field} />}
+  |             name="TextField"
+  |             control={control}
+  |             rules={{ required: true }}
+  |           />
+  |         </section>
+  | 
+  |         {errors.TextField && <p id="TextField">TextField Error</p>}
+  | 
+  |         <section id="input-select">
+  |           <label>MUI Select</label>
+  |           <Controller
+  |             render={({ field }) => (
+  |               <Select {...field}>
+  |                 <MenuItem value={10}>Ten</MenuItem>
+  |                 <MenuItem value={20}>Twenty</MenuItem>
+  |                 <MenuItem value={30}>Thirty</MenuItem>
+  |               </Select>
+  |             )}
+  |             rules={{ required: true }}
+  |             name="Select"
+  |             control={control}
+  |           />
+  |         </section>
+  | 
+  |         {errors.Select && <p id="Select">Select Error</p>}
+  | 
+  |         <section id="input-switch">
+  |           <label>MUI Switch</label>
+  |           <Controller
+  |             name="switch"
+  |             rules={{ required: true }}
+  |             render={({ field: props }) => (
+  |               <Switch
+  |                 {...props}
+  |                 onChange={(e) => props.onChange(e.target.checked)}
+  |               />
+  |             )}
+  |             control={control}
+  |           />
+  |         </section>
+  | 
+  |         {errors.switch && <p id="switch">switch Error</p>}
+  | 
+  |         <section id="input-ReactSelect">
+  |           <label>React Select</label>
+  |           <Controller
+  |             render={({ field }) => (
+  |               <PureReactSelect isClearable options={options} {...field} />
+  |             )}
+  |             name="ReactSelect"
+  |             control={control}
+  |             rules={{ required: true }}
+  |           />
+  |         </section>
+  | 
+  |         {errors.ReactSelect && <p id="ReactSelect">ReactSelect Error</p>}
+  |       </div>
+  | 
+  |       <span id="renderCount">{renderCount}</span>
+  | 
+  |       <button type="button" onClick={rerender}>
+  |         Rerender
+  |       </button>
+  | 
+  |       <button
+  |         type="button"
+  |         onClick={() => {
+  |           reset({
+  |             Native: '',
+  |             TextField: '',
+  |             Select: '',
+  |             ReactSelect: '',
+  |             Checkbox: false,
+  |             switch: false,
+  |             RadioGroup: '',
+  |           });
+  |         }}
+  |       >
+  |         Reset Form
+  |       </button>
+  |       <button id="submit">submit</button>
+  |     </form>
+  |   );
+  | }
+  callers (1):
+    App function app/src/app.tsx:47-129
+  callees (1):
+    PureReactSelect variable app/src/controller.tsx:44-44
+
+Field type src/types/fields.ts:44-51 [exported]
+  export type Field
+  | export type Field = {
+  |   _f: {
+  |     ref: Ref;
+  |     name: InternalFieldName;
+  |     refs?: HTMLInputElement[];
+  |     mount?: boolean;
+  |   } & RegisterOptions;
+  | };
+  body:
+  | export type Field = {
+  |   _f: {
+  |     ref: Ref;
+  |     name: InternalFieldName;
+  |     refs?: HTMLInputElement[];
+  |     mount?: boolean;
+  |   } & RegisterOptions;
+  | };
+  callers (0):
+  callees (0):
+### STATUS: 0 BYTES: 5795
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: UseFormRegister 
+UseFormRegister type src/types/form.ts:253-258 [exported]
+  export type UseFormRegister<TFieldValues extends FieldValues>
+  | export type UseFormRegister<TFieldValues extends FieldValues> = <
+  |   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  | >(
+  |   name: TFieldName,
+  |   options?: RegisterOptions<TFieldValues, TFieldName>,
+  | ) => UseFormRegisterReturn<TFieldName>;
+  callers (0):
+  callees (0):
+### STATUS: 0 BYTES: 431
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: appendErrors ### CMD: --include-body 
+appendErrors function src/logic/appendErrors.ts:7-22 [exported]
+  export default ( name: InternalFieldName, validateAllFieldCriteria: boolean, errors: InternalFieldErrors, type: string, message: ValidateResult, ) =>
+  | export default (
+  |   name: InternalFieldName,
+  |   validateAllFieldCriteria: boolean,
+  |   errors: InternalFieldErrors,
+  |   type: string,
+  |   message: ValidateResult,
+  | ) =>
+  |   validateAllFieldCriteria
+  body:
+  | export default (
+  |   name: InternalFieldName,
+  |   validateAllFieldCriteria: boolean,
+  |   errors: InternalFieldErrors,
+  |   type: string,
+  |   message: ValidateResult,
+  | ) =>
+  |   validateAllFieldCriteria
+  |     ? {
+  |         ...errors[name],
+  |         types: {
+  |           ...(errors[name] && errors[name]!.types ? errors[name]!.types : {}),
+  |           [type]: message || true,
+  |         },
+  |       }
+  |     : {};
+  callers (0):
+  callees (0):
+### STATUS: 0 BYTES: 916
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: getValueAndMessage ### CMD: --include-body 
+getValueAndMessage function src/logic/getValueAndMessage.ts:5-11 [exported]
+  export default (validationData?: ValidationRule) =>
+  | export default (validationData?: ValidationRule) =>
+  |   isObject(validationData) && !isRegex(validationData)
+  |     ? validationData
+  |     : {
+  |         value: validationData,
+  |         message: '',
+  |       };
+  body:
+  | export default (validationData?: ValidationRule) =>
+  |   isObject(validationData) && !isRegex(validationData)
+  |     ? validationData
+  |     : {
+  |         value: validationData,
+  |         message: '',
+  |       };
+  callers (1):
+    validateField function src/logic/validateField.ts:34-301
+  callees (2):
+    isObject function src/utils/isObject.ts:7-11
+    isRegex function src/utils/isRegex.ts:1-1
+### STATUS: 0 BYTES: 773
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: FieldRefs 
+FieldRefs type src/types/fields.ts:53-55 [exported]
+  export type FieldRefs
+  | export type FieldRefs = Partial<{
+  |   [key: InternalFieldName]: Field | FieldRefs;
+  | }>;
+  callers (0):
+  callees (0):
+### STATUS: 0 BYTES: 202
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/constants.ts ### CMD: 1 ### CMD: 8 
+src/constants.ts:1-8
+export const EVENTS = {
+  BLUR: 'blur',
+  FOCUS_OUT: 'focusout',
+  CHANGE: 'change',
+  SUBMIT: 'submit',
+  TRIGGER: 'trigger',
+  VALID: 'valid',
+} as const;
+### STATUS: 0 BYTES: 177
+

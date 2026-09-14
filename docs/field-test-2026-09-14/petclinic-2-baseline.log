@@ -1,0 +1,545 @@
+### CMD: find ### CMD: $SCRATCH/field/spring-petclinic/src ### CMD: -type ### CMD: f ### CMD: -path ### CMD: \*owner\* 
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerTests.java
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/PetValidatorTests.java
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/PetTypeFormatterTests.java
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/createOrUpdateOwnerForm.html
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownerDetails.html
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/findOwners.html
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownersList.html
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetTypeFormatter.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetTypeRepository.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetType.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/package-info.java
+### STATUS: 0 BYTES: 4629
+
+### CMD: grep ### CMD: -rn ### CMD: -i ### CMD: telephone ### CMD: $SCRATCH/field/spring-petclinic/src ### CMD: --include=\*.java ### CMD: --include=\*.html ### CMD: --include=\*.sql ### CMD: --include=\*.properties ### CMD: --include=\*.xml ### CMD: --include=\*.yml 
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:80:		george.setTelephone("6085551023");
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:121:				.param("telephone", "1316761638"))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:132:			.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:207:			.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:218:				.param("telephone", "1616291589"))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:236:				.param("telephone", ""))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:240:			.andExpect(model().attributeHasFieldErrors("owner", "telephone"))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:252:			.andExpect(model().attribute("owner", hasProperty("telephone", is("6085551023"))))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:269:		owner.setTelephone("0123456789");
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:120:		owner.setTelephone("4444444444");
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_de.properties:15:telephone=Telefon
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_de.properties:34:telephone.invalid=Telefonnummer muss aus 10 Ziffern bestehen
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ko.properties:15:telephone=전화번호
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ko.properties:34:telephone.invalid=전화번호는 10자리 숫자여야 합니다
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_fa.properties:15:telephone=تلفن
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_fa.properties:34:telephone.invalid=شماره تلفن باید ۱۰ رقمی باشد
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ja.properties:17:telephone=電話番号
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ja.properties:36:telephone.invalid=電話番号は10桁の数字で入力してください
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_pt.properties:15:telephone=Telefone
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_pt.properties:34:telephone.invalid=O número de telefone deve conter 10 dígitos
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_es.properties:15:telephone=Teléfono
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_es.properties:34:telephone.invalid=El número de teléfono debe tener 10 dígitos
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_hi.properties:17:telephone=\u091F\u0947\u0932\u0940\u092B\u094B\u0928
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_hi.properties:36:telephone.invalid=\u091F\u0947\u0932\u0940\u092B\u094B\u0928 \u090F\u0915 10-\u0905\u0902\u0915\u094B\u0902 \u0915\u0940 \u0938\u0902\u0916\u094D\u092F\u093E \u0939\u094B\u0928\u0940 \u091A\u093E\u0939\u093F\u090F
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_tr.properties:15:telephone=Telefon
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_tr.properties:34:telephone.invalid=Telefon numarası 10 basamaklı olmalıdır
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ru.properties:15:telephone=Телефон
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ru.properties:34:telephone.invalid=Телефон должен содержать 10 цифр
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties:15:telephone=Telephone
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties:34:telephone.invalid=Telephone must be a 10-digit number
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql:42:  telephone  VARCHAR(20)
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:25:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=1);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:26:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=2);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:27:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=3);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:28:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=4);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:29:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=5);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:30:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=6);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:31:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=7);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:32:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=8);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:33:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=9);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/data.sql:34:INSERT INTO owners (first_name, last_name, address, city, telephone) SELECT 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487' WHERE NOT EXISTS (SELECT * FROM owners WHERE id=10);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql:32:  telephone  TEXT
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql:34:  telephone VARCHAR(20),
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/createOrUpdateOwnerForm.html:14:      <input th:replace="~{fragments/inputField :: input (#{telephone}, 'telephone', 'text')}" />
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownerDetails.html:31:      <th th:text="#{telephone}">Telephone</th>
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownerDetails.html:32:      <td th:text="*{telephone}"></td>
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownersList.html:15:        <th th:text="#{telephone}" style="width: 120px">Telephone</th>
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownersList.html:26:        <td th:text="${owner.telephone}" />
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:61:	@Pattern(regexp = "\\d{10}", message = "{telephone.invalid}")
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:62:	private String telephone;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:85:	public String getTelephone() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:86:		return this.telephone;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:89:	public void setTelephone(String telephone) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:90:		this.telephone = telephone;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:164:			.append("telephone", this.telephone)
+### STATUS: 0 BYTES: 14980
+
+### CMD: sed ### CMD: -n ### CMD: 40\,100p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+ * @author Ken Krebs
+ * @author Juergen Hoeller
+ * @author Sam Brannen
+ * @author Michael Isvy
+ * @author Oliver Drotbohm
+ * @author Wick Dynex
+ */
+@Entity
+@Table(name = "owners")
+public class Owner extends Person {
+
+	@Column
+	@NotBlank
+	private String address;
+
+	@Column
+	@NotBlank
+	private String city;
+
+	@Column
+	@NotBlank
+	@Pattern(regexp = "\\d{10}", message = "{telephone.invalid}")
+	private String telephone;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "owner_id")
+	@OrderBy("name")
+	private final List<Pet> pets = new ArrayList<>();
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getTelephone() {
+		return this.telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public List<Pet> getPets() {
+		return this.pets;
+	}
+
+	public void addPet(Pet pet) {
+		if (pet == null) {
+			return;
+		}
+### STATUS: 0 BYTES: 1084
+
+### CMD: sed ### CMD: -n ### CMD: 155\,175p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+
+	@Override
+	public String toString() {
+		return new ToStringCreator(this).append("id", this.getId())
+			.append("new", this.isNew())
+			.append("lastName", this.getLastName())
+			.append("firstName", this.getFirstName())
+			.append("address", this.address)
+			.append("city", this.city)
+			.append("telephone", this.telephone)
+			.toString();
+	}
+
+	/**
+	 * Adds the given {@link Visit} to the {@link Pet} with the given identifier.
+	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+	 * @param visit the visit to add, must not be {@literal null}.
+	 */
+	public void addVisit(Integer petId, Visit visit) {
+
+		Assert.notNull(petId, "Pet identifier must not be null!");
+### STATUS: 0 BYTES: 695
+
+### CMD: grep ### CMD: -n ### CMD: -E ### CMD: Mapping\|InitBinder\|setAllowedFields\|setDisallowedFields\|public\ .\*\\\(\|ModelAttribute\|BindingResult\|owners\\.save\|VIEWS_ ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java 
+27:import org.springframework.validation.BindingResult;
+29:import org.springframework.web.bind.annotation.GetMapping;
+30:import org.springframework.web.bind.annotation.InitBinder;
+31:import org.springframework.web.bind.annotation.ModelAttribute;
+33:import org.springframework.web.bind.annotation.PostMapping;
+51:	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
+55:	public OwnerController(OwnerRepository owners) {
+59:	@InitBinder
+60:	public void setAllowedFields(WebDataBinder dataBinder) {
+61:		dataBinder.setDisallowedFields("id", "*.id");
+64:	@ModelAttribute("owner")
+65:	public Owner findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
+72:	@GetMapping("/owners/new")
+73:	public String initCreationForm() {
+74:		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+77:	@PostMapping("/owners/new")
+78:	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes) {
+81:			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+84:		this.owners.save(owner);
+89:	@GetMapping("/owners/find")
+90:	public String initFindForm() {
+94:	@GetMapping("/owners")
+95:	public String processFindForm(@RequestParam(defaultValue = "1") int page, Owner owner, BindingResult result,
+139:	@GetMapping("/owners/{ownerId}/edit")
+140:	public String initUpdateOwnerForm() {
+141:		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+144:	@PostMapping("/owners/{ownerId}/edit")
+145:	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable("ownerId") int ownerId,
+149:			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+159:		this.owners.save(owner);
+169:	@GetMapping("/owners/{ownerId}")
+170:	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
+### STATUS: 0 BYTES: 1764
+
+### CMD: cat ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/createOrUpdateOwnerForm.html 
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+  <h2 th:text="#{owner}">Owner</h2>
+  <form th:object="${owner}" class="form-horizontal" id="add-owner-form" method="post">
+    <div class="form-group has-feedback">
+      <input th:replace="~{fragments/inputField :: input (#{firstName}, 'firstName', 'text')}" />
+      <input th:replace="~{fragments/inputField :: input (#{lastName}, 'lastName', 'text')}" />
+      <input th:replace="~{fragments/inputField :: input (#{address}, 'address', 'text')}" />
+      <input th:replace="~{fragments/inputField :: input (#{city}, 'city', 'text')}" />
+      <input th:replace="~{fragments/inputField :: input (#{telephone}, 'telephone', 'text')}" />
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button th:with="text=${owner['new']} ? #{addOwner} : #{updateOwner}" class="btn btn-primary" type="submit"
+          th:text="${text}">Add Owner</button>
+      </div>
+    </div>
+  </form>
+</body>
+
+</html>
+### STATUS: 0 BYTES: 1073
+
+### CMD: sed ### CMD: -n ### CMD: 1\,45p ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/templates/owners/ownerDetails.html 
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+  <h2 th:text="#{ownerInformation}">Owner Information</h2>
+
+  <div th:if="${message}" class="alert alert-success" id="success-message">
+    <span th:text="${message}"></span>
+  </div>
+
+  <div th:if="${error}" class="alert alert-danger" id="error-message">
+    <span th:text="${error}"></span>
+  </div>
+
+  <table class="table table-striped" th:object="${owner}">
+    <tr>
+      <th th:text="#{name}">Name</th>
+      <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
+    </tr>
+    <tr>
+      <th th:text="#{address}">Address</th>
+      <td th:text="*{address}"></td>
+    </tr>
+    <tr>
+      <th th:text="#{city}">City</th>
+      <td th:text="*{city}"></td>
+    </tr>
+    <tr>
+      <th th:text="#{telephone}">Telephone</th>
+      <td th:text="*{telephone}"></td>
+    </tr>
+  </table>
+
+  <a th:href="@{__${owner.id}__/edit}" class="btn btn-primary" th:text="#{editOwner}">Edit
+    Owner</a>
+  <a th:href="@{__${owner.id}__/pets/new}" class="btn btn-primary" th:text="#{addNewPet}">Add
+    New Pet</a>
+
+  <br />
+  <br />
+  <br />
+  <h2 th:text="#{petsAndVisits}">Pets and Visits</h2>
+### STATUS: 0 BYTES: 1221
+
+### CMD: cat ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/templates/fragments/inputField.html 
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org">
+
+<body>
+  <form>
+    <th:block th:fragment="input (label, name, type)">
+      <div th:with="valid=${!#fields.hasErrors(name)}" th:class="${'form-group' + (valid ? '' : ' has-error')}"
+        class="form-group">
+        <label th:for="${name}" class="col-sm-2 control-label" th:text="${label}">Label</label>
+        <div class="col-sm-10">
+          <div th:switch="${type}">
+            <input th:case="'text'" class="form-control" type="text" th:field="*{__${name}__}" />
+            <input th:case="'date'" class="form-control" type="date" th:field="*{__${name}__}" th:min="${minVisitDate}" />
+          </div>
+          <span th:if="${valid}" class="fa fa-ok form-control-feedback" aria-hidden="true"></span>
+          <th:block th:if="${!valid}">
+            <span class="fa fa-remove form-control-feedback" aria-hidden="true"></span>
+            <span class="help-inline" th:errors="*{__${name}__}" th:text="#{error}">Error</span>
+          </th:block>
+        </div>
+      </div>
+    </th:block>
+  </form>
+</body>
+
+</html>
+### STATUS: 0 BYTES: 1090
+
+### CMD: grep ### CMD: -n ### CMD: -A8 ### CMD: -i ### CMD: CREATE\ TABLE.\*owners ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql 
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql:36:CREATE TABLE owners (
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-37-  id         INTEGER GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-38-  first_name VARCHAR(30),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-39-  last_name  VARCHAR_IGNORECASE(30),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-40-  address    VARCHAR(255),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-41-  city       VARCHAR(80),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-42-  telephone  VARCHAR(20)
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-43-);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/schema.sql-44-CREATE INDEX owners_last_name ON owners (last_name);
+--
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql:28:CREATE TABLE IF NOT EXISTS owners (
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-29-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-30-  first_name VARCHAR(30),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-31-  last_name VARCHAR(30),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-32-  address VARCHAR(255),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-33-  city VARCHAR(80),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-34-  telephone VARCHAR(20),
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-35-  INDEX(last_name)
+$SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/schema.sql-36-) engine=InnoDB;
+--
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql:26:CREATE TABLE IF NOT EXISTS owners (
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-27-  id         INT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-28-  first_name TEXT,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-29-  last_name  TEXT,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-30-  address    TEXT,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-31-  city       TEXT,
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-32-  telephone  TEXT
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-33-);
+$SCRATCH/field/spring-petclinic/src/main/resources/db/postgres/schema.sql-34-CREATE INDEX IF NOT EXISTS idx_owners_last_name ON owners (last_name);
+### STATUS: 0 BYTES: 5641
+
+### CMD: sed ### CMD: -n ### CMD: 10\,20p ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties 
+owner=Owner
+firstName=First Name
+lastName=Last Name
+address=Address
+city=City
+telephone=Telephone
+owners=Owners
+addOwner=Add Owner
+findOwner=Find Owner
+findOwners=Find Owners
+updateOwner=Update Owner
+### STATUS: 0 BYTES: 199
+
+### CMD: sed ### CMD: -n ### CMD: 55\,90p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java 
+	public OwnerController(OwnerRepository owners) {
+		this.owners = owners;
+	}
+
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id", "*.id");
+	}
+
+	@ModelAttribute("owner")
+	public Owner findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
+		return ownerId == null ? new Owner()
+				: this.owners.findById(ownerId)
+					.orElseThrow(() -> new IllegalArgumentException("Owner not found with id: " + ownerId
+							+ ". Please ensure the ID is correct " + "and the owner exists in the database."));
+	}
+
+	@GetMapping("/owners/new")
+	public String initCreationForm() {
+		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping("/owners/new")
+	public String processCreationForm(@Valid Owner owner, BindingResult result, RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("error", "There was an error in creating the owner.");
+			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		}
+
+		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "New Owner Created");
+		return "redirect:/owners/" + owner.getId();
+	}
+
+	@GetMapping("/owners/find")
+	public String initFindForm() {
+### STATUS: 0 BYTES: 1222
+
+### CMD: sed ### CMD: -n ### CMD: 139\,180p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java 
+	@GetMapping("/owners/{ownerId}/edit")
+	public String initUpdateOwnerForm() {
+		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping("/owners/{ownerId}/edit")
+	public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable("ownerId") int ownerId,
+			RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("error", "There was an error in updating the owner.");
+			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+		}
+
+		if (!Objects.equals(owner.getId(), ownerId)) {
+			result.rejectValue("id", "mismatch", "The owner ID in the form does not match the URL.");
+			redirectAttributes.addFlashAttribute("error", "Owner ID mismatch. Please try again.");
+			return "redirect:/owners/{ownerId}/edit";
+		}
+
+		owner.setId(ownerId);
+		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "Owner Values Updated");
+		return "redirect:/owners/{ownerId}";
+	}
+
+	/**
+	 * Custom handler for displaying an owner.
+	 * @param ownerId the ID of the owner to display
+	 * @return a ModelMap with the model attributes for the view
+	 */
+	@GetMapping("/owners/{ownerId}")
+	public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
+		ModelAndView mav = new ModelAndView("owners/ownerDetails");
+		Optional<Owner> optionalOwner = this.owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+		mav.addObject(owner);
+		return mav;
+	}
+
+}
+### STATUS: 0 BYTES: 1555
+
+### CMD: grep ### CMD: -n ### CMD: -m2 ### CMD: INSERT\ INTO\ owners ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/h2/data.sql ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/data.sql 
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/data.sql:25:INSERT INTO owners VALUES (default, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023');
+$SCRATCH/field/spring-petclinic/src/main/resources/db/h2/data.sql:26:INSERT INTO owners VALUES (default, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
+### STATUS: 0 BYTES: 558
+
+### CMD: grep ### CMD: -rn ### CMD: -E ### CMD: ddl-auto\|sql\\.init\|schema-locations\|data-locations\|spring\\.jpa\|generate-ddl ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources ### CMD: --include=application\*.properties 
+$SCRATCH/field/spring-petclinic/src/main/resources/application-postgres.properties:7:spring.sql.init.mode=always
+$SCRATCH/field/spring-petclinic/src/main/resources/application.properties:3:spring.sql.init.schema-locations=classpath*:db/${database}/schema.sql
+$SCRATCH/field/spring-petclinic/src/main/resources/application.properties:4:spring.sql.init.data-locations=classpath*:db/${database}/data.sql
+$SCRATCH/field/spring-petclinic/src/main/resources/application.properties:10:spring.jpa.hibernate.ddl-auto=none
+$SCRATCH/field/spring-petclinic/src/main/resources/application.properties:11:spring.jpa.open-in-view=false
+$SCRATCH/field/spring-petclinic/src/main/resources/application.properties:12:spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategySnakeCaseImpl
+$SCRATCH/field/spring-petclinic/src/main/resources/application.properties:13:spring.jpa.properties.hibernate.default_batch_fetch_size=16
+$SCRATCH/field/spring-petclinic/src/main/resources/application-mysql.properties:7:spring.sql.init.mode=always
+### STATUS: 0 BYTES: 1897
+
+### CMD: sed ### CMD: -n ### CMD: 72\,84p\;112\,124p\;212\,222p ### CMD: $SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java 
+
+	private Owner george() {
+		Owner george = new Owner();
+		george.setId(TEST_OWNER_ID);
+		george.setFirstName("George");
+		george.setLastName("Franklin");
+		george.setAddress("110 W. Liberty St.");
+		george.setCity("Madison");
+		george.setTelephone("6085551023");
+		Pet max = new Pet();
+		PetType dog = new PetType();
+		dog.setName("dog");
+		max.setType(dog);
+	}
+
+	@Test
+	void processCreationFormSuccess() throws Exception {
+		mockMvc
+			.perform(post("/owners/new").param("firstName", "Joe")
+				.param("lastName", "Bloggs")
+				.param("address", "123 Caramel Street")
+				.param("city", "London")
+				.param("telephone", "1316761638"))
+			.andExpect(status().is3xxRedirection());
+	}
+
+	void processUpdateOwnerFormSuccess() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/edit", TEST_OWNER_ID).param("firstName", "Joe")
+				.param("lastName", "Bloggs")
+				.param("address", "123 Caramel Street")
+				.param("city", "London")
+				.param("telephone", "1616291589"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/owners/{ownerId}"));
+	}
+### STATUS: 0 BYTES: 1085
+
+### CMD: grep ### CMD: -n ### CMD: INSERT\ INTO\ owners ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/h2/data.sql 
+25:INSERT INTO owners VALUES (default, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023');
+26:INSERT INTO owners VALUES (default, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
+27:INSERT INTO owners VALUES (default, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763');
+28:INSERT INTO owners VALUES (default, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198');
+29:INSERT INTO owners VALUES (default, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765');
+30:INSERT INTO owners VALUES (default, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654');
+31:INSERT INTO owners VALUES (default, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387');
+32:INSERT INTO owners VALUES (default, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683');
+33:INSERT INTO owners VALUES (default, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435');
+34:INSERT INTO owners VALUES (default, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
+### STATUS: 0 BYTES: 1065
+
+### CMD: grep ### CMD: -n ### CMD: -i ### CMD: into\ owners ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/db/mysql/data.sql 
+25:INSERT IGNORE INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023');
+26:INSERT IGNORE INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
+27:INSERT IGNORE INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763');
+28:INSERT IGNORE INTO owners VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198');
+29:INSERT IGNORE INTO owners VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765');
+30:INSERT IGNORE INTO owners VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654');
+31:INSERT IGNORE INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387');
+32:INSERT IGNORE INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683');
+33:INSERT IGNORE INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435');
+34:INSERT IGNORE INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
+### STATUS: 0 BYTES: 1076
+
+### CMD: grep ### CMD: -n ### CMD: -E ### CMD: @Override\|toString\\\(\\\)\|\\.append\\\( ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+156:	@Override
+157:	public String toString() {
+158:		return new ToStringCreator(this).append("id", this.getId())
+159:			.append("new", this.isNew())
+160:			.append("lastName", this.getLastName())
+161:			.append("firstName", this.getFirstName())
+162:			.append("address", this.address)
+163:			.append("city", this.city)
+164:			.append("telephone", this.telephone)
+165:			.toString();
+### STATUS: 0 BYTES: 382
+
+### CMD: grep ### CMD: -n ### CMD: -E ### CMD: fragment=\|th:case\|th:errors\|th:field ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/templates/fragments/inputField.html 
+7:    <th:block th:fragment="input (label, name, type)">
+13:            <input th:case="'text'" class="form-control" type="text" th:field="*{__${name}__}" />
+14:            <input th:case="'date'" class="form-control" type="date" th:field="*{__${name}__}" th:min="${minVisitDate}" />
+19:            <span class="help-inline" th:errors="*{__${name}__}" th:text="#{error}">Error</span>
+### STATUS: 0 BYTES: 383
+
+### CMD: grep ### CMD: -rn ### CMD: -i ### CMD: -w ### CMD: notes ### CMD: $SCRATCH/field/spring-petclinic/src/main 
+
+### STATUS: 1 BYTES: 0
+

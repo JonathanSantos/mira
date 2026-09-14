@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+"""Roda um comando de ferramenta dentro de uma rodada de agente e registra o custo.
+
+Uso, dentro do prompt do agente:  bench <comando> [args...]
+
+A saída vai para o agente sem alteração. Cada chamada vira uma linha em
+$BENCH_RUN_LOG com o comando, os bytes de saída, a latência e o código de
+saída. $BENCH_ALLOWED limita os comandos do braço (lista separada por vírgula).
+"""
+import json
+import os
+import subprocess
+import sys
+import time
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("usage: bench <command> [args...]")
+        return 2
+    command = sys.argv[1:]
+    allowed = [c for c in os.environ.get("BENCH_ALLOWED", "").split(",") if c]
+    if allowed and command[0] not in allowed:
+        print(f"bench: '{command[0]}' is not available in this run; use one of: {', '.join(allowed)}")
+        return 2
+    start = time.perf_counter()
+    proc = subprocess.run(command, capture_output=True, text=True, stdin=subprocess.DEVNULL,
+                          cwd=os.environ.get("BENCH_REPO") or None)
+    elapsed = (time.perf_counter() - start) * 1000
+    output = proc.stdout + proc.stderr
+    sys.stdout.write(output)
+    log = os.environ.get("BENCH_RUN_LOG")
+    if log:
+        with open(log, "a") as f:
+            f.write(json.dumps({"cmd": command, "bytes": len(output.encode()), "ms": round(elapsed), "rc": proc.returncode}) + "\n")
+    return proc.returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())

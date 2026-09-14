@@ -1,0 +1,85 @@
+{
+  "repo": "excalidraw",
+  "seed": 20260914,
+  "tasks": [
+    {
+      "id": "excalidraw-impact",
+      "key": {
+        "homonym_sites": [
+          "packages/element/src/delta.ts:1090",
+          "packages/element/src/delta.ts:1190",
+          "packages/element/src/delta.ts:1218",
+          "packages/element/src/delta.ts:1262",
+          "packages/element/src/delta.ts:1266",
+          "packages/element/src/delta.ts:1274",
+          "packages/element/src/delta.ts:1285",
+          "packages/element/src/delta.ts:1362",
+          "packages/element/src/delta.ts:1385",
+          "packages/element/src/delta.ts:142",
+          "packages/element/src/delta.ts:1590",
+          "packages/element/src/delta.ts:163",
+          "packages/element/src/delta.ts:554",
+          "packages/element/src/delta.ts:558",
+          "packages/element/src/delta.ts:628",
+          "packages/element/src/store.ts:147",
+          "packages/element/src/store.ts:534",
+          "packages/element/src/store.ts:557",
+          "packages/element/src/store.ts:558",
+          "packages/element/src/store.ts:581",
+          "packages/element/src/store.ts:617",
+          "packages/element/src/store.ts:631",
+          "packages/element/src/store.ts:748",
+          "packages/excalidraw/subset/subset-main.ts:120"
+        ],
+        "sites": [
+          "packages/element/src/store.ts:163",
+          "packages/element/src/store.ts:229",
+          "packages/element/src/store.ts:263",
+          "packages/excalidraw/history.ts:191"
+        ]
+      },
+      "kind": "impact",
+      "label": "StoreChange.create",
+      "prompt": "List every place in production code (exclude tests) that references StoreChange.create, the method declared at packages/element/src/store.ts:440. Other symbols are also named create; do not include their uses. Write the answer as JSON to the answer file: {\"sites\": [\"path/to/file:line\", ...]}, one entry per referencing line, paths relative to the repository root.",
+      "symbol": "packages/element/src/store.ts:440:17"
+    },
+    {
+      "id": "excalidraw-rename",
+      "key": {
+        "must_change": [
+          "packages/common/src/binary-heap.ts:63",
+          "packages/common/tests/binary-heap.test.ts:33",
+          "packages/common/tests/binary-heap.test.ts:42",
+          "packages/common/tests/binary-heap.test.ts:49",
+          "packages/common/tests/binary-heap.test.ts:55",
+          "packages/common/tests/binary-heap.test.ts:63",
+          "packages/common/tests/binary-heap.test.ts:71",
+          "packages/common/tests/binary-heap.test.ts:81",
+          "packages/common/tests/binary-heap.test.ts:99",
+          "packages/element/src/elbowArrow.ts:1548",
+          "packages/element/src/elbowArrow.ts:1636"
+        ],
+        "must_keep": [
+          "packages/common/src/queue.ts:37",
+          "packages/common/tests/queue.test.ts:34",
+          "packages/common/tests/queue.test.ts:35",
+          "packages/common/tests/queue.test.ts:36",
+          "packages/common/tests/queue.test.ts:50",
+          "packages/common/tests/queue.test.ts:51",
+          "packages/common/tests/queue.test.ts:52",
+          "packages/excalidraw/data/library.ts:564",
+          "packages/excalidraw/data/library.ts:575",
+          "packages/excalidraw/history.ts:144",
+          "packages/excalidraw/history.ts:153",
+          "packages/excalidraw/history.ts:245"
+        ],
+        "new_name": "pushV2",
+        "old_name": "push"
+      },
+      "kind": "rename",
+      "label": "BinaryHeap.push",
+      "prompt": "Rename BinaryHeap.push, the method declared at packages/common/src/binary-heap.ts:63, to pushV2. Update every reference, tests included, so the project still builds. Other symbols named push must stay unchanged. When you are done, reply with a one-line summary.",
+      "symbol": "packages/common/src/binary-heap.ts:63:3"
+    }
+  ]
+}

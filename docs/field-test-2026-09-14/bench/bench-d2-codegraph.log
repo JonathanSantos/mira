@@ -1,0 +1,285 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: files ### CMD: --dirs-only ### CMD: --no-tests ### CMD: --depth ### CMD: 3 
+. files=249 symbols=784
+  app/ files=46 symbols=130
+    src/ files=45 symbols=130
+      welcome/ files=2 symbols=11
+  examples/ files=72 symbols=204
+    V6/ files=37 symbols=106
+      typescript/ files=5 symbols=22
+    V7/ files=35 symbols=98
+      typescript/ files=5 symbols=21
+  scripts/ files=18 symbols=46
+    README/ files=10 symbols=28
+      Previews/ files=4 symbols=3
+    jest/ files=2 symbols=4
+    rollup/ files=5 symbols=6
+  src/ files=111 symbols=404
+    logic/ files=33 symbols=104
+    types/ files=14 symbols=195
+      path/ files=3 symbols=49
+    utils/ files=46 symbols=62
+### STATUS: 0 BYTES: 589
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: onTouched ### CMD: --path ### CMD: src ### CMD: --no-tests ### CMD: --limit ### CMD: 30 
+src/constants.ts (2)
+    14: onTouched: 'onTouched',
+  s 14: onTouched: 'onTouched',
+src/logic/getValidationModes.ts (1)
+    9: isOnTouch: mode === VALIDATION_MODE.onTouched,
+src/types/form.ts (1)
+  s 124: reValidateMode: Exclude<Mode, 'onTouched' | 'all'>;
+4 hit(s) in 3 file(s)
+### STATUS: 0 BYTES: 279
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: reValidateMode ### CMD: --path ### CMD: src ### CMD: --no-tests ### CMD: --limit ### CMD: 30 
+src/logic/createFormControl.ts (3)
+    112: reValidateMode: VALIDATION_MODE.onChange,
+    202: let _validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
+    2256: _options.reValidateMode,
+src/logic/skipValidation.ts (3)
+    7: reValidateMode: Pick<ValidationModeFlags, 'isOnBlur' | 'isOnChange'>,
+    14: } else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
+    16: } else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
+src/types/form.ts (1)
+    124: reValidateMode: Exclude<Mode, 'onTouched' | 'all'>;
+src/useFieldArray.ts (1)
+    392: !getValidationModes(control._options.reValidateMode).isOnSubmit &&
+src/useForm.ts (3)
+    128: if (props.reValidateMode) {
+    129: control._options.reValidateMode = props.reValidateMode;
+    131: }, [control, props.mode, props.reValidateMode]);
+11 hit(s) in 5 file(s)
+### STATUS: 0 BYTES: 858
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: isSubmitted ### CMD: --path ### CMD: src/logic ### CMD: --no-tests ### CMD: --limit ### CMD: 30 
+src/logic/createFormControl.ts (5)
+    136: isSubmitted: false,
+    1206: _formState.isSubmitted,
+    1891: isSubmitted: true,
+    2075: isSubmitted: keepStateOptions.keepIsSubmitted
+    2076: ? _formState.isSubmitted
+src/logic/skipValidation.ts (4)
+    6: isSubmitted: boolean,
+    12: } else if (!isSubmitted && mode.isOnTouch) {
+    14: } else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
+    16: } else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
+9 hit(s) in 2 file(s)
+### STATUS: 0 BYTES: 509
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: VALIDATION_MODE ### CMD: --include-body ### CMD: --no-tests 
+VALIDATION_MODE variable src/constants.ts:10-16 [exported]
+  export const VALIDATION_MODE
+  10| export const VALIDATION_MODE = {
+  11|   onBlur: 'onBlur',
+  12|   onChange: 'onChange',
+  13|   onSubmit: 'onSubmit',
+  14|   onTouched: 'onTouched',
+  15|   all: 'all',
+  16| } as const;
+  callers (0):
+  callees (0):
+  referenced by:
+    defaultOptions variable src/logic/createFormControl.ts:110-114
+    createFormControl function src/logic/createFormControl.ts:145-2285
+    getProxyFormState function src/logic/getProxyFormState.ts:4-32
+    getValidationModes function src/logic/getValidationModes.ts:4-10
+    shouldRenderFormState function src/logic/shouldRenderFormState.ts:9-30
+    ValidationMode type src/types/form.ts:52-52
+    useFieldArray function src/useFieldArray.ts:61-548
+### STATUS: 0 BYTES: 783
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/skipValidation.ts ### CMD: 1 ### CMD: 25 
+src/logic/skipValidation.ts:1-20
+ 1| import type { ValidationModeFlags } from '../types';
+ 2| 
+ 3| export default (
+ 4|   isBlurEvent: boolean,
+ 5|   isTouched: boolean,
+ 6|   isSubmitted: boolean,
+ 7|   reValidateMode: Pick<ValidationModeFlags, 'isOnBlur' | 'isOnChange'>,
+ 8|   mode: Partial<ValidationModeFlags>,
+ 9| ) => {
+10|   if (mode.isOnAll) {
+11|     return false;
+12|   } else if (!isSubmitted && mode.isOnTouch) {
+13|     return !(isTouched || isBlurEvent);
+14|   } else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
+15|     return !isBlurEvent;
+16|   } else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
+17|     return isBlurEvent;
+18|   }
+19|   return true;
+20| };
+### STATUS: 0 BYTES: 712
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/getValidationModes.ts ### CMD: 1 ### CMD: 20 
+src/logic/getValidationModes.ts:1-10
+ 1| import { VALIDATION_MODE } from '../constants';
+ 2| import type { Mode, ValidationModeFlags } from '../types';
+ 3| 
+ 4| export default (mode?: Mode): ValidationModeFlags => ({
+ 5|   isOnSubmit: !mode || mode === VALIDATION_MODE.onSubmit,
+ 6|   isOnBlur: mode === VALIDATION_MODE.onBlur,
+ 7|   isOnChange: mode === VALIDATION_MODE.onChange,
+ 8|   isOnAll: mode === VALIDATION_MODE.all,
+ 9|   isOnTouch: mode === VALIDATION_MODE.onTouched,
+10| });
+### STATUS: 0 BYTES: 486
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 1185 ### CMD: 1230 
+src/logic/createFormControl.ts:1185-1230
+1185|     };
+1186| 
+1187|     if (field) {
+1188|       let error;
+1189|       let isValid;
+1190|       const fieldValue = target.type
+1191|         ? getFieldValue(field._f)
+1192|         : getEventValue(event);
+1193|       const isBlurEvent =
+1194|         event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
+1195|       const hasNoValidationEffect =
+1196|         !hasValidation(field._f) &&
+1197|         !props.validate &&
+1198|         !_options.resolver &&
+1199|         !get(_formState.errors, name) &&
+1200|         !field._f.deps;
+1201|       const shouldSkipValidation =
+1202|         hasNoValidationEffect ||
+1203|         skipValidation(
+1204|           isBlurEvent,
+1205|           get(_formState.touchedFields, name),
+1206|           _formState.isSubmitted,
+1207|           _validationModeAfterSubmit,
+1208|           _validationModeBeforeSubmit,
+1209|         );
+1210|       const watched = isWatched(name, _names, isBlurEvent);
+1211| 
+1212|       set(_formValues, name, cloneObject(fieldValue));
+1213| 
+1214|       if (isBlurEvent) {
+1215|         if (!target || !target.readOnly) {
+1216|           field._f.onBlur && field._f.onBlur(event);
+1217|           const pendingDelayError = delayErrorCallbacks[name];
+1218|           pendingDelayError && pendingDelayError(0);
+1219|         }
+1220|       } else if (field._f.onChange) {
+1221|         field._f.onChange(event);
+1222|       }
+1223| 
+1224|       const fieldState = updateTouchAndDirty(name, fieldValue, isBlurEvent);
+1225| 
+1226|       const shouldRender = !isEmptyObject(fieldState) || watched;
+1227| 
+1228|       !isBlurEvent &&
+1229|         _subjects.state.next({
+1230|           name,
+### STATUS: 0 BYTES: 1714
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 196 ### CMD: 206 
+src/logic/createFormControl.ts:196-206
+196|   };
+197|   const delayErrorCallbacks: Partial<Record<InternalFieldName, DelayCallback>> =
+198|     {};
+199|   const timers: Partial<Record<InternalFieldName, number>> = {};
+200|   let _valuesSubscriberCount = 0;
+201|   let _validationModeBeforeSubmit = getValidationModes(_options.mode);
+202|   let _validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
+203|   const defaultProxyFormState: ReadFormState = {
+204|     isDirty: false,
+205|     dirtyFields: false,
+206|     validatingFields: false,
+### STATUS: 0 BYTES: 559
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 108 ### CMD: 116 
+src/logic/createFormControl.ts:108-116
+108| import validateField from './validateField';
+109| 
+110| const defaultOptions = {
+111|   mode: VALIDATION_MODE.onSubmit,
+112|   reValidateMode: VALIDATION_MODE.onChange,
+113|   shouldFocusError: true,
+114| } as const;
+115| 
+116| const FORM_ERROR_TYPE = 'form';
+### STATUS: 0 BYTES: 303
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Mode ### CMD: --path ### CMD: src/types ### CMD: --include-body ### CMD: --no-tests 
+Mode type src/types/form.ts:54-54 [exported]
+  export type Mode
+  54| export type Mode = keyof ValidationMode;
+  callers (0):
+  callees (0):
+  referenced by:
+    getValidationModes function src/logic/getValidationModes.ts:4-10
+    UseFormProps type src/types/form.ts:117-142
+### STATUS: 0 BYTES: 274
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/types/form.ts ### CMD: 118 ### CMD: 126 
+src/types/form.ts:118-126
+118|   TFieldValues extends FieldValues = FieldValues,
+119|   TContext = any,
+120|   TTransformedValues = TFieldValues,
+121| > = Partial<{
+122|   mode: Mode;
+123|   disabled: boolean;
+124|   reValidateMode: Exclude<Mode, 'onTouched' | 'all'>;
+125|   defaultValues: DefaultValues<TFieldValues> | AsyncDefaultValues<TFieldValues>;
+126|   values: TFieldValues;
+### STATUS: 0 BYTES: 383
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/useForm.ts ### CMD: 120 ### CMD: 132 
+src/useForm.ts:120-132
+120|     () => control._disableForm(props.disabled),
+121|     [control, props.disabled],
+122|   );
+123| 
+124|   React.useEffect(() => {
+125|     if (props.mode) {
+126|       control._options.mode = props.mode;
+127|     }
+128|     if (props.reValidateMode) {
+129|       control._options.reValidateMode = props.reValidateMode;
+130|     }
+131|   }, [control, props.mode, props.reValidateMode]);
+132| 
+### STATUS: 0 BYTES: 420
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/types/form.ts ### CMD: 50 ### CMD: 64 
+src/types/form.ts:50-64
+50| export type InternalNameSet = Set<InternalFieldName>;
+51| 
+52| export type ValidationMode = typeof VALIDATION_MODE;
+53| 
+54| export type Mode = keyof ValidationMode;
+55| 
+56| export type ValidationModeFlags = {
+57|   isOnSubmit: boolean;
+58|   isOnBlur: boolean;
+59|   isOnChange: boolean;
+60|   isOnAll: boolean;
+61|   isOnTouch: boolean;
+62| };
+63| 
+64| export type CriteriaMode = 'firstError' | 'all';
+### STATUS: 0 BYTES: 432
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 2248 ### CMD: 2262 
+src/logic/createFormControl.ts:2248-2262
+2248|       },
+2249|       set _options(value) {
+2250|         _options = {
+2251|           ..._options,
+2252|           ...value,
+2253|         };
+2254|         _validationModeBeforeSubmit = getValidationModes(_options.mode);
+2255|         _validationModeAfterSubmit = getValidationModes(
+2256|           _options.reValidateMode,
+2257|         );
+2258|         shouldDisplayAllAssociatedErrors =
+2259|           _options.criteriaMode === VALIDATION_MODE.all;
+2260|       },
+2261|     },
+2262|     subscribe,
+### STATUS: 0 BYTES: 549
+

@@ -1,0 +1,398 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: VisitController ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.VisitController class src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:42-114
+  @Controller
+  class VisitController
+  42| @Controller
+  43| class VisitController {
+  44| 
+  45| 	private final OwnerRepository owners;
+  46| 
+  47| 	public VisitController(OwnerRepository owners) {
+  48| 		this.owners = owners;
+  49| 	}
+  … 65 more lines: include-body, skeleton, or snippet 50-114
+  callers (0):
+  callees (0):
+
+org.springframework.samples.petclinic.owner.VisitController.VisitController constructor src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:47-49 [exported]
+  public VisitController(OwnerRepository owners)
+  47| 	public VisitController(OwnerRepository owners) {
+  48| 		this.owners = owners;
+  49| 	}
+  callers (0):
+  callees (0):
+### STATUS: 0 BYTES: 843
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/VisitController.java ### CMD: 50 ### CMD: 114 
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:50-114
+ 50| 
+ 51| 	@InitBinder
+ 52| 	public void setAllowedFields(WebDataBinder dataBinder) {
+ 53| 		dataBinder.setDisallowedFields("id", "*.id");
+ 54| 	}
+ 55| 
+ 56| 	/**
+ 57| 	 * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure
+ 58| 	 * we always have fresh data - Since we do not use the session scope, make sure that
+ 59| 	 * Pet object always has an id (Even though id is not part of the form fields)
+ 60| 	 * @param petId
+ 61| 	 * @return Pet
+ 62| 	 */
+ 63| 	@ModelAttribute("visit")
+ 64| 	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+ 65| 			Map<String, Object> model) {
+ 66| 		Optional<Owner> optionalOwner = owners.findById(ownerId);
+ 67| 		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+ 68| 				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+ 69| 
+ 70| 		Pet pet = owner.getPet(petId);
+ 71| 		if (pet == null) {
+ 72| 			throw new IllegalArgumentException(
+ 73| 					"Pet with id " + petId + " not found for owner with id " + ownerId + ".");
+ 74| 		}
+ 75| 		model.put("pet", pet);
+ 76| 		model.put("owner", owner);
+ 77| 
+ 78| 		Visit visit = new Visit();
+ 79| 		pet.addVisit(visit);
+ 80| 		return visit;
+ 81| 	}
+ 82| 
+ 83| 	@ModelAttribute("minVisitDate")
+ 84| 	public LocalDate minVisitDate() {
+ 85| 		return LocalDate.now().plusDays(1);
+ 86| 	}
+ 87| 
+ 88| 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+ 89| 	// called
+ 90| 	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 91| 	public String initNewVisitForm() {
+ 92| 		return "pets/createOrUpdateVisitForm";
+ 93| 	}
+ 94| 
+ 95| 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
+ 96| 	// called
+ 97| 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 98| 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+ 99| 			BindingResult result, RedirectAttributes redirectAttributes) {
+100| 		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+101| 			result.rejectValue("date", "typeMismatch.visitDate");
+102| 		}
+103| 
+104| 		if (result.hasErrors()) {
+105| 			return "pets/createOrUpdateVisitForm";
+106| 		}
+107| 
+108| 		owner.addVisit(petId, visit);
+109| 		this.owners.save(owner);
+110| 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+111| 		return "redirect:/owners/{ownerId}";
+112| 	}
+113| 
+114| }
+### STATUS: 0 BYTES: 2581
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.addVisit ### CMD: Owner.getPet ### CMD: --no-tests 
+codegraph: accepts 1 arg(s), received 2
+### STATUS: 1 BYTES: 39
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.addVisit ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183 [exported]
+  public void addVisit(Integer petId, Visit visit)
+  173| 	public void addVisit(Integer petId, Visit visit) {
+  174| 
+  175| 		Assert.notNull(petId, "Pet identifier must not be null!");
+  176| 		Assert.notNull(visit, "Visit must not be null!");
+  177| 
+  178| 		Pet pet = getPet(petId);
+  179| 
+  180| 		Assert.notNull(pet, "Invalid Pet identifier!");
+  181| 
+  182| 		pet.addVisit(visit);
+  183| 	}
+  callers (1):
+    org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:97-112
+  callees (2):
+    org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126-136
+    org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+### STATUS: 0 BYTES: 1046
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.getPet ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:117-119 [exported]
+  public Pet getPet(String name)
+  117| 	public Pet getPet(String name) {
+  118| 		return getPet(name, false);
+  119| 	}
+  callers (0):
+  callees (1):
+    org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144-154
+
+org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126-136 [exported]
+  public Pet getPet(Integer id)
+  126| 	public Pet getPet(Integer id) {
+  127| 		for (Pet pet : getPets()) {
+  128| 			if (!pet.isNew()) {
+  129| 				Integer compId = pet.getId();
+  130| 				if (Objects.equals(compId, id)) {
+  131| 					return pet;
+  132| 				}
+  133| 			}
+  134| 		}
+  135| 		return null;
+  136| 	}
+  callers (4):
+    org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183
+    org.springframework.samples.petclinic.owner.PetController.findPet method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:75-87
+    org.springframework.samples.petclinic.owner.PetController.updatePetDetails method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:186-200
+    org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:63-81
+  callees (3):
+    org.springframework.samples.petclinic.model.BaseEntity.getId method src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:39-41
+    org.springframework.samples.petclinic.model.BaseEntity.isNew method src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:47-49
+    org.springframework.samples.petclinic.owner.Owner.getPets method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:93-95
+
+org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144-154 [exported]
+  public Pet getPet(String name, boolean ignoreNew)
+  144| 	public Pet getPet(String name, boolean ignoreNew) {
+  145| 		for (Pet pet : getPets()) {
+  146| 			String compName = pet.getName();
+  147| 			if (compName != null && compName.equalsIgnoreCase(name)) {
+  148| 				if (!ignoreNew || !pet.isNew()) {
+  149| 					return pet;
+  150| 				}
+  151| 			}
+  152| 		}
+  153| 		return null;
+  154| 	}
+  callers (3):
+    org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:117-119
+    org.springframework.samples.petclinic.owner.PetController.processCreationForm method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:107-137
+    org.springframework.samples.petclinic.owner.PetController.processUpdateForm method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:144-179
+  callees (3):
+    org.springframework.samples.petclinic.model.BaseEntity.isNew method src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:47-49
+    org.springframework.samples.petclinic.model.NamedEntity.getName method src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java:37-39
+    org.springframework.samples.petclinic.owner.Owner.getPets method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:93-95
+### STATUS: 0 BYTES: 3570
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Pet.addVisit ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83 [exported]
+  public void addVisit(Visit visit)
+  81| 	public void addVisit(Visit visit) {
+  82| 		getVisits().add(visit);
+  83| 	}
+  callers (2):
+    org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183
+    org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:63-81
+  callees (1):
+    org.springframework.samples.petclinic.owner.Pet.getVisits method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:77-79
+### STATUS: 0 BYTES: 759
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Visit ### CMD: --kind ### CMD: class ### CMD: --no-tests ### CMD: --include-body 
+org.springframework.samples.petclinic.owner.Visit class src/main/java/org/springframework/samples/petclinic/owner/Visit.java:34-68 [exported]
+  @Entity
+  @Table(name = "visits")
+  public class Visit extends BaseEntity
+  34| @Entity
+  35| @Table(name = "visits")
+  36| public class Visit extends BaseEntity {
+  37| 
+  38| 	@Column(name = "visit_date")
+  39| 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+  40| 	private LocalDate date;
+  41| 
+  42| 	@NotBlank
+  43| 	private String description;
+  44| 
+  45| 	/**
+  46| 	 * Creates a new instance of Visit for tomorrow
+  47| 	 */
+  48| 	public Visit() {
+  49| 		this.date = LocalDate.now().plusDays(1);
+  50| 	}
+  51| 
+  52| 	public LocalDate getDate() {
+  53| 		return this.date;
+  54| 	}
+  55| 
+  56| 	public void setDate(LocalDate date) {
+  57| 		this.date = date;
+  58| 	}
+  59| 
+  60| 	public String getDescription() {
+  61| 		return this.description;
+  62| 	}
+  63| 
+  64| 	public void setDescription(String description) {
+  65| 		this.description = description;
+  66| 	}
+  67| 
+  68| }
+  callers (1):
+    org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:63-81
+  callees (0):
+  referenced by:
+    org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183
+    org.springframework.samples.petclinic.owner.Pet.visits field src/main/java/org/springframework/samples/petclinic/owner/Pet.java:56-59
+    org.springframework.samples.petclinic.owner.Pet.getVisits method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:77-79
+    org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+    org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:97-112
+  extends:
+    org.springframework.samples.petclinic.model.BaseEntity class src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:32-51
+### STATUS: 0 BYTES: 2155
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: OwnerRepository ### CMD: --no-tests ### CMD: --include-body 
+org.springframework.samples.petclinic.owner.OwnerRepository interface src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java:36-62 [exported]
+  public interface OwnerRepository extends JpaRepository<Owner, Integer>
+  36| public interface OwnerRepository extends JpaRepository<Owner, Integer> {
+  37| 
+  38| 	/**
+  39| 	 * Retrieve {@link Owner}s from the data store by last name, returning all owners
+  40| 	 * whose last name <i>starts</i> with the given name.
+  41| 	 * @param lastName Value to search for
+  42| 	 * @return a Collection of matching {@link Owner}s (or an empty Collection if none
+  43| 	 * found)
+  44| 	 */
+  45| 	Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable);
+  46| 
+  47| 	/**
+  48| 	 * Retrieve an {@link Owner} from the data store by id.
+  49| 	 * <p>
+  50| 	 * This method returns an {@link Optional} containing the {@link Owner} if found. If
+  51| 	 * no {@link Owner} is found with the provided id, it will return an empty
+  52| 	 * {@link Optional}.
+  53| 	 * </p>
+  54| 	 * @param id the id to search for
+  55| 	 * @return an {@link Optional} containing the {@link Owner} if found, or an empty
+  56| 	 * {@link Optional} if not found.
+  57| 	 * @throws IllegalArgumentException if the id is null (assuming null is not a valid
+  58| 	 * input for id)
+  59| 	 */
+  60| 	Optional<Owner> findById(Integer id);
+  61| 
+  62| }
+  callers (0):
+  callees (0):
+  referenced by:
+    org.springframework.samples.petclinic.owner.OwnerController.owners field src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:53-53
+    org.springframework.samples.petclinic.owner.OwnerController.OwnerController constructor src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:55-57
+    org.springframework.samples.petclinic.owner.PetController.owners field src/main/java/org/springframework/samples/petclinic/owner/PetController.java:53-53
+    org.springframework.samples.petclinic.owner.PetController.PetController constructor src/main/java/org/springframework/samples/petclinic/owner/PetController.java:57-60
+    org.springframework.samples.petclinic.owner.VisitController.owners field src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:45-45
+    org.springframework.samples.petclinic.owner.VisitController.VisitController constructor src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:47-49
+### STATUS: 0 BYTES: 2455
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Pet.visits ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.Pet.visits field src/main/java/org/springframework/samples/petclinic/owner/Pet.java:56-59
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "pet_id")
+  @OrderBy("date ASC")
+  private final Set<Visit> visits
+  56| 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  57| 	@JoinColumn(name = "pet_id")
+  58| 	@OrderBy("date ASC")
+  59| 	private final Set<Visit> visits = new LinkedHashSet<>();
+  callers (0):
+  callees (0):
+  referenced by:
+    org.springframework.samples.petclinic.owner.Pet.getVisits method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:77-79
+### STATUS: 0 BYTES: 673
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.pets ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.Owner.pets field src/main/java/org/springframework/samples/petclinic/owner/Owner.java:64-67
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "owner_id")
+  @OrderBy("name")
+  private final List<Pet> pets
+  64| 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  65| 	@JoinColumn(name = "owner_id")
+  66| 	@OrderBy("name")
+  67| 	private final List<Pet> pets = new ArrayList<>();
+  callers (0):
+  callees (0):
+  referenced by:
+    org.springframework.samples.petclinic.owner.Owner.getPets method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:93-95
+### STATUS: 0 BYTES: 663
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: BaseEntity ### CMD: --kind ### CMD: class ### CMD: --no-tests ### CMD: --include-body 
+org.springframework.samples.petclinic.model.BaseEntity class src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:32-51 [exported]
+  @MappedSuperclass
+  public class BaseEntity implements Serializable
+  32| @MappedSuperclass
+  33| public class BaseEntity implements Serializable {
+  34| 
+  35| 	@Id
+  36| 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+  37| 	private Integer id;
+  38| 
+  39| 	public Integer getId() {
+  40| 		return id;
+  41| 	}
+  42| 
+  43| 	public void setId(Integer id) {
+  44| 		this.id = id;
+  45| 	}
+  46| 
+  47| 	public boolean isNew() {
+  48| 		return this.id == null;
+  49| 	}
+  50| 
+  51| }
+  callers (0):
+  callees (0):
+  referenced by:
+    org.springframework.samples.petclinic.PetClinicRuntimeHints.registerHints method src/main/java/org/springframework/samples/petclinic/PetClinicRuntimeHints.java:27-36
+  extended by:
+    org.springframework.samples.petclinic.model.NamedEntity class src/main/java/org/springframework/samples/petclinic/model/NamedEntity.java:30-51
+    org.springframework.samples.petclinic.model.Person class src/main/java/org/springframework/samples/petclinic/model/Person.java:28-57
+    org.springframework.samples.petclinic.owner.Visit class src/main/java/org/springframework/samples/petclinic/owner/Visit.java:34-68
+### STATUS: 0 BYTES: 1295
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Pet.getVisits ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.Pet.getVisits method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:77-79 [exported]
+  public Collection<Visit> getVisits()
+  77| 	public Collection<Visit> getVisits() {
+  78| 		return this.visits;
+  79| 	}
+  callers (1):
+    org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+  callees (0):
+### STATUS: 0 BYTES: 441
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: Validator ### CMD: --no-tests ### CMD: --limit ### CMD: 20 
+src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java (2)
+    20: import org.springframework.validation.Validator;
+    32: public class PetValidator implements Validator {
+2 hit(s) in 1 file(s)
+### STATUS: 0 BYTES: 215
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: PetValidator ### CMD: --no-tests 
+refs PetValidator: 1 total (resolved 1) by kind (new 1)
+targets:
+  org.springframework.samples.petclinic.owner.PetValidator class src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java:32-69
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (1)
+  96 [new] in PetController.initPetBinder:94-98: dataBinder.setValidator(new PetValidator());
+### STATUS: 0 BYTES: 386
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: PetValidator.supports ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.PetValidator.supports method src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java:64-67 [exported]
+  @Override
+  public boolean supports(Class<?> clazz)
+  64| 	@Override
+  65| 	public boolean supports(Class<?> clazz) {
+  66| 		return Pet.class.isAssignableFrom(clazz);
+  67| 	}
+  callers (0):
+  callees (0):
+### STATUS: 0 BYTES: 374
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: visits/new ### CMD: --no-tests ### CMD: --limit ### CMD: 20 
+0 hit(s) in 0 file(s)
+no identifier matches; try --regex for free text, or resolve for a symbol name
+### STATUS: 0 BYTES: 100
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: visits/new ### CMD: --regex ### CMD: --no-tests ### CMD: --limit ### CMD: 20 
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (2)
+    90: @GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+    97: @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+2 hit(s) in 1 file(s)
+### STATUS: 0 BYTES: 235
+

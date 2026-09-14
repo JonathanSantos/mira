@@ -1,0 +1,13 @@
+{
+  "repo": "excalidraw",
+  "files": 813,
+  "note": "Measured on a copy of the benchmark clone. before: the binary before the reindex and edit fixes; after: the current binary.",
+  "scenarios": [
+    {"name": "index --full over an existing index", "before_s": 186.5, "after_s": 9.0},
+    {"name": "fresh index", "before_s": 24.1, "after_s": 8.8},
+    {"name": "query with an up-to-date index", "before_s": 9.9, "after_s": 0.015},
+    {"name": "edit inside App.tsx (12k lines)", "before_s": 17.9, "after_s": 1.2},
+    {"name": "edit inside a small file", "before_s": 10.1, "after_s": 0.055},
+    {"name": "file gains an exported function", "before_s": 10.1, "after_s": 0.055}
+  ]
+}

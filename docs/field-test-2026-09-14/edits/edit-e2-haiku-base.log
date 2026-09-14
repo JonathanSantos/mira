@@ -1,0 +1,493 @@
+### CMD: find ### CMD: $SCRATCH/edit/e2-haiku-base ### CMD: -type ### CMD: f ### CMD: -name ### CMD: \*.go 
+
+### STATUS: 0 BYTES: 0
+
+### CMD: ls ### CMD: -la ### CMD: $SCRATCH/edit/e2-haiku-base 
+total 216
+drwxr-xr-x@ 24 user  wheel    768 Sep 14 10:01 .
+drwxr-xr-x@ 14 user  wheel    448 Sep 14 11:50 ..
+drwxr-xr-x@  4 user  wheel    128 Sep 14 11:50 .codegraph
+drwxr-xr-x@  4 user  wheel    128 Sep 14 01:05 .devcontainer
+-rw-r--r--@  1 user  wheel    344 Sep 14 01:05 .editorconfig
+drwxr-xr-x@ 13 user  wheel    416 Sep 14 11:50 .git
+-rw-r--r--@  1 user  wheel    145 Sep 14 01:05 .gitattributes
+drwxr-xr-x@  4 user  wheel    128 Sep 14 01:05 .github
+-rw-r--r--@  1 user  wheel    598 Sep 14 01:05 .gitignore
+-rw-r--r--@  1 user  wheel    287 Sep 14 01:05 .gitpod.yml
+drwxr-xr-x@  3 user  wheel     96 Sep 14 01:05 .mvn
+-rw-r--r--@  1 user  wheel  11360 Sep 14 01:05 LICENSE.txt
+-rw-r--r--@  1 user  wheel  10547 Sep 14 01:05 README.md
+-rw-r--r--@  1 user  wheel   3382 Sep 14 01:05 build.gradle
+-rw-r--r--@  1 user  wheel    488 Sep 14 01:05 docker-compose.yml
+drwxr-xr-x@  3 user  wheel     96 Sep 14 01:05 gradle
+-rwxr-xr-x@  1 user  wheel   8654 Sep 14 01:05 gradlew
+-rw-r--r--@  1 user  wheel   2846 Sep 14 01:05 gradlew.bat
+drwxr-xr-x@  4 user  wheel    128 Sep 14 01:05 k8s
+-rwxr-xr-x@  1 user  wheel  11791 Sep 14 01:05 mvnw
+-rw-r--r--@  1 user  wheel   8482 Sep 14 01:05 mvnw.cmd
+-rw-r--r--@  1 user  wheel  15955 Sep 14 01:05 pom.xml
+-rw-r--r--@  1 user  wheel     38 Sep 14 01:05 settings.gradle
+drwxr-xr-x@  5 user  wheel    160 Sep 14 01:05 src
+### STATUS: 0 BYTES: 1364
+
+### CMD: find ### CMD: $SCRATCH/edit/e2-haiku-base/src ### CMD: -type ### CMD: f ### CMD: -name ### CMD: \*isit\* 
+$SCRATCH/edit/e2-haiku-base/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+$SCRATCH/edit/e2-haiku-base/src/main/resources/templates/pets/createOrUpdateVisitForm.html
+$SCRATCH/edit/e2-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+$SCRATCH/edit/e2-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Visit.java
+### STATUS: 0 BYTES: 826
+
+### CMD: find ### CMD: $SCRATCH/edit/e2-haiku-base/src ### CMD: -type ### CMD: f ### CMD: -name ### CMD: \*.properties 
+$SCRATCH/edit/e2-haiku-base/src/main/resources/application-postgres.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_de.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_ko.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_fa.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_en.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_ja.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_pt.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_es.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_hi.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_tr.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_ru.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/application.properties
+$SCRATCH/edit/e2-haiku-base/src/main/resources/application-mysql.properties
+### STATUS: 0 BYTES: 2560
+
+### CMD: grep ### CMD: -rn ### CMD: future\\\|futuro ### CMD: $SCRATCH/edit/e2-haiku-base/src/main/resources/messages/ 
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages_pt.properties:9:typeMismatch.visitDate=A data da visita deve estar no futuro
+$SCRATCH/edit/e2-haiku-base/src/main/resources/messages/messages.properties:9:typeMismatch.visitDate=Visit date must be in the future
+### STATUS: 0 BYTES: 485
+
+### CMD: cat ### CMD: $SCRATCH/edit/e2-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Visit.java 
+/*
+ * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.springframework.samples.petclinic.owner;
+
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.model.BaseEntity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+
+/**
+ * Simple JavaBean domain object representing a visit.
+ *
+ * @author Ken Krebs
+ * @author Dave Syer
+ */
+@Entity
+@Table(name = "visits")
+public class Visit extends BaseEntity {
+
+	@Column(name = "visit_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate date;
+
+	@NotBlank
+	private String description;
+
+	/**
+	 * Creates a new instance of Visit for tomorrow
+	 */
+	public Visit() {
+		this.date = LocalDate.now().plusDays(1);
+	}
+
+	public LocalDate getDate() {
+		return this.date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+}
+### STATUS: 0 BYTES: 1697
+
+### CMD: cat ### CMD: $SCRATCH/edit/e2-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java 
+/*
+ * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.springframework.samples.petclinic.owner;
+
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+/**
+ * @author Juergen Hoeller
+ * @author Ken Krebs
+ * @author Arjen Poutsma
+ * @author Michael Isvy
+ * @author Dave Syer
+ * @author Wick Dynex
+ */
+@Controller
+class VisitController {
+
+	private final OwnerRepository owners;
+
+	public VisitController(OwnerRepository owners) {
+		this.owners = owners;
+	}
+
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		dataBinder.setDisallowedFields("id", "*.id");
+	}
+
+	/**
+	 * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure
+	 * we always have fresh data - Since we do not use the session scope, make sure that
+	 * Pet object always has an id (Even though id is not part of the form fields)
+	 * @param petId
+	 * @return Pet
+	 */
+	@ModelAttribute("visit")
+	public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+			Map<String, Object> model) {
+		Optional<Owner> optionalOwner = owners.findById(ownerId);
+		Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+				"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+
+		Pet pet = owner.getPet(petId);
+		if (pet == null) {
+			throw new IllegalArgumentException(
+					"Pet with id " + petId + " not found for owner with id " + ownerId + ".");
+		}
+		model.put("pet", pet);
+		model.put("owner", owner);
+
+		Visit visit = new Visit();
+		pet.addVisit(visit);
+		return visit;
+	}
+
+	@ModelAttribute("minVisitDate")
+	public LocalDate minVisitDate() {
+		return LocalDate.now().plusDays(1);
+	}
+
+	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+	// called
+	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+	public String initNewVisitForm() {
+		return "pets/createOrUpdateVisitForm";
+	}
+
+	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
+	// called
+	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+			BindingResult result, RedirectAttributes redirectAttributes) {
+		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+			result.rejectValue("date", "typeMismatch.visitDate");
+		}
+
+		if (result.hasErrors()) {
+			return "pets/createOrUpdateVisitForm";
+		}
+
+		owner.addVisit(petId, visit);
+		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+		return "redirect:/owners/{ownerId}";
+	}
+
+}
+### STATUS: 0 BYTES: 3788
+
+### CMD: cat ### CMD: $SCRATCH/edit/e2-haiku-base/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java 
+/*
+ * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.springframework.samples.petclinic.owner;
+
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledInNativeImage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.context.aot.DisabledInAotMode;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+/**
+ * Test class for {@link VisitController}
+ *
+ * @author Colin But
+ * @author Wick Dynex
+ */
+@WebMvcTest(VisitController.class)
+@DisabledInNativeImage
+@DisabledInAotMode
+class VisitControllerTests {
+
+	private static final int TEST_OWNER_ID = 1;
+
+	private static final int TEST_PET_ID = 1;
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@MockitoBean
+	private OwnerRepository owners;
+
+	@BeforeEach
+	void init() {
+		Owner owner = new Owner();
+		Pet pet = new Pet();
+		owner.addPet(pet);
+		pet.setId(TEST_PET_ID);
+		given(this.owners.findById(TEST_OWNER_ID)).willReturn(Optional.of(owner));
+	}
+
+	@Test
+	void initNewVisitForm() throws Exception {
+		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+	}
+
+	@Test
+	void processNewVisitFormSuccess() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+				.param("name", "George")
+				.param("date", LocalDate.now().plusDays(1).toString())
+				.param("description", "Visit Description"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/owners/{ownerId}"));
+	}
+
+	@Test
+	void processNewVisitFormHasErrors() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID).param("name",
+					"George"))
+			.andExpect(model().attributeHasErrors("visit"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+	}
+
+	@Test
+	void processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+				.param("name", "George")
+				.param("date", LocalDate.now().toString())
+				.param("description", "Visit Description"))
+			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+	}
+
+}
+### STATUS: 0 BYTES: 3814
+
+### CMD: cat ### CMD: $SCRATCH/edit/e2-haiku-base/src/main/resources/templates/pets/createOrUpdateVisitForm.html 
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+  <h2>
+    <th:block th:if="${visit['new']}" th:text="#{new}">New </th:block>
+    Visit
+  </h2>
+
+  <b th:text="#{pet}">Pet</b>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th th:text="#{name}">Name</th>
+        <th th:text="#{birthDate}">Birth Date</th>
+        <th th:text="#{type}">Type</th>
+        <th th:text="#{owner}">Owner</th>
+      </tr>
+    </thead>
+    <tr>
+      <td th:text="${pet.name}"></td>
+      <td th:text="${#temporals.format(pet.birthDate, 'yyyy-MM-dd')}"></td>
+      <td th:text="${pet.type}"></td>
+      <td th:text="${owner?.firstName + ' ' + owner?.lastName}"></td>
+    </tr>
+  </table>
+
+  <form th:object="${visit}" class="form-horizontal" method="post">
+    <div class="form-group has-feedback">
+      <input th:replace="~{fragments/inputField :: input ('Date', 'date', 'date')}" />
+      <input th:replace="~{fragments/inputField :: input ('Description', 'description', 'text')}" />
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="hidden" name="petId" th:value="${pet.id}" />
+        <button class="btn btn-primary" type="submit" th:text="#{addVisit}">Add Visit</button>
+      </div>
+    </div>
+  </form>
+
+  <br />
+  <b th:text="#{previousVisits}">Previous Visits</b>
+  <table class="table table-striped">
+    <tr>
+      <th th:text="#{date}">Date</th>
+      <th th:text="#{description}">Description</th>
+    </tr>
+    <tr th:if="${!visit['new']}" th:each="visit : ${pet.visits}">
+      <td th:text="${#temporals.format(visit.date, 'yyyy-MM-dd')}"></td>
+      <td th:text=" ${visit.description}"></td>
+    </tr>
+  </table>
+
+</body>
+
+</html>
+### STATUS: 0 BYTES: 1788
+
+### CMD: grep ### CMD: -rn ### CMD: minVisitDate ### CMD: $SCRATCH/edit/e2-haiku-base/src 
+$SCRATCH/edit/e2-haiku-base/src/main/resources/templates/fragments/inputField.html:14:            <input th:case="'date'" class="form-control" type="date" th:field="*{__${name}__}" th:min="${minVisitDate}" />
+$SCRATCH/edit/e2-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:83:	@ModelAttribute("minVisitDate")
+$SCRATCH/edit/e2-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:84:	public LocalDate minVisitDate() {
+### STATUS: 0 BYTES: 811
+
+### CMD: git ### CMD: -C ### CMD: $SCRATCH/edit/e2-haiku-base ### CMD: diff 
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+index b8b2700..de3e3b8 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+@@ -82,7 +82,7 @@ class VisitController {
+ 
+ 	@ModelAttribute("minVisitDate")
+ 	public LocalDate minVisitDate() {
+-		return LocalDate.now().plusDays(1);
++		return LocalDate.now();
+ 	}
+ 
+ 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+@@ -97,7 +97,7 @@ class VisitController {
+ 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+ 			BindingResult result, RedirectAttributes redirectAttributes) {
+-		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
++		if (visit.getDate() != null && visit.getDate().isBefore(LocalDate.now())) {
+ 			result.rejectValue("date", "typeMismatch.visitDate");
+ 		}
+ 
+diff --git a/src/main/resources/messages/messages.properties b/src/main/resources/messages/messages.properties
+index 070c9f0..2b90ef0 100644
+--- a/src/main/resources/messages/messages.properties
++++ b/src/main/resources/messages/messages.properties
+@@ -6,7 +6,7 @@ nonNumeric=must be all numeric
+ duplicateFormSubmission=Duplicate form submission is not allowed
+ typeMismatch.date=invalid date
+ typeMismatch.birthDate=invalid date
+-typeMismatch.visitDate=Visit date must be in the future
++typeMismatch.visitDate=Visit date cannot be in the past
+ owner=Owner
+ firstName=First Name
+ lastName=Last Name
+diff --git a/src/main/resources/messages/messages_pt.properties b/src/main/resources/messages/messages_pt.properties
+index c2efd77..ec291bc 100644
+--- a/src/main/resources/messages/messages_pt.properties
++++ b/src/main/resources/messages/messages_pt.properties
+@@ -6,7 +6,7 @@ nonNumeric=Deve ser tudo numerico
+ duplicateFormSubmission=O envio duplicado de formulario nao e permitido
+ typeMismatch.date=Data invalida
+ typeMismatch.birthDate=Data de nascimento invalida
+-typeMismatch.visitDate=A data da visita deve estar no futuro
++typeMismatch.visitDate=A data da visita não pode estar no passado
+ owner=Proprietário
+ firstName=Primeiro Nome
+ lastName=Sobrenome
+diff --git a/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java b/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+index b608caa..91657e7 100644
+--- a/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
++++ b/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java
+@@ -98,7 +98,7 @@ class VisitControllerTests {
+ 		mockMvc
+ 			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+ 				.param("name", "George")
+-				.param("date", LocalDate.now().toString())
++				.param("date", LocalDate.now().minusDays(1).toString())
+ 				.param("description", "Visit Description"))
+ 			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+ 			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+### STATUS: 0 BYTES: 3292
+

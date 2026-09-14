@@ -1,0 +1,161 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: files ### CMD: --dirs-only 
+src files=50 symbols=318
+  petclinic/ files=30 symbols=143
+    model/ files=4 symbols=17
+    owner/ files=12 symbols=91
+    system/ files=5 symbols=11
+    vet/ files=6 symbols=20
+  petclinic/ files=20 symbols=175
+    model/ files=1 symbols=5
+    owner/ files=6 symbols=82
+    service/ files=2 symbols=19
+    system/ files=4 symbols=21
+    vet/ files=2 symbols=10
+### STATUS: 0 BYTES: 362
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: addPet ### CMD: --no-tests 
+refs addPet: 3 total (resolved 3) by kind (method 3)
+targets:
+  org.springframework.samples.petclinic.owner.Owner.addPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:97-110
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (3)
+  103 [method] owner.addPet(pet);
+  125 [method] owner.addPet(pet);
+  197 [method] owner.addPet(pet);
+### STATUS: 0 BYTES: 386
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: addVisit ### CMD: --no-tests 
+refs addVisit: 3 total (resolved 3) by kind (method 3)
+targets:
+  org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+  org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183
+src/main/java/org/springframework/samples/petclinic/owner/Owner.java (1)
+  182 [method -> org.springframework.samples.petclinic.owner.Pet.addVisit] pet.addVisit(visit);
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (2)
+  79 [method -> org.springframework.samples.petclinic.owner.Pet.addVisit] pet.addVisit(visit);
+  108 [method -> org.springframework.samples.petclinic.owner.Owner.addVisit] owner.addVisit(petId, visit);
+### STATUS: 0 BYTES: 801
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: symbols ### CMD: src/main/java/org/springframework/samples/petclinic/owner/PetController.java ### CMD: --compact 
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (16 symbols)
+47-207 class PetController
+  51-51 field VIEWS_PETS_CREATE_OR_UPDATE_FORM
+  53-53 field owners
+  55-55 field types
+  57-60 constructor PetController [exported]
+  62-65 method populatePetTypes [exported]
+  67-73 method findOwner [exported]
+  75-87 method findPet [exported]
+  89-92 method initOwnerBinder [exported]
+  94-98 method initPetBinder [exported]
+  100-105 method initCreationForm [exported]
+  107-137 method processCreationForm [exported]
+  139-142 method initUpdateForm [exported]
+  144-179 method processUpdateForm [exported]
+  186-200 method updatePetDetails
+  202-205 method isDuplicatePetNameViolation
+### STATUS: 0 BYTES: 705
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: symbols ### CMD: src/main/java/org/springframework/samples/petclinic/owner/VisitController.java ### CMD: --compact 
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (8 symbols)
+42-114 class VisitController
+  45-45 field owners
+  47-49 constructor VisitController [exported]
+  51-54 method setAllowedFields [exported]
+  63-81 method loadPetWithVisit [exported]
+  83-86 method minVisitDate [exported]
+  90-93 method initNewVisitForm [exported]
+  97-112 method processNewVisitForm [exported]
+### STATUS: 0 BYTES: 402
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.addPet 
+org.springframework.samples.petclinic.owner.Owner.addPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:97-110 [exported]
+  public void addPet(Pet pet)
+  | 	public void addPet(Pet pet) {
+  | 		if (pet == null) {
+  | 			return;
+  | 		}
+  | 		if (getPets().contains(pet)) {
+  | 			return;
+  | 		}
+  | 		for (Pet existingPet : getPets()) {
+  callers (11):
+    org.springframework.samples.petclinic.owner.PetController.initCreationForm method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:100-105
+    org.springframework.samples.petclinic.owner.PetController.processCreationForm method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:107-137
+    org.springframework.samples.petclinic.owner.PetController.updatePetDetails method src/main/java/org/springframework/samples/petclinic/owner/PetController.java:186-200
+    org.springframework.samples.petclinic.owner.OwnerControllerTests.george method src/test/java/org/springframework/samples/petclinic/owner/OwnerControllerTests.java:73-90
+    org.springframework.samples.petclinic.owner.OwnerTests.addPetAddsPersistedPet method src/test/java/org/springframework/samples/petclinic/owner/OwnerTests.java:25-36
+    org.springframework.samples.petclinic.owner.OwnerTests.addPetDoesNotAddDuplicatePet method src/test/java/org/springframework/samples/petclinic/owner/OwnerTests.java:38-49
+    org.springframework.samples.petclinic.owner.PetControllerTests.setup method src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java:70-87
+    org.springframework.samples.petclinic.owner.VisitControllerTests.init method src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:59-66
+    org.springframework.samples.petclinic.service.ClinicServiceTests.shouldInsertPetIntoDatabaseAndGenerateId method src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:157-183
+    org.springframework.samples.petclinic.service.ClinicServiceTests.shouldFailToInsertDuplicatePetNameForSameOwner method src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:253-277
+    org.springframework.samples.petclinic.service.ClinicServiceTests.shouldAllowSamePetNameForDifferentOwners method src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:279-313
+  callees (1):
+    org.springframework.samples.petclinic.owner.Owner.getPets method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:93-95
+### STATUS: 0 BYTES: 2545
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.addVisit ### CMD: --include-body 
+org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183 [exported]
+  public void addVisit(Integer petId, Visit visit)
+  | 	public void addVisit(Integer petId, Visit visit) {
+  | 
+  | 		Assert.notNull(petId, "Pet identifier must not be null!");
+  | 		Assert.notNull(visit, "Visit must not be null!");
+  | 
+  | 		Pet pet = getPet(petId);
+  | 
+  | 		Assert.notNull(pet, "Invalid Pet identifier!");
+  body:
+  | 	public void addVisit(Integer petId, Visit visit) {
+  | 
+  | 		Assert.notNull(petId, "Pet identifier must not be null!");
+  | 		Assert.notNull(visit, "Visit must not be null!");
+  | 
+  | 		Pet pet = getPet(petId);
+  | 
+  | 		Assert.notNull(pet, "Invalid Pet identifier!");
+  | 
+  | 		pet.addVisit(visit);
+  | 	}
+  callers (2):
+    org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:97-112
+    org.springframework.samples.petclinic.service.ClinicServiceTests.shouldAddNewVisitForPet method src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:217-235
+  callees (1):
+    org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+### STATUS: 0 BYTES: 1345
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Pet.addVisit 
+org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83 [exported]
+  public void addVisit(Visit visit)
+  | 	public void addVisit(Visit visit) {
+  | 		getVisits().add(visit);
+  | 	}
+  callers (2):
+    org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183
+    org.springframework.samples.petclinic.owner.VisitController.loadPetWithVisit method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:63-81
+  callees (1):
+    org.springframework.samples.petclinic.owner.Pet.getVisits method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:77-79
+### STATUS: 0 BYTES: 753
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: addPet ### CMD: --no-tests 
+src/main/java/org/springframework/samples/petclinic/owner/Owner.java (1)
+  D 97: public void addPet(Pet pet) {
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (3)
+    103: owner.addPet(pet);
+    125: owner.addPet(pet);
+    197: owner.addPet(pet);
+4 hit(s) in 2 file(s)
+### STATUS: 0 BYTES: 297
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: addVisit ### CMD: --no-tests 
+src/main/java/org/springframework/samples/petclinic/owner/Owner.java (2)
+  D 173: public void addVisit(Integer petId, Visit visit) {
+    182: pet.addVisit(visit);
+src/main/java/org/springframework/samples/petclinic/owner/Pet.java (1)
+  D 81: public void addVisit(Visit visit) {
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (2)
+    79: pet.addVisit(visit);
+    108: owner.addVisit(petId, visit);
+5 hit(s) in 3 file(s)
+### STATUS: 0 BYTES: 450
+

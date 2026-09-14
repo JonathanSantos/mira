@@ -1,0 +1,93 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: OwnerController.processFindForm ### CMD: --skeleton ### CMD: --include-body ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.OwnerController.processFindForm method src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:94-122 [exported]
+  @GetMapping("/owners")
+  public String processFindForm(@RequestParam(defaultValue = "1") int page, Owner owner, BindingResult result, Model model)
+   94| 	@GetMapping("/owners")
+   95| 	public String processFindForm(@RequestParam(defaultValue = "1") int page, Owner owner, BindingResult result,
+   96| 			Model model) {
+   97| 		// allow parameterless GET request for /owners to return all records
+   98| 		String lastName = owner.getLastName();
+   99| 		if (lastName == null) {
+  100| 			lastName = ""; // empty string signifies broadest possible search
+  101| 		}
+  102| 		else {
+  103| 			lastName = lastName.strip();
+  104| 		}
+  105| 
+  106| 		// find owners by last name
+  107| 		Page<Owner> ownersResults = findPaginatedForOwnersLastName(page, lastName);
+  108| 		if (ownersResults.isEmpty()) {
+  109| 			// no owners found
+  110| 			result.rejectValue("lastName", "notFound", "not found");
+  111| 			return "owners/findOwners";
+  112| 		}
+  113| 
+  114| 		if (ownersResults.getTotalElements() == 1) {
+  115| 			// 1 owner found
+  116| 			owner = ownersResults.iterator().next();
+  117| 			return "redirect:/owners/" + owner.getId();
+  118| 		}
+  119| 
+  120| 		// multiple owners found
+  121| 		return addPaginationModel(page, model, ownersResults);
+  122| 	}
+  callers (0):
+  skeleton: 29 lines, 3 branches, 0 loops
+  returns (3):
+    111 return "owners/findOwners";
+    117 return "redirect:/owners/" + owner.getId();
+    121 return addPaginationModel(page, model, ownersResults);
+  locals: lastName (98), ownersResults (107)
+  uses (same file):
+    OwnerController.findPaginatedForOwnersLastName :133 (107)
+    OwnerController.addPaginationModel :124 (121)
+### STATUS: 0 BYTES: 1849
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: OwnerController.findPaginatedForOwnersLastName ### CMD: --skeleton ### CMD: --include-body ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.OwnerController.findPaginatedForOwnersLastName method src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:133-137
+  private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname)
+  133| 	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) {
+  134| 		int pageSize = 5;
+  135| 		Pageable pageable = PageRequest.of(page - 1, pageSize);
+  136| 		return owners.findByLastNameStartingWith(lastname, pageable);
+  137| 	}
+  callers (1):
+    org.springframework.samples.petclinic.owner.OwnerController.processFindForm method src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:94-122
+  skeleton: 5 lines, 0 branches, 0 loops
+  returns (1):
+    136 return owners.findByLastNameStartingWith(lastname, pageable);
+  locals: pageSize (134), pageable (135)
+  uses (other files):
+    OwnerRepository.findByLastNameStartingWith src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java:45 (136)
+  uses (external):
+    PageRequest.of (135)
+### STATUS: 0 BYTES: 1081
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: OwnerController.addPaginationModel ### CMD: --skeleton ### CMD: --include-body ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.OwnerController.addPaginationModel method src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:124-131
+  private String addPaginationModel(int page, Model model, Page<Owner> paginated)
+  124| 	private String addPaginationModel(int page, Model model, Page<Owner> paginated) {
+  125| 		List<Owner> listOwners = paginated.getContent();
+  126| 		model.addAttribute("currentPage", page);
+  127| 		model.addAttribute("totalPages", paginated.getTotalPages());
+  128| 		model.addAttribute("totalItems", paginated.getTotalElements());
+  129| 		model.addAttribute("listOwners", listOwners);
+  130| 		return "owners/ownersList";
+  131| 	}
+  callers (1):
+    org.springframework.samples.petclinic.owner.OwnerController.processFindForm method src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:94-122
+  skeleton: 8 lines, 0 branches, 0 loops
+  returns (1):
+    130 return "owners/ownersList";
+  locals: listOwners (125)
+### STATUS: 0 BYTES: 1004
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: OwnerRepository.findByLastNameStartingWith ### CMD: --include-body ### CMD: --no-tests 
+org.springframework.samples.petclinic.owner.OwnerRepository.findByLastNameStartingWith method src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java:45-45 [exported]
+  Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable)
+  45| 	Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable);
+  callers (1):
+    org.springframework.samples.petclinic.owner.OwnerController.findPaginatedForOwnersLastName method src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:133-137
+  callees (0):
+### STATUS: 0 BYTES: 568
+

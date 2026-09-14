@@ -1,0 +1,69 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e1-haiku-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: Owner.addVisit ### CMD: --include-body ### CMD: --with-refs 
+org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183 [exported]
+  public void addVisit(Integer petId, Visit visit)
+  173| 	public void addVisit(Integer petId, Visit visit) {
+  174| 
+  175| 		Assert.notNull(petId, "Pet identifier must not be null!");
+  176| 		Assert.notNull(visit, "Visit must not be null!");
+  177| 
+  178| 		Pet pet = getPet(petId);
+  179| 
+  180| 		Assert.notNull(pet, "Invalid Pet identifier!");
+  181| 
+  182| 		pet.addVisit(visit);
+  183| 	}
+  callers (2):
+    org.springframework.samples.petclinic.owner.VisitController.processNewVisitForm method src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:97-112
+    org.springframework.samples.petclinic.service.ClinicServiceTests.shouldAddNewVisitForPet method src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:217-235
+  callees (2):
+    org.springframework.samples.petclinic.owner.Owner.getPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126-136
+    org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+  refs (2):
+    src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (1)
+      108 [method] in VisitController.processNewVisitForm:97-112: owner.addVisit(petId, visit);
+    src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java (1)
+      229 [method] in ClinicServiceTests.shouldAddNewVisitForPet:217-235: owner6.addVisit(pet7.getId(), visit);
+### STATUS: 0 BYTES: 1637
+
+### CMD: git ### CMD: -C ### CMD: $SCRATCH/edit/e1-haiku-cg ### CMD: diff 
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/Owner.java b/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+index 44ff8c5..9c9f20d 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+@@ -170,7 +170,7 @@ public class Owner extends Person {
+ 	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+ 	 * @param visit the visit to add, must not be {@literal null}.
+ 	 */
+-	public void addVisit(Integer petId, Visit visit) {
++	public void scheduleVisit(Integer petId, Visit visit) {
+ 
+ 		Assert.notNull(petId, "Pet identifier must not be null!");
+ 		Assert.notNull(visit, "Visit must not be null!");
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+index b8b2700..558271c 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+@@ -105,7 +105,7 @@ class VisitController {
+ 			return "pets/createOrUpdateVisitForm";
+ 		}
+ 
+-		owner.addVisit(petId, visit);
++		owner.scheduleVisit(petId, visit);
+ 		this.owners.save(owner);
+ 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+ 		return "redirect:/owners/{ownerId}";
+diff --git a/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java b/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
+index 96f90df..1626dba 100644
+--- a/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
++++ b/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
+@@ -226,7 +226,7 @@ class ClinicServiceTests {
+ 		Visit visit = new Visit();
+ 		visit.setDescription("test");
+ 
+-		owner6.addVisit(pet7.getId(), visit);
++		owner6.scheduleVisit(pet7.getId(), visit);
+ 		this.owners.save(owner6);
+ 
+ 		assertThat(pet7.getVisits()) //
+### STATUS: 0 BYTES: 2115
+

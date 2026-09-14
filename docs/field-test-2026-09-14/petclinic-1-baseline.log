@@ -1,0 +1,395 @@
+### CMD: find ### CMD: $SCRATCH/field/spring-petclinic/src/main ### CMD: -name ### CMD: \*Visit\* 
+$SCRATCH/field/spring-petclinic/src/main/resources/templates/pets/createOrUpdateVisitForm.html
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java
+### STATUS: 0 BYTES: 621
+
+### CMD: cat ### CMD: -n ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java 
+     1	/*
+     2	 * Copyright 2012-2025 the original author or authors.
+     3	 *
+     4	 * Licensed under the Apache License, Version 2.0 (the "License");
+     5	 * you may not use this file except in compliance with the License.
+     6	 * You may obtain a copy of the License at
+     7	 *
+     8	 *      https://www.apache.org/licenses/LICENSE-2.0
+     9	 *
+    10	 * Unless required by applicable law or agreed to in writing, software
+    11	 * distributed under the License is distributed on an "AS IS" BASIS,
+    12	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    13	 * See the License for the specific language governing permissions and
+    14	 * limitations under the License.
+    15	 */
+    16	package org.springframework.samples.petclinic.owner;
+    17	
+    18	import java.time.LocalDate;
+    19	import java.util.Map;
+    20	import java.util.Optional;
+    21	
+    22	import org.springframework.stereotype.Controller;
+    23	import org.springframework.validation.BindingResult;
+    24	import org.springframework.web.bind.WebDataBinder;
+    25	import org.springframework.web.bind.annotation.GetMapping;
+    26	import org.springframework.web.bind.annotation.InitBinder;
+    27	import org.springframework.web.bind.annotation.ModelAttribute;
+    28	import org.springframework.web.bind.annotation.PathVariable;
+    29	import org.springframework.web.bind.annotation.PostMapping;
+    30	
+    31	import jakarta.validation.Valid;
+    32	import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+    33	
+    34	/**
+    35	 * @author Juergen Hoeller
+    36	 * @author Ken Krebs
+    37	 * @author Arjen Poutsma
+    38	 * @author Michael Isvy
+    39	 * @author Dave Syer
+    40	 * @author Wick Dynex
+    41	 */
+    42	@Controller
+    43	class VisitController {
+    44	
+    45		private final OwnerRepository owners;
+    46	
+    47		public VisitController(OwnerRepository owners) {
+    48			this.owners = owners;
+    49		}
+    50	
+    51		@InitBinder
+    52		public void setAllowedFields(WebDataBinder dataBinder) {
+    53			dataBinder.setDisallowedFields("id", "*.id");
+    54		}
+    55	
+    56		/**
+    57		 * Called before each and every @RequestMapping annotated method. 2 goals: - Make sure
+    58		 * we always have fresh data - Since we do not use the session scope, make sure that
+    59		 * Pet object always has an id (Even though id is not part of the form fields)
+    60		 * @param petId
+    61		 * @return Pet
+    62		 */
+    63		@ModelAttribute("visit")
+    64		public Visit loadPetWithVisit(@PathVariable("ownerId") int ownerId, @PathVariable("petId") int petId,
+    65				Map<String, Object> model) {
+    66			Optional<Owner> optionalOwner = owners.findById(ownerId);
+    67			Owner owner = optionalOwner.orElseThrow(() -> new IllegalArgumentException(
+    68					"Owner not found with id: " + ownerId + ". Please ensure the ID is correct "));
+    69	
+    70			Pet pet = owner.getPet(petId);
+    71			if (pet == null) {
+    72				throw new IllegalArgumentException(
+    73						"Pet with id " + petId + " not found for owner with id " + ownerId + ".");
+    74			}
+    75			model.put("pet", pet);
+    76			model.put("owner", owner);
+    77	
+    78			Visit visit = new Visit();
+    79			pet.addVisit(visit);
+    80			return visit;
+    81		}
+    82	
+    83		@ModelAttribute("minVisitDate")
+    84		public LocalDate minVisitDate() {
+    85			return LocalDate.now().plusDays(1);
+    86		}
+    87	
+    88		// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+    89		// called
+    90		@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+    91		public String initNewVisitForm() {
+    92			return "pets/createOrUpdateVisitForm";
+    93		}
+    94	
+    95		// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
+    96		// called
+    97		@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+    98		public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+    99				BindingResult result, RedirectAttributes redirectAttributes) {
+   100			if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+   101				result.rejectValue("date", "typeMismatch.visitDate");
+   102			}
+   103	
+   104			if (result.hasErrors()) {
+   105				return "pets/createOrUpdateVisitForm";
+   106			}
+   107	
+   108			owner.addVisit(petId, visit);
+   109			this.owners.save(owner);
+   110			redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+   111			return "redirect:/owners/{ownerId}";
+   112		}
+   113	
+   114	}
+### STATUS: 0 BYTES: 4586
+
+### CMD: grep ### CMD: -n ### CMD: addVisit\\\|getPet\\\|getVisits\\\|OneToMany\\\|CascadeType\\\|JoinColumn\\\|OrderBy\\\|class\  ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java 
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:26:import jakarta.persistence.CascadeType;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:30:import jakarta.persistence.JoinColumn;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:31:import jakarta.persistence.OneToMany;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:32:import jakarta.persistence.OrderBy;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:49:public class Owner extends Person {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:64:	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:65:	@JoinColumn(name = "owner_id")
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:66:	@OrderBy("name")
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:93:	public List<Pet> getPets() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:101:		if (getPets().contains(pet)) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:104:		for (Pet existingPet : getPets()) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:109:		getPets().add(pet);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:117:	public Pet getPet(String name) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:118:		return getPet(name, false);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:126:	public Pet getPet(Integer id) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:127:		for (Pet pet : getPets()) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:144:	public Pet getPet(String name, boolean ignoreNew) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:145:		for (Pet pet : getPets()) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void addVisit(Integer petId, Visit visit) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:178:		Pet pet = getPet(petId);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:26:import jakarta.persistence.CascadeType;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:30:import jakarta.persistence.JoinColumn;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:32:import jakarta.persistence.OneToMany;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:33:import jakarta.persistence.OrderBy;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:46:public class Pet extends NamedEntity {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:53:	@JoinColumn(name = "type_id")
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:56:	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:57:	@JoinColumn(name = "pet_id")
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:58:	@OrderBy("date ASC")
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:77:	public Collection<Visit> getVisits() {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81:	public void addVisit(Visit visit) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:82:		getVisits().add(visit);
+### STATUS: 0 BYTES: 8064
+
+### CMD: grep ### CMD: -n ### CMD: @\\\|private\\\|class\ \\\|public\  ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java 
+31: * @author Ken Krebs
+32: * @author Dave Syer
+34:@Entity
+35:@Table(name = "visits")
+36:public class Visit extends BaseEntity {
+38:	@Column(name = "visit_date")
+39:	@DateTimeFormat(pattern = "yyyy-MM-dd")
+40:	private LocalDate date;
+42:	@NotBlank
+43:	private String description;
+48:	public Visit() {
+52:	public LocalDate getDate() {
+56:	public void setDate(LocalDate date) {
+60:	public String getDescription() {
+64:	public void setDescription(String description) {
+### STATUS: 0 BYTES: 465
+
+### CMD: grep ### CMD: -n ### CMD: interface\\\|extends\\\|save\\\|findById\\\|import ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java 
+18:import java.util.Optional;
+20:import org.springframework.data.domain.Page;
+21:import org.springframework.data.domain.Pageable;
+22:import org.springframework.data.jpa.repository.JpaRepository;
+26: * with Spring Data naming conventions so this interface can easily be extended for Spring
+36:public interface OwnerRepository extends JpaRepository<Owner, Integer> {
+60:	Optional<Owner> findById(Integer id);
+### STATUS: 0 BYTES: 406
+
+### CMD: sed ### CMD: -n ### CMD: 120\,142p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+
+	/**
+	 * Return the Pet with the given id, or null if none found for this Owner.
+	 * @param id to test
+	 * @return the Pet with the given id, or null if no such Pet exists for this Owner
+	 */
+	public Pet getPet(Integer id) {
+		for (Pet pet : getPets()) {
+			if (!pet.isNew()) {
+				Integer compId = pet.getId();
+				if (Objects.equals(compId, id)) {
+					return pet;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the Pet with the given name, or null if none found for this Owner.
+	 * @param name to test
+	 * @param ignoreNew whether to ignore new pets (pets that are not saved yet)
+	 * @return the Pet with the given name, or null if no such Pet exists for this Owner
+### STATUS: 0 BYTES: 672
+
+### CMD: sed ### CMD: -n ### CMD: 165\,186p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+			.toString();
+	}
+
+	/**
+	 * Adds the given {@link Visit} to the {@link Pet} with the given identifier.
+	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+	 * @param visit the visit to add, must not be {@literal null}.
+	 */
+	public void addVisit(Integer petId, Visit visit) {
+
+		Assert.notNull(petId, "Pet identifier must not be null!");
+		Assert.notNull(visit, "Visit must not be null!");
+
+		Pet pet = getPet(petId);
+
+		Assert.notNull(pet, "Invalid Pet identifier!");
+
+		pet.addVisit(visit);
+	}
+
+}
+### STATUS: 0 BYTES: 528
+
+### CMD: sed ### CMD: -n ### CMD: 50\,85p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java 
+	private LocalDate birthDate;
+
+	@ManyToOne
+	@JoinColumn(name = "type_id")
+	private PetType type;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "pet_id")
+	@OrderBy("date ASC")
+	private final Set<Visit> visits = new LinkedHashSet<>();
+
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public LocalDate getBirthDate() {
+		return this.birthDate;
+	}
+
+	public PetType getType() {
+		return this.type;
+	}
+
+	public void setType(PetType type) {
+		this.type = type;
+	}
+
+	public Collection<Visit> getVisits() {
+		return this.visits;
+	}
+
+	public void addVisit(Visit visit) {
+		getVisits().add(visit);
+	}
+
+}
+### STATUS: 0 BYTES: 667
+
+### CMD: sed ### CMD: -n ### CMD: 34\,50p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java 
+@Entity
+@Table(name = "visits")
+public class Visit extends BaseEntity {
+
+	@Column(name = "visit_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate date;
+
+	@NotBlank
+	private String description;
+
+	/**
+	 * Creates a new instance of Visit for tomorrow
+	 */
+	public Visit() {
+		this.date = LocalDate.now().plusDays(1);
+	}
+### STATUS: 0 BYTES: 333
+
+### CMD: grep ### CMD: -n ### CMD: th:object\\\|th:field\\\|form\\\|minVisitDate\\\|input ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/templates/pets/createOrUpdateVisitForm.html 
+24:      <td th:text="${#temporals.format(pet.birthDate, 'yyyy-MM-dd')}"></td>
+30:  <form th:object="${visit}" class="form-horizontal" method="post">
+31:    <div class="form-group has-feedback">
+32:      <input th:replace="~{fragments/inputField :: input ('Date', 'date', 'date')}" />
+33:      <input th:replace="~{fragments/inputField :: input ('Description', 'description', 'text')}" />
+36:    <div class="form-group">
+38:        <input type="hidden" name="petId" th:value="${pet.id}" />
+42:  </form>
+52:      <td th:text="${#temporals.format(visit.date, 'yyyy-MM-dd')}"></td>
+### STATUS: 0 BYTES: 578
+
+### CMD: grep ### CMD: -rn ### CMD: isNew\\\|@Id\\\|@GeneratedValue ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java 
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:35:	@Id
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:36:	@GeneratedValue(strategy = GenerationType.IDENTITY)
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/model/BaseEntity.java:47:	public boolean isNew() {
+### STATUS: 0 BYTES: 725
+
+### CMD: grep ### CMD: -rn ### CMD: @Transactional\\\|@Service\\\|VisitRepository ### CMD: $SCRATCH/field/spring-petclinic/src/main/java 
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/vet/VetRepository.java:44:	@Transactional(readOnly = true)
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/vet/VetRepository.java:54:	@Transactional(readOnly = true)
+### STATUS: 0 BYTES: 495
+
+### CMD: grep ### CMD: -rn ### CMD: void\ test\\\|visits/new\\\|hasErrors\\\|save ### CMD: $SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java 
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:70:		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID))
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:78:			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:89:			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID).param("name",
+$SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:99:			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+### STATUS: 0 BYTES: 1275
+
+### CMD: grep ### CMD: -rn ### CMD: typeMismatch ### CMD: $SCRATCH/field/spring-petclinic/src/main/resources/messages 
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_de.properties:7:typeMismatch.date=ung�ltiges Datum
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_de.properties:8:typeMismatch.birthDate=ung�ltiges Datum
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_de.properties:9:typeMismatch.visitDate=Das Besuchsdatum muss in der Zukunft liegen
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ko.properties:7:typeMismatch.date=잘못된 날짜입니다
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ko.properties:8:typeMismatch.birthDate=잘못된 날짜입니다
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ko.properties:9:typeMismatch.visitDate=방문 날짜는 미래 날짜여야 합니다
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_fa.properties:7:typeMismatch.date=تاریخ نامعتبر
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_fa.properties:8:typeMismatch.birthDate=تاریخ تولد نامعتبر
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_fa.properties:9:typeMismatch.visitDate=تاریخ ویزیت باید در آینده باشد
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ja.properties:9:typeMismatch.date=無効な日付です
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ja.properties:10:typeMismatch.birthDate=無効な日付です
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ja.properties:11:typeMismatch.visitDate=診察日は未来の日付である必要があります
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_pt.properties:7:typeMismatch.date=Data invalida
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_pt.properties:8:typeMismatch.birthDate=Data de nascimento invalida
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_pt.properties:9:typeMismatch.visitDate=A data da visita deve estar no futuro
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_es.properties:7:typeMismatch.date=Fecha invalida
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_es.properties:8:typeMismatch.birthDate=Fecha invalida
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_es.properties:9:typeMismatch.visitDate=La fecha de la visita debe ser futura
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_hi.properties:9:typeMismatch.date=\u0905\u092E\u093E\u0928\u094D\u092F \u0924\u093F\u0925\u093F
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_hi.properties:10:typeMismatch.birthDate=\u0905\u092E\u093E\u0928\u094D\u092F \u0924\u093F\u0925\u093F
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_hi.properties:11:typeMismatch.visitDate=\u092D\u0947\u091F\u0940 \u0915\u0940 \u0924\u093E\u0930\u0940\u0916 \u092D\u0935\u093F\u0937\u094D\u092F \u092E\u0947\u0902 \u0939\u094B\u0928\u0940 \u091A\u093E\u0939\u093F\u090F
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_tr.properties:7:typeMismatch.date=geçersiz tarih
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_tr.properties:8:typeMismatch.birthDate=geçersiz tarih
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_tr.properties:9:typeMismatch.visitDate=Ziyaret tarihi gelecekte olmalıdır
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ru.properties:7:typeMismatch.date=неправильная даные
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ru.properties:8:typeMismatch.birthDate=неправильная дата
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages_ru.properties:9:typeMismatch.visitDate=Дата визита должна быть в будущем
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties:7:typeMismatch.date=invalid date
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties:8:typeMismatch.birthDate=invalid date
+$SCRATCH/field/spring-petclinic/src/main/resources/messages/messages.properties:9:typeMismatch.visitDate=Visit date must be in the future
+### STATUS: 0 BYTES: 7447
+
+### CMD: sed ### CMD: -n ### CMD: 75\,108p ### CMD: $SCRATCH/field/spring-petclinic/src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java 
+	@Test
+	void processNewVisitFormSuccess() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+				.param("name", "George")
+				.param("date", LocalDate.now().plusDays(1).toString())
+				.param("description", "Visit Description"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/owners/{ownerId}"));
+	}
+
+	@Test
+	void processNewVisitFormHasErrors() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID).param("name",
+					"George"))
+			.andExpect(model().attributeHasErrors("visit"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+	}
+
+	@Test
+	void processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture() throws Exception {
+		mockMvc
+			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+				.param("name", "George")
+				.param("date", LocalDate.now().toString())
+				.param("description", "Visit Description"))
+			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+	}
+### STATUS: 0 BYTES: 1304
+

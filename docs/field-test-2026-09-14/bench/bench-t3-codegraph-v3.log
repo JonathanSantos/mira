@@ -1,0 +1,44 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: addVisit ### CMD: --no-tests 
+refs addVisit: 3 total (resolved 3) by kind (method 3)
+targets:
+  org.springframework.samples.petclinic.owner.Pet.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81-83
+  org.springframework.samples.petclinic.owner.Owner.addVisit method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173-183
+src/main/java/org/springframework/samples/petclinic/owner/Owner.java (1)
+  182 [method -> Pet.addVisit] in Owner.addVisit:173-183: pet.addVisit(visit);
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (2)
+  79 [method -> Pet.addVisit] in VisitController.loadPetWithVisit:63-81: pet.addVisit(visit);
+  108 [method -> Owner.addVisit] in VisitController.processNewVisitForm:97-112: owner.addVisit(petId, visit);
+### STATUS: 0 BYTES: 786
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: addPet ### CMD: --no-tests 
+refs addPet: 3 total (resolved 3) by kind (method 3)
+targets:
+  org.springframework.samples.petclinic.owner.Owner.addPet method src/main/java/org/springframework/samples/petclinic/owner/Owner.java:97-110
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (3)
+  103 [method] in PetController.initCreationForm:100-105: owner.addPet(pet);
+  125 [method] in PetController.processCreationForm:107-137: owner.addPet(pet);
+  197 [method] in PetController.updatePetDetails:186-200: owner.addPet(pet);
+### STATUS: 0 BYTES: 518
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: addVisit ### CMD: --no-tests 
+src/main/java/org/springframework/samples/petclinic/owner/Owner.java (2)
+  D 173: public void addVisit(Integer petId, Visit visit) {
+    182: pet.addVisit(visit);
+src/main/java/org/springframework/samples/petclinic/owner/Pet.java (1)
+  D 81: public void addVisit(Visit visit) {
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (2)
+    79: pet.addVisit(visit);
+    108: owner.addVisit(petId, visit);
+5 hit(s) in 3 file(s)
+### STATUS: 0 BYTES: 450
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: addPet ### CMD: --no-tests 
+src/main/java/org/springframework/samples/petclinic/owner/Owner.java (1)
+  D 97: public void addPet(Pet pet) {
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (3)
+    103: owner.addPet(pet);
+    125: owner.addPet(pet);
+    197: owner.addPet(pet);
+4 hit(s) in 2 file(s)
+### STATUS: 0 BYTES: 297
+

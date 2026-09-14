@@ -1,0 +1,26 @@
+{
+  "repo": "flask",
+  "seed": 20260914,
+  "tasks": [
+    {
+      "id": "flask-impact",
+      "key": {
+        "homonym_sites": [
+          "src/flask/json/provider.py:214",
+          "src/flask/json/tag.py:323",
+          "src/flask/json/tag.py:56"
+        ],
+        "sites": [
+          "src/flask/json/__init__.py:41",
+          "src/flask/json/provider.py:105",
+          "src/flask/json/provider.py:57",
+          "src/flask/testing.py:94"
+        ]
+      },
+      "kind": "impact",
+      "label": "JSONProvider.dumps",
+      "prompt": "List every place in production code (exclude tests) that references JSONProvider.dumps, the method declared at src/flask/json/provider.py:41. Other symbols are also named dumps; do not include their uses. Write the answer as JSON to the answer file: {\"sites\": [\"path/to/file:line\", ...]}, one entry per referencing line, paths relative to the repository root.",
+      "symbol": "src/flask/json/provider.py:41:9"
+    }
+  ]
+}

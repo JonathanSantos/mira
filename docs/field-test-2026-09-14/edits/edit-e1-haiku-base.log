@@ -1,0 +1,137 @@
+### CMD: ls ### CMD: -la ### CMD: $SCRATCH/edit/e1-haiku-base 
+total 216
+drwxr-xr-x@ 24 user  wheel    768 Sep 14 10:01 .
+drwxr-xr-x@ 14 user  wheel    448 Sep 14 11:50 ..
+drwxr-xr-x@  4 user  wheel    128 Sep 14 11:50 .codegraph
+drwxr-xr-x@  4 user  wheel    128 Sep 14 01:05 .devcontainer
+-rw-r--r--@  1 user  wheel    344 Sep 14 01:05 .editorconfig
+drwxr-xr-x@ 13 user  wheel    416 Sep 14 11:50 .git
+-rw-r--r--@  1 user  wheel    145 Sep 14 01:05 .gitattributes
+drwxr-xr-x@  4 user  wheel    128 Sep 14 01:05 .github
+-rw-r--r--@  1 user  wheel    598 Sep 14 01:05 .gitignore
+-rw-r--r--@  1 user  wheel    287 Sep 14 01:05 .gitpod.yml
+drwxr-xr-x@  3 user  wheel     96 Sep 14 01:05 .mvn
+-rw-r--r--@  1 user  wheel  11360 Sep 14 01:05 LICENSE.txt
+-rw-r--r--@  1 user  wheel  10547 Sep 14 01:05 README.md
+-rw-r--r--@  1 user  wheel   3382 Sep 14 01:05 build.gradle
+-rw-r--r--@  1 user  wheel    488 Sep 14 01:05 docker-compose.yml
+drwxr-xr-x@  3 user  wheel     96 Sep 14 01:05 gradle
+-rwxr-xr-x@  1 user  wheel   8654 Sep 14 01:05 gradlew
+-rw-r--r--@  1 user  wheel   2846 Sep 14 01:05 gradlew.bat
+drwxr-xr-x@  4 user  wheel    128 Sep 14 01:05 k8s
+-rwxr-xr-x@  1 user  wheel  11791 Sep 14 01:05 mvnw
+-rw-r--r--@  1 user  wheel   8482 Sep 14 01:05 mvnw.cmd
+-rw-r--r--@  1 user  wheel  15955 Sep 14 01:05 pom.xml
+-rw-r--r--@  1 user  wheel     38 Sep 14 01:05 settings.gradle
+drwxr-xr-x@  5 user  wheel    160 Sep 14 01:05 src
+### STATUS: 0 BYTES: 1364
+
+### CMD: find ### CMD: $SCRATCH/edit/e1-haiku-base/src ### CMD: -name ### CMD: Owner.java ### CMD: -o ### CMD: -name ### CMD: Pet.java 
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Pet.java
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+### STATUS: 0 BYTES: 401
+
+### CMD: grep ### CMD: -rn ### CMD: addVisit ### CMD: $SCRATCH/edit/e1-haiku-base/src ### CMD: --include=\*.java 
+$SCRATCH/edit/e1-haiku-base/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:229:		owner6.addVisit(pet7.getId(), visit);
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81:	public void addVisit(Visit visit) {
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:79:		pet.addVisit(visit);
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:108:		owner.addVisit(petId, visit);
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void addVisit(Integer petId, Visit visit) {
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+### STATUS: 0 BYTES: 1473
+
+### CMD: sed ### CMD: -n ### CMD: 170\,185p ### CMD: $SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java 
+	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+	 * @param visit the visit to add, must not be {@literal null}.
+	 */
+	public void addVisit(Integer petId, Visit visit) {
+
+		Assert.notNull(petId, "Pet identifier must not be null!");
+		Assert.notNull(visit, "Visit must not be null!");
+
+		Pet pet = getPet(petId);
+
+		Assert.notNull(pet, "Invalid Pet identifier!");
+
+		pet.addVisit(visit);
+	}
+
+}
+### STATUS: 0 BYTES: 424
+
+### CMD: sed ### CMD: -n ### CMD: 105\,110p ### CMD: $SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java 
+			return "pets/createOrUpdateVisitForm";
+		}
+
+		owner.addVisit(petId, visit);
+		this.owners.save(owner);
+		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+### STATUS: 0 BYTES: 186
+
+### CMD: sed ### CMD: -n ### CMD: 225\,235p ### CMD: $SCRATCH/edit/e1-haiku-base/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java 
+		int found = pet7.getVisits().size();
+		Visit visit = new Visit();
+		visit.setDescription("test");
+
+		owner6.addVisit(pet7.getId(), visit);
+		this.owners.save(owner6);
+
+		assertThat(pet7.getVisits()) //
+			.hasSize(found + 1) //
+			.allMatch(value -> value.getId() != null);
+	}
+### STATUS: 0 BYTES: 278
+
+### CMD: grep ### CMD: -rn ### CMD: \\.addVisit ### CMD: $SCRATCH/edit/e1-haiku-base/src ### CMD: --include=\*.java 
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:79:		pet.addVisit(visit);
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+### STATUS: 0 BYTES: 466
+
+### CMD: grep ### CMD: -rn ### CMD: scheduleVisit ### CMD: $SCRATCH/edit/e1-haiku-base/src ### CMD: --include=\*.java 
+$SCRATCH/edit/e1-haiku-base/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:229:		owner6.scheduleVisit(pet7.getId(), visit);
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:108:		owner.scheduleVisit(petId, visit);
+$SCRATCH/edit/e1-haiku-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void scheduleVisit(Integer petId, Visit visit) {
+### STATUS: 0 BYTES: 781
+
+### CMD: git ### CMD: -C ### CMD: $SCRATCH/edit/e1-haiku-base ### CMD: diff 
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/Owner.java b/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+index 44ff8c5..9c9f20d 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+@@ -170,7 +170,7 @@ public class Owner extends Person {
+ 	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+ 	 * @param visit the visit to add, must not be {@literal null}.
+ 	 */
+-	public void addVisit(Integer petId, Visit visit) {
++	public void scheduleVisit(Integer petId, Visit visit) {
+ 
+ 		Assert.notNull(petId, "Pet identifier must not be null!");
+ 		Assert.notNull(visit, "Visit must not be null!");
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+index b8b2700..558271c 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+@@ -105,7 +105,7 @@ class VisitController {
+ 			return "pets/createOrUpdateVisitForm";
+ 		}
+ 
+-		owner.addVisit(petId, visit);
++		owner.scheduleVisit(petId, visit);
+ 		this.owners.save(owner);
+ 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+ 		return "redirect:/owners/{ownerId}";
+diff --git a/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java b/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
+index 96f90df..1626dba 100644
+--- a/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
++++ b/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
+@@ -226,7 +226,7 @@ class ClinicServiceTests {
+ 		Visit visit = new Visit();
+ 		visit.setDescription("test");
+ 
+-		owner6.addVisit(pet7.getId(), visit);
++		owner6.scheduleVisit(pet7.getId(), visit);
+ 		this.owners.save(owner6);
+ 
+ 		assertThat(pet7.getVisits()) //
+### STATUS: 0 BYTES: 2115
+

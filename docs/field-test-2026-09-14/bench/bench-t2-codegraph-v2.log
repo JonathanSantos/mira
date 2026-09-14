@@ -1,0 +1,1177 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: files ### CMD: src ### CMD: --no-tests ### CMD: --depth ### CMD: 2 
+src files=111 symbols=399
+  logic/ files=33 symbols=102
+    appendErrors.ts symbols=1
+    collectDirtyFieldNames.ts symbols=2
+    createFormControl.ts symbols=58
+    generateId.ts symbols=1
+    generateWatchOutput.ts symbols=1
+    getCheckboxValue.ts symbols=4
+    getDirtyFields.ts symbols=6
+    getEventValue.ts symbols=2
+    getFieldArrayItemNames.ts symbols=1
+    getFieldValue.ts symbols=1
+    getFieldValueAs.ts symbols=1
+    getFocusFieldName.ts symbols=1
+    getNullAncestorValue.ts symbols=1
+    getProxyFormState.ts symbols=1
+    getRadioValue.ts symbols=3
+    getResolverOptions.ts symbols=1
+    getRuleValue.ts symbols=1
+    getValidateError.ts symbols=1
+    getValidationModes.ts symbols=1
+    getValueAndMessage.ts symbols=1
+    hasPromiseValidation.ts symbols=2
+    hasValidation.ts symbols=1
+    index.ts symbols=0
+    isNameInFieldArray.ts symbols=1
+    isWatched.ts symbols=1
+    iterateFieldsByAction.ts symbols=1
+    schemaErrorLookup.ts symbols=1
+    shouldRenderFormState.ts symbols=1
+    shouldSubscribeByName.ts symbols=1
+    skipValidation.ts symbols=1
+    unsetEmptyArray.ts symbols=1
+    updateFieldArrayRootError.ts symbols=1
+    validateField.ts symbols=1
+  types/ files=14 symbols=195
+    path/ files=3 symbols=49
+      common.ts symbols=33
+      eager.ts symbols=16
+      index.ts symbols=0
+    controller.ts symbols=5
+    errors.ts symbols=10
+    events.ts symbols=1
+    fieldArray.ts symbols=14
+    fields.ts symbols=10
+    form.ts symbols=62
+    index.ts symbols=0
+    resolvers.ts symbols=5
+    utils.ts symbols=21
+    validator.ts symbols=12
+    watch.ts symbols=6
+  utils/ files=46 symbols=59
+    append.ts symbols=1
+    cloneObject.ts symbols=1
+    compact.ts symbols=1
+    convertToArrayPayload.ts symbols=1
+    createSubject.ts symbols=4
+    deepEqual.ts symbols=2
+    extractFormValues.ts symbols=1
+    fillEmptyArray.ts symbols=1
+    flatten.ts symbols=3
+    formData.ts symbols=1
+    get.ts symbols=1
+    has.ts symbols=2
+    index.ts symbols=0
+    insert.ts symbols=1
+    isBoolean.ts symbols=1
+    isCheckBoxInput.ts symbols=1
+    isDateObject.ts symbols=1
+    isEmptyObject.ts symbols=1
+    isFileInput.ts symbols=1
+    isFunction.ts symbols=1
+    isHTMLElement.ts symbols=1
+    isKey.ts symbols=2
+    isMultipleSelect.ts symbols=1
+    isNullOrUndefined.ts symbols=1
+    isObject.ts symbols=2
+    isPlainObject.ts symbols=1
+    isPrimitive.ts symbols=1
+    isRadioInput.ts symbols=1
+    isRadioOrCheckbox.ts symbols=1
+    isRegex.ts symbols=1
+    isString.ts symbols=1
+    isUndefined.ts symbols=1
+    isWeb.ts symbols=0
+    json.ts symbols=3
+    live.ts symbols=1
+    move.ts symbols=1
+    noop.ts symbols=1
+    objectHasFunction.ts symbols=1
+    prepend.ts symbols=1
+    remove.ts symbols=2
+    set.ts symbols=1
+    sleep.ts symbols=1
+    stringToPath.ts symbols=2
+    swap.ts symbols=1
+    unset.ts symbols=3
+    update.ts symbols=1
+  constants.ts symbols=5
+  controller.tsx symbols=1
+  errorMessage.tsx symbols=2
+  fieldArray.tsx symbols=2
+  form.tsx symbols=3
+  formState.tsx symbols=5
+  index.react-server.ts symbols=0
+  index.ts symbols=0
+  useController.ts symbols=1
+  useFieldArray.ts symbols=10
+  useForm.ts symbols=2
+  useFormContext.tsx symbols=3
+  useFormControlContext.ts symbols=2
+  useFormState.ts symbols=2
+  useIsomorphicLayoutEffect.ts symbols=1
+  useResyncOnReconnect.ts symbols=1
+  useWatch.ts symbols=2
+  watch.tsx symbols=1
+### STATUS: 0 BYTES: 3392
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: useForm ### CMD: --path ### CMD: src/useForm.ts ### CMD: --include-body 
+useForm function src/useForm.ts:32-194 [exported]
+  export function useForm< TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues = TFieldValues, >( props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {}, ): UseFormReturn<TFieldValues, TContext, TTransformedValues>
+   32| export function useForm<
+   33|   TFieldValues extends FieldValues = FieldValues,
+   34|   TContext = any,
+   35|   TTransformedValues = TFieldValues,
+   36| >(
+   37|   props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {},
+   38| ): UseFormReturn<TFieldValues, TContext, TTransformedValues> {
+   39|   const _formControl = React.useRef<
+   40|     UseFormReturn<TFieldValues, TContext, TTransformedValues> | undefined
+   41|   >(undefined);
+   42|   const _values = React.useRef<typeof props.values>(undefined);
+   43|   const _formControlProp = React.useRef(props.formControl);
+   44|   const [formState, updateFormState] = React.useState<FormState<TFieldValues>>(
+   45|     () => ({
+   46|       ...cloneObject(DEFAULT_FORM_STATE),
+   47|       isLoading: isFunction(props.defaultValues),
+   48|       errors: props.errors || {},
+   49|       disabled: props.disabled || false,
+   50|       defaultValues: isFunction(props.defaultValues)
+   51|         ? undefined
+   52|         : props.defaultValues,
+   53|     }),
+   54|   );
+   55| 
+   56|   if (
+   57|     !_formControl.current ||
+   58|     (props.formControl && _formControlProp.current !== props.formControl)
+   59|   ) {
+   60|     _formControlProp.current = props.formControl;
+   61|     if (props.formControl) {
+   62|       _formControl.current = {
+   63|         ...props.formControl,
+   64|         formState,
+   65|       };
+   66| 
+   67|       if (props.defaultValues && !isFunction(props.defaultValues)) {
+   68|         props.formControl.reset(props.defaultValues, props.resetOptions);
+   69|       }
+   70|     } else {
+   71|       const { formControl, ...rest } = createFormControl(props);
+   72| 
+   73|       _formControl.current = {
+   74|         ...rest,
+   75|         formState,
+   76|       };
+   77|     }
+   78|   }
+   79| 
+   80|   const control = _formControl.current.control;
+   81|   control._options = props;
+   82| 
+   83|   const getCurrentFormState = () => ({
+   84|     ...control._formState,
+   85|     defaultValues:
+   86|       control._defaultValues as FormState<TFieldValues>['defaultValues'],
+   87|   });
+   88| 
+   89|   const { resyncIfNeeded, snapshot } =
+   90|     useResyncOnReconnect<FormState<TFieldValues>>(getCurrentFormState);
+   91| 
+   92|   useIsomorphicLayoutEffect(() => {
+   93|     resyncIfNeeded(true, getCurrentFormState, updateFormState);
+   94| 
+   95|     const unsubscribe = control._subscribe({
+   96|       formState: control._proxyFormState,
+   97|       callback: () =>
+   98|         updateFormState({
+   99|           ...control._formState,
+  100|           defaultValues:
+  101|             control._defaultValues as FormState<TFieldValues>['defaultValues'],
+  102|         }),
+  103|       reRenderRoot: true,
+  104|     });
+  105| 
+  106|     updateFormState((data) => ({
+  107|       ...data,
+  108|       isReady: true,
+  109|     }));
+  110| 
+  111|     control._formState.isReady = true;
+  112| 
+  113|     return () => {
+  114|       unsubscribe();
+  115|       snapshot(true, getCurrentFormState);
+  116|     };
+  117|   }, [control, resyncIfNeeded, snapshot]);
+  118| 
+  119|   React.useEffect(
+  120|     () => control._disableForm(props.disabled),
+  121|     [control, props.disabled],
+  122|   );
+  123| 
+  124|   React.useEffect(() => {
+  125|     if (props.mode) {
+  126|       control._options.mode = props.mode;
+  127|     }
+  128|     if (props.reValidateMode) {
+  129|       control._options.reValidateMode = props.reValidateMode;
+  130|     }
+  131|   }, [control, props.mode, props.reValidateMode]);
+  132| 
+  133|   React.useEffect(() => {
+  134|     if (props.errors) {
+  135|       control._setErrors(props.errors);
+  136|       control._focusError();
+  137|     }
+  138|   }, [control, props.errors]);
+  139| 
+  140|   React.useEffect(() => {
+  141|     props.shouldUnregister &&
+  142|       control._subjects.state.next({
+  143|         values: control._getWatch(),
+  144|       });
+  145|   }, [control, props.shouldUnregister]);
+  146| 
+  147|   React.useEffect(() => {
+  148|     if (control._proxyFormState.isDirty) {
+  149|       const isDirty = control._getDirty();
+  150|       if (isDirty !== formState.isDirty) {
+  151|         control._subjects.state.next({
+  152|           isDirty,
+  153|         });
+  154|       }
+  155|     }
+  156|   }, [control, formState.isDirty]);
+  157| 
+  158|   React.useEffect(() => {
+  159|     if (props.values && !deepEqual(props.values, _values.current)) {
+  160|       control._reset(props.values, {
+  161|         keepFieldsRef: true,
+  162|         ...control._options.resetOptions,
+  163|       });
+  164|       if (!control._options.resetOptions?.keepIsValid) {
+  165|         control._setValid();
+  166|       }
+  167|       _values.current = props.values;
+  168|       updateFormState((state) => ({ ...state }));
+  169|     } else {
+  170|       control._resetDefaultValues();
+  171|     }
+  172|   }, [control, props.values]);
+  173| 
+  174|   React.useEffect(() => {
+  175|     if (!control._state.mount) {
+  176|       control._setValid();
+  177|       control._state.mount = true;
+  178|     }
+  179| 
+  180|     if (control._state.watch) {
+  181|       control._state.watch = false;
+  182|       control._subjects.state.next({ ...control._formState });
+  183|     }
+  184| 
+  185|     control._removeUnmounted();
+  186|   });
+  187| 
+  188|   _formControl.current.formState = React.useMemo(
+  189|     () => getProxyFormState(formState, control),
+  190|     [control, formState],
+  191|   );
+  192| 
+  193|   return _formControl.current;
+  194| }
+  callers (1):
+    renderMessage.Fixture function src/__tests__/errorMessage.test.tsx:25-31
+  callees (7):
+    createFormControl function src/logic/createFormControl.ts:145-2285
+    getProxyFormState function src/logic/getProxyFormState.ts:4-32
+    useIsomorphicLayoutEffect variable src/useIsomorphicLayoutEffect.ts:5-7
+    useResyncOnReconnect function src/useResyncOnReconnect.ts:6-52
+    cloneObject function src/utils/cloneObject.ts:3-35
+    deepEqual function src/utils/deepEqual.ts:9-81
+    isFunction function src/utils/isFunction.ts:1-2
+  referenced by:
+    renderMessage function src/__tests__/errorMessage.test.tsx:18-36
+### STATUS: 0 BYTES: 6529
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: createFormControl.register ### CMD: --include-body 
+createFormControl.register function src/logic/createFormControl.ts:1696-1798
+  const register: UseFormRegister<TFieldValues> = (name, options = {}) =>
+  1696|   const register: UseFormRegister<TFieldValues> = (name, options = {}) => {
+  1697|     let field = get(_fields, name);
+  1698|     const disabledIsDefined =
+  1699|       isBoolean(options.disabled) || isBoolean(_options.disabled);
+  1700|     const shouldRevalidateRemount =
+  1701|       !_names.registerName.has(name) && field && field._f && !field._f.mount;
+  1702| 
+  1703|     set(_fields, name, {
+  1704|       ...(field || {}),
+  1705|       _f: {
+  1706|         ...(field && field._f ? field._f : { ref: { name } }),
+  1707|         name,
+  1708|         mount: true,
+  1709|         ...options,
+  1710|       },
+  1711|     });
+  1712|     _names.mount.add(name);
+  1713| 
+  1714|     if (field && !shouldRevalidateRemount) {
+  1715|       _setDisabledField({
+  1716|         disabled: isBoolean(options.disabled)
+  1717|           ? options.disabled
+  1718|           : _options.disabled,
+  1719|         name,
+  1720|       });
+  1721|     } else {
+  1722|       updateValidAndValue(name, true, options.value);
+  1723|     }
+  1724| 
+  1725|     return {
+  1726|       ...(disabledIsDefined
+  1727|         ? { disabled: options.disabled || _options.disabled }
+  1728|         : {}),
+  1729|       ...(_options.progressive
+  1730|         ? {
+  1731|             required: !!options.required,
+  1732|             min: getRuleValue(options.min),
+  1733|             max: getRuleValue(options.max),
+  1734|             minLength: getRuleValue<number>(options.minLength) as number,
+  1735|             maxLength: getRuleValue(options.maxLength) as number,
+  1736|             pattern: getRuleValue(options.pattern) as string,
+  1737|           }
+  1738|         : {}),
+  1739|       name,
+  1740|       onChange,
+  1741|       onBlur: onChange,
+  1742|       ref: (ref: HTMLInputElement | null): void => {
+  1743|         if (ref) {
+  1744|           _names.registerName.add(name);
+  1745|           register(name, options);
+  1746|           _names.registerName.delete(name);
+  1747|           field = get(_fields, name);
+  1748| 
+  1749|           const fieldRef = isUndefined(ref.value)
+  1750|             ? ref.querySelectorAll
+  1751|               ? (ref.querySelectorAll('input,select,textarea')[0] as Ref) || ref
+  1752|               : ref
+  1753|             : ref;
+  1754|           const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
+  1755|           const refs = field._f.refs || [];
+  1756| 
+  1757|           if (
+  1758|             radioOrCheckbox
+  1759|               ? refs.find((option: Ref) => option === fieldRef)
+  1760|               : fieldRef === field._f.ref
+  1761|           ) {
+  1762|             return;
+  1763|           }
+  1764| 
+  1765|           const newField = {
+  1766|             ...field._f,
+  1767|           };
+  1768|           if (radioOrCheckbox) {
+  1769|             newField.refs = [
+  1770|               ...refs.filter(live),
+  1771|               fieldRef,
+  1772|               ...(Array.isArray(get(_defaultValues, name)) ? [{}] : []),
+  1773|             ];
+  1774|             newField.ref = { type: fieldRef.type, name };
+  1775|           } else {
+  1776|             newField.ref = fieldRef;
+  1777|             delete newField.refs;
+  1778|           }
+  1779| 
+  1780|           set(_fields, name, {
+  1781|             _f: newField,
+  1782|           });
+  1783| 
+  1784|           updateValidAndValue(name, false, undefined, fieldRef);
+  1785|         } else {
+  1786|           field = get(_fields, name, {});
+  1787| 
+  1788|           if (field._f) {
+  1789|             field._f.mount = false;
+  1790|           }
+  1791| 
+  1792|           (_options.shouldUnregister || options.shouldUnregister) &&
+  1793|             !(isNameInFieldArray(_names.array, name) && _state.action) &&
+  1794|             _names.unMount.add(name);
+  1795|         }
+  1796|       },
+  1797|     };
+  1798|   };
+  callers (1):
+    createFormControl.register function src/logic/createFormControl.ts:1696-1798
+  callees (11):
+    createFormControl.updateValidAndValue function src/logic/createFormControl.ts:463-525
+    createFormControl._setDisabledField function src/logic/createFormControl.ts:1678-1694
+    createFormControl.register function src/logic/createFormControl.ts:1696-1798
+    getRuleValue function src/logic/getRuleValue.ts:10-21
+    isNameInFieldArray function src/logic/isNameInFieldArray.ts:3-9
+    get function src/utils/get.ts:9-32
+    has function src/utils/has.ts:10-27
+    isBoolean function src/utils/isBoolean.ts:1-1
+    isRadioOrCheckbox function src/utils/isRadioOrCheckbox.ts:6-7
+    isUndefined function src/utils/isUndefined.ts:1-1
+    set function src/utils/set.ts:8-39
+  referenced by:
+    createFormControl function src/logic/createFormControl.ts:145-2285
+### STATUS: 0 BYTES: 4908
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: validateField ### CMD: --path ### CMD: src/logic ### CMD: --include-body 
+validateField function src/logic/validateField.ts:34-301 [exported]
+  export default async <T extends FieldValues>( field: Field, disabledFieldNames: InternalNameSet, formValues: T, validateAllFieldCriteria: boolean, shouldUseNativeValidation?: boolean, isFieldArray?: boolean, ): Promise<InternalFieldErrors> =>
+   34| export default async <T extends FieldValues>(
+   35|   field: Field,
+   36|   disabledFieldNames: InternalNameSet,
+   37|   formValues: T,
+   38|   validateAllFieldCriteria: boolean,
+   39|   shouldUseNativeValidation?: boolean,
+   40|   isFieldArray?: boolean,
+   41| ): Promise<InternalFieldErrors> => {
+   42|   const {
+   43|     ref,
+   44|     refs,
+   45|     required,
+   46|     maxLength,
+   47|     minLength,
+   48|     min,
+   49|     max,
+   50|     pattern,
+   51|     validate,
+   52|     name,
+   53|     valueAsNumber,
+   54|     mount,
+   55|   } = field._f;
+   56|   const inputValue: NativeFieldValue = get(formValues, name);
+   57|   if (!mount || disabledFieldNames.has(name)) {
+   58|     return {};
+   59|   }
+   60|   const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);
+   61|   const setCustomValidity = (message?: string | boolean) => {
+   62|     if (shouldUseNativeValidation && inputRef.reportValidity) {
+   63|       const validityMessage = isBoolean(message) ? '' : message || '';
+   64|       if (refs) {
+   65|         refs.forEach((ref) => ref.setCustomValidity(validityMessage));
+   66|       } else {
+   67|         inputRef.setCustomValidity(validityMessage);
+   68|       }
+   69|       inputRef.reportValidity();
+   70|     }
+   71|   };
+   72|   const error: InternalFieldErrors = {};
+   73|   const isRadio = isRadioInput(ref);
+   74|   const isCheckBox = isCheckBoxInput(ref);
+   75|   const isRadioOrCheckbox = isRadio || isCheckBox;
+   76|   const isEmpty =
+   77|     ((valueAsNumber || isFileInput(ref)) &&
+   78|       isUndefined(ref.value) &&
+   79|       isUndefined(inputValue)) ||
+   80|     (isHTMLElement(ref) && ref.value === '') ||
+   81|     inputValue === '' ||
+   82|     (Array.isArray(inputValue) && !inputValue.length);
+   83|   const appendErrorsCurry = appendErrors.bind(
+   84|     null,
+   85|     name,
+   86|     validateAllFieldCriteria,
+   87|     error,
+   88|   );
+   89|   const getMinMaxMessage = (
+   90|     exceedMax: boolean,
+   91|     maxLengthMessage: Message,
+   92|     minLengthMessage: Message,
+   93|     maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,
+   94|     minType: MinType = INPUT_VALIDATION_RULES.minLength,
+   95|   ) => {
+   96|     const message = exceedMax ? maxLengthMessage : minLengthMessage;
+   97|     error[name] = {
+   98|       type: exceedMax ? maxType : minType,
+   99|       message,
+  100|       ref,
+  101|       ...appendErrorsCurry(exceedMax ? maxType : minType, message),
+  102|     };
+  103|   };
+  104| 
+  105|   if (
+  106|     isFieldArray
+  107|       ? !Array.isArray(inputValue) || !inputValue.length
+  108|       : required &&
+  109|         ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
+  110|           (isBoolean(inputValue) && !inputValue) ||
+  111|           (isCheckBox && !getCheckboxValue(refs).isValid) ||
+  112|           (isRadio && !getRadioValue(refs).isValid))
+  113|   ) {
+  114|     const { value, message } = isString(required)
+  115|       ? { value: !!required, message: required }
+  116|       : getValueAndMessage(required);
+  117| 
+  118|     if (value) {
+  119|       error[name] = {
+  120|         type: INPUT_VALIDATION_RULES.required,
+  121|         message,
+  122|         ref: inputRef,
+  123|         ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+  124|       };
+  125|       if (!validateAllFieldCriteria) {
+  126|         setCustomValidity(message);
+  127|         return error;
+  128|       }
+  129|     }
+  130|   }
+  131| 
+  132|   if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
+  133|     let exceedMax;
+  134|     let exceedMin;
+  135|     const maxOutput = getValueAndMessage(max);
+  136|     const minOutput = getValueAndMessage(min);
+  137| 
+  138|     if (
+  139|       !isNullOrUndefined(inputValue) &&
+  140|       !isDateObject(inputValue) &&
+  141|       !isNaN(inputValue as number)
+  142|     ) {
+  143|       const valueNumber =
+  144|         (ref as HTMLInputElement).valueAsNumber ||
+  145|         (inputValue ? +inputValue : inputValue);
+  146|       if (!isNullOrUndefined(maxOutput.value)) {
+  147|         exceedMax = valueNumber > maxOutput.value;
+  148|       }
+  149|       if (!isNullOrUndefined(minOutput.value)) {
+  150|         exceedMin = valueNumber < minOutput.value;
+  151|       }
+  152|     } else {
+  153|       const valueDate =
+  154|         (ref as HTMLInputElement).valueAsDate || new Date(inputValue as string);
+  155|       const convertTimeToDate = (time: unknown) =>
+  156|         new Date(new Date().toDateString() + ' ' + time);
+  157|       const isTime = ref.type == 'time';
+  158|       const isWeek = ref.type == 'week';
+  159| 
+  160|       if (isString(maxOutput.value) && inputValue) {
+  161|         exceedMax = isTime
+  162|           ? convertTimeToDate(inputValue) > convertTimeToDate(maxOutput.value)
+  163|           : isWeek
+  164|             ? inputValue > maxOutput.value
+  165|             : valueDate > new Date(maxOutput.value);
+  166|       }
+  167| 
+  168|       if (isString(minOutput.value) && inputValue) {
+  169|         exceedMin = isTime
+  170|           ? convertTimeToDate(inputValue) < convertTimeToDate(minOutput.value)
+  171|           : isWeek
+  172|             ? inputValue < minOutput.value
+  173|             : valueDate < new Date(minOutput.value);
+  174|       }
+  175|     }
+  176| 
+  177|     if (exceedMax || exceedMin) {
+  178|       getMinMaxMessage(
+  179|         !!exceedMax,
+  180|         maxOutput.message,
+  181|         minOutput.message,
+  182|         INPUT_VALIDATION_RULES.max,
+  183|         INPUT_VALIDATION_RULES.min,
+  184|       );
+  185|       if (!validateAllFieldCriteria) {
+  186|         setCustomValidity(error[name]!.message);
+  187|         return error;
+  188|       }
+  189|     }
+  190|   }
+  191| 
+  192|   if (
+  193|     (maxLength || minLength) &&
+  194|     !isEmpty &&
+  195|     (isString(inputValue) || (isFieldArray && Array.isArray(inputValue)))
+  196|   ) {
+  197|     const maxLengthOutput = getValueAndMessage(maxLength);
+  198|     const minLengthOutput = getValueAndMessage(minLength);
+  199|     const exceedMax =
+  200|       !isNullOrUndefined(maxLengthOutput.value) &&
+  201|       inputValue.length > +maxLengthOutput.value;
+  202|     const exceedMin =
+  203|       !isNullOrUndefined(minLengthOutput.value) &&
+  204|       inputValue.length < +minLengthOutput.value;
+  205| 
+  206|     if (exceedMax || exceedMin) {
+  207|       getMinMaxMessage(
+  208|         exceedMax,
+  209|         maxLengthOutput.message,
+  210|         minLengthOutput.message,
+  211|       );
+  212|       if (!validateAllFieldCriteria) {
+  213|         setCustomValidity(error[name]!.message);
+  214|         return error;
+  215|       }
+  216|     }
+  217|   }
+  218| 
+  219|   if (pattern && !isEmpty && isString(inputValue)) {
+  220|     const { value: patternValue, message } = getValueAndMessage(pattern);
+  221| 
+  222|     if (isRegex(patternValue) && !inputValue.match(patternValue)) {
+  223|       error[name] = {
+  224|         type: INPUT_VALIDATION_RULES.pattern,
+  225|         message,
+  226|         ref,
+  227|         ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message),
+  228|       };
+  229|       if (!validateAllFieldCriteria) {
+  230|         setCustomValidity(message);
+  231|         return error;
+  232|       }
+  233|     }
+  234|   }
+  235| 
+  236|   if (validate) {
+  237|     if (isFunction(validate)) {
+  238|       const result = await validate(inputValue, formValues);
+  239|       const validateError = getValidateError(result, inputRef);
+  240| 
+  241|       if (validateError) {
+  242|         error[name] = {
+  243|           ...validateError,
+  244|           ...appendErrorsCurry(
+  245|             INPUT_VALIDATION_RULES.validate,
+  246|             validateError.message,
+  247|           ),
+  248|         };
+  249|         if (!validateAllFieldCriteria) {
+  250|           setCustomValidity(validateError.message);
+  251|           return error;
+  252|         }
+  253|       }
+  254|     } else if (isObject(validate)) {
+  255|       let validationResult = {} as FieldError;
+  256| 
+  257|       for (const key in validate) {
+  258|         if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) {
+  259|           break;
+  260|         }
+  261| 
+  262|         const validateError = getValidateError(
+  263|           await validate[key](inputValue, formValues),
+  264|           inputRef,
+  265|           key,
+  266|         );
+  267| 
+  268|         if (validateError) {
+  269|           validationResult = {
+  270|             ...validateError,
+  271|             ...appendErrorsCurry(key, validateError.message),
+  272|           };
+  273| 
+  274|           if (!validateAllFieldCriteria) {
+  275|             setCustomValidity(validateError.message);
+  276|           }
+  277| 
+  278|           if (validateAllFieldCriteria) {
+  279|             error[name] = validationResult;
+  280|           }
+  281|         }
+  282|       }
+  283| 
+  284|       if (!isEmptyObject(validationResult)) {
+  285|         error[name] = {
+  286|           ref: inputRef,
+  287|           ...validationResult,
+  288|         };
+  289|         if (!validateAllFieldCriteria) {
+  290|           return error;
+  291|         }
+  292|       }
+  293|     }
+  294|   }
+  295| 
+  296|   const fieldError = error[name];
+  297| 
+  298|   setCustomValidity(fieldError ? fieldError.message : true);
+  299| 
+  300|   return error;
+  301| };
+  callers (3):
+    createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+    createFormControl.onChange function src/logic/createFormControl.ts:1174-1338
+    useFieldArray function src/useFieldArray.ts:61-548
+  callees (18):
+    getCheckboxValue function src/logic/getCheckboxValue.ts:15-41
+    getRadioValue function src/logic/getRadioValue.ts:11-23
+    getValidateError function src/logic/getValidateError.ts:5-21
+    getValueAndMessage function src/logic/getValueAndMessage.ts:5-11
+    get function src/utils/get.ts:9-32
+    isBoolean function src/utils/isBoolean.ts:1-1
+    isCheckBoxInput function src/utils/isCheckBoxInput.ts:3-4
+    isDateObject function src/utils/isDateObject.ts:1-1
+    isEmptyObject function src/utils/isEmptyObject.ts:5-6
+    isFileInput function src/utils/isFileInput.ts:3-4
+    isFunction function src/utils/isFunction.ts:1-2
+    isHTMLElement function src/utils/isHTMLElement.ts:3-13
+    isNullOrUndefined function src/utils/isNullOrUndefined.ts:1-1
+    isObject function src/utils/isObject.ts:7-11
+    isRadioInput function src/utils/isRadioInput.ts:3-4
+    isRegex function src/utils/isRegex.ts:1-1
+    isString function src/utils/isString.ts:1-1
+    isUndefined function src/utils/isUndefined.ts:1-1
+### STATUS: 0 BYTES: 11151
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: createFormControl.handleSubmit ### CMD: --include-body 
+createFormControl.handleSubmit function src/logic/createFormControl.ts:1827-1901
+  const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> = (onValid, onInvalid) =>
+  1827|   const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> =
+  1828|     (onValid, onInvalid) => async (e) => {
+  1829|       let result: any = undefined;
+  1830|       let onValidError = undefined;
+  1831|       if (e) {
+  1832|         e.preventDefault && e.preventDefault();
+  1833|         (e as React.BaseSyntheticEvent).persist &&
+  1834|           (e as React.BaseSyntheticEvent).persist();
+  1835|       }
+  1836|       let fieldValues:
+  1837|         | TFieldValues
+  1838|         | TTransformedValues
+  1839|         | Record<string, never> = cloneObject(_formValues);
+  1840| 
+  1841|       _subjects.state.next({
+  1842|         isSubmitting: true,
+  1843|       });
+  1844| 
+  1845|       if (_options.resolver) {
+  1846|         const resetCallId = _resetCallId;
+  1847|         const { errors, values } = await _runSchema();
+  1848| 
+  1849|         if (resetCallId !== _resetCallId) {
+  1850|           return;
+  1851|         }
+  1852| 
+  1853|         _updateIsValidating();
+  1854|         Object.keys(delayErrorCallbacks).forEach(cancelDelayedError);
+  1855|         _formState.errors = errors;
+  1856|         fieldValues = cloneObject(values);
+  1857|       } else {
+  1858|         await executeBuiltInValidation({
+  1859|           fields: _fields,
+  1860|           eventType: EVENTS.SUBMIT,
+  1861|         });
+  1862| 
+  1863|         unset(_formState.errors, ROOT_ERROR_TYPE);
+  1864|       }
+  1865| 
+  1866|       if (_names.disabled.size) {
+  1867|         for (const name of _names.disabled) {
+  1868|           unset(fieldValues, name);
+  1869|         }
+  1870|       }
+  1871| 
+  1872|       if (isEmptyObject(_formState.errors)) {
+  1873|         _subjects.state.next({
+  1874|           errors: {},
+  1875|         });
+  1876|         try {
+  1877|           result = await onValid(fieldValues as TTransformedValues, e);
+  1878|         } catch (error) {
+  1879|           onValidError = error;
+  1880|         }
+  1881|       } else {
+  1882|         if (onInvalid) {
+  1883|           await onInvalid({ ..._formState.errors }, e);
+  1884|         }
+  1885| 
+  1886|         _focusError();
+  1887|         setTimeout(_focusError);
+  1888|       }
+  1889| 
+  1890|       _subjects.state.next({
+  1891|         isSubmitted: true,
+  1892|         isSubmitting: false,
+  1893|         isSubmitSuccessful: isEmptyObject(_formState.errors) && !onValidError,
+  1894|         submitCount: _formState.submitCount + 1,
+  1895|         errors: _formState.errors,
+  1896|       });
+  1897|       if (onValidError) {
+  1898|         throw onValidError;
+  1899|       }
+  1900|       return result;
+  1901|     };
+  callers (0):
+  callees (7):
+    createFormControl._updateIsValidating function src/logic/createFormControl.ts:279-294
+    createFormControl._runSchema function src/logic/createFormControl.ts:648-660
+    createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+    createFormControl._focusError function src/logic/createFormControl.ts:1800-1803
+    cloneObject function src/utils/cloneObject.ts:3-35
+    isEmptyObject function src/utils/isEmptyObject.ts:5-6
+    unset function src/utils/unset.ts:36-68
+  referenced by:
+    createFormControl function src/logic/createFormControl.ts:145-2285
+### STATUS: 0 BYTES: 3472
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: createFormControl.executeBuiltInValidation ### CMD: --include-body 
+createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+  const executeBuiltInValidation = async ({ fields, onlyCheckValid, name, eventType, context = { valid: true, runRootValidation: false, }, }: { fields: FieldRefs; onlyCheckValid?: boolean; name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[]; eventType: ValidateFormEventType; context?: { valid: boolean; runRootValidation?: boolean; }; }) =>
+  747|   const executeBuiltInValidation = async ({
+  748|     fields,
+  749|     onlyCheckValid,
+  750|     name,
+  751|     eventType,
+  752|     context = {
+  753|       valid: true,
+  754|       runRootValidation: false,
+  755|     },
+  756|   }: {
+  757|     fields: FieldRefs;
+  758|     onlyCheckValid?: boolean;
+  759|     name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
+  760|     eventType: ValidateFormEventType;
+  761|     context?: {
+  762|       valid: boolean;
+  763|       runRootValidation?: boolean;
+  764|     };
+  765|   }) => {
+  766|     if (props.validate) {
+  767|       context.runRootValidation = true;
+  768|       const result = await validateForm({
+  769|         name,
+  770|         eventType,
+  771|       });
+  772| 
+  773|       if (!result) {
+  774|         context.valid = false;
+  775| 
+  776|         if (onlyCheckValid) {
+  777|           return context.valid;
+  778|         }
+  779|       }
+  780|     }
+  781| 
+  782|     for (const name in fields) {
+  783|       const field = fields[name];
+  784| 
+  785|       if (field) {
+  786|         const { _f, ...fieldValue } = field as Field;
+  787| 
+  788|         if (_f) {
+  789|           const isFieldArrayRoot = _names.array.has(_f.name);
+  790|           const isPromiseFunction =
+  791|             field._f && hasPromiseValidation((field as Field)._f);
+  792|           const shouldTrackIsValidatingState = _isTracked(
+  793|             'isValidating',
+  794|             'validatingFields',
+  795|           );
+  796| 
+  797|           if (isPromiseFunction && shouldTrackIsValidatingState) {
+  798|             _updateIsValidating([_f.name], true);
+  799|           }
+  800| 
+  801|           const fieldError = await validateField(
+  802|             field as Field,
+  803|             _names.disabled,
+  804|             _formValues,
+  805|             shouldDisplayAllAssociatedErrors,
+  806|             _options.shouldUseNativeValidation && !onlyCheckValid,
+  807|             isFieldArrayRoot,
+  808|           );
+  809| 
+  810|           if (isPromiseFunction && shouldTrackIsValidatingState) {
+  811|             _updateIsValidating([_f.name]);
+  812|           }
+  813| 
+  814|           if (fieldError[_f.name]) {
+  815|             context.valid = false;
+  816| 
+  817|             if (onlyCheckValid) {
+  818|               break;
+  819|             }
+  820|           }
+  821| 
+  822|           if (!onlyCheckValid) {
+  823|             cancelDelayedError(_f.name);
+  824|             get(fieldError, _f.name)
+  825|               ? isFieldArrayRoot
+  826|                 ? updateFieldArrayRootError(
+  827|                     _formState.errors,
+  828|                     fieldError,
+  829|                     _f.name,
+  830|                   )
+  831|                 : set(_formState.errors, _f.name, fieldError[_f.name])
+  832|               : unset(_formState.errors, _f.name);
+  833|           }
+  834| 
+  835|           if (props.shouldUseNativeValidation && fieldError[_f.name]) {
+  836|             break;
+  837|           }
+  838|         }
+  839| 
+  840|         !isEmptyObject(fieldValue) &&
+  841|           (await executeBuiltInValidation({
+  842|             context,
+  843|             onlyCheckValid,
+  844|             fields: fieldValue,
+  845|             name: name as FieldPath<TFieldValues>,
+  846|             eventType,
+  847|           }));
+  848|       }
+  849|     }
+  850| 
+  851|     return context.valid;
+  852|   };
+  callers (5):
+    createFormControl._setValid function src/logic/createFormControl.ts:254-277
+    createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+    createFormControl.onChange function src/logic/createFormControl.ts:1174-1338
+    createFormControl.trigger function src/logic/createFormControl.ts:1348-1431
+    createFormControl.handleSubmit function src/logic/createFormControl.ts:1827-1901
+  callees (13):
+    createFormControl._isTracked function src/logic/createFormControl.ts:218-219
+    createFormControl.cancelDelayedError function src/logic/createFormControl.ts:238-242
+    createFormControl._updateIsValidating function src/logic/createFormControl.ts:279-294
+    createFormControl.validateForm function src/logic/createFormControl.ts:706-745
+    createFormControl.executeBuiltInValidation function src/logic/createFormControl.ts:747-852
+    hasPromiseValidation function src/logic/hasPromiseValidation.ts:7-26
+    updateFieldArrayRootError function src/logic/updateFieldArrayRootError.ts:11-21
+    validateField function src/logic/validateField.ts:34-301
+    get function src/utils/get.ts:9-32
+    has function src/utils/has.ts:10-27
+    isEmptyObject function src/utils/isEmptyObject.ts:5-6
+    set function src/utils/set.ts:8-39
+    unset function src/utils/unset.ts:36-68
+### STATUS: 0 BYTES: 5240
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: INPUT_VALIDATION_RULES ### CMD: --include-body 
+INPUT_VALIDATION_RULES variable src/constants.ts:18-26 [exported]
+  export const INPUT_VALIDATION_RULES
+  18| export const INPUT_VALIDATION_RULES = {
+  19|   max: 'max',
+  20|   min: 'min',
+  21|   maxLength: 'maxLength',
+  22|   minLength: 'minLength',
+  23|   pattern: 'pattern',
+  24|   required: 'required',
+  25|   validate: 'validate',
+  26| } as const;
+  callers (0):
+  callees (0):
+  referenced by:
+    createFormControl.validateForm function src/logic/createFormControl.ts:706-745
+    validateField function src/logic/validateField.ts:34-301
+    InputValidationRules type src/types/validator.ts:96-96
+### STATUS: 0 BYTES: 609
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: _fields ### CMD: --path ### CMD: src/logic/createFormControl.ts ### CMD: --per-file ### CMD: 8 ### CMD: --limit ### CMD: 12 
+src/logic/createFormControl.ts (39)
+    174: let _fields: FieldRefs = {};
+    266: fields: _fields,
+    301: _fields,
+    315: const fields = get(_fields, name);
+    324: shouldSetValues && set(_fields, name, fieldValues);
+    469: const field: Field = get(_fields, name);
+    568: _fields,
+    655: _fields,
+  ...
+39 hit(s) in 1 file(s)
+### STATUS: 0 BYTES: 337
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 2225 ### CMD: 2285 
+src/logic/createFormControl.ts:2225-2285
+2225|       get _formValues() {
+2226|         return _formValues;
+2227|       },
+2228|       get _state() {
+2229|         return _state;
+2230|       },
+2231|       set _state(value) {
+2232|         _state = value;
+2233|       },
+2234|       get _defaultValues() {
+2235|         return _defaultValues;
+2236|       },
+2237|       get _names() {
+2238|         return _names;
+2239|       },
+2240|       set _names(value) {
+2241|         _names = value;
+2242|       },
+2243|       get _formState() {
+2244|         return _formState;
+2245|       },
+2246|       get _options() {
+2247|         return _options;
+2248|       },
+2249|       set _options(value) {
+2250|         _options = {
+2251|           ..._options,
+2252|           ...value,
+2253|         };
+2254|         _validationModeBeforeSubmit = getValidationModes(_options.mode);
+2255|         _validationModeAfterSubmit = getValidationModes(
+2256|           _options.reValidateMode,
+2257|         );
+2258|         shouldDisplayAllAssociatedErrors =
+2259|           _options.criteriaMode === VALIDATION_MODE.all;
+2260|       },
+2261|     },
+2262|     subscribe,
+2263|     trigger,
+2264|     register,
+2265|     handleSubmit,
+2266|     watch,
+2267|     setValue,
+2268|     setValues,
+2269|     getValues,
+2270|     getErrors,
+2271|     reset,
+2272|     resetField,
+2273|     resetDefaultValues,
+2274|     clearErrors,
+2275|     unregister,
+2276|     setError,
+2277|     setFocus,
+2278|     getFieldState,
+2279|   };
+2280| 
+2281|   return {
+2282|     ...methods,
+2283|     formControl: methods,
+2284|   };
+2285| }
+### STATUS: 0 BYTES: 1602
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: symbols ### CMD: src/types/fields.ts ### CMD: --compact 
+src/types/fields.ts (10 symbols)
+4-4 type InternalFieldName [exported]
+6-9 type FieldName [exported]
+11-21 type CustomElement [exported]
+23-24 type FieldValue [exported]
+26-26 type FieldValues [exported]
+28-34 type NativeFieldValue [exported]
+36-40 type FieldElement [exported]
+42-42 type Ref [exported]
+44-51 type Field [exported]
+53-55 type FieldRefs [exported]
+### STATUS: 0 BYTES: 363
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: RegisterOptions ### CMD: --path ### CMD: src/types/validator.ts ### CMD: --include-body 
+RegisterOptions type src/types/validator.ts:55-94 [exported]
+  export type RegisterOptions< TFieldValues extends FieldValues = FieldValues, TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>, >
+  55| export type RegisterOptions<
+  56|   TFieldValues extends FieldValues = FieldValues,
+  57|   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  58| > = Partial<{
+  59|   required: Message | ValidationRule<boolean>;
+  60|   min: ValidationRule<number | string>;
+  61|   max: ValidationRule<number | string>;
+  62|   maxLength: ValidationRule<number>;
+  63|   minLength: ValidationRule<number>;
+  64|   validate:
+  65|     | Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+  66|     | Record<
+  67|         string,
+  68|         Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+  69|       >;
+  70|   value: FieldPathValue<TFieldValues, TFieldName>;
+  71|   setValueAs: (value: any) => any;
+  72|   shouldUnregister?: boolean;
+  73|   onChange?: (event: any) => void;
+  74|   onBlur?: (event: any) => void;
+  75|   disabled: boolean;
+  76|   deps: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
+  77| }> &
+  78|   (
+  79|     | {
+  80|         pattern?: ValidationRule<RegExp>;
+  81|         valueAsNumber?: false;
+  82|         valueAsDate?: false;
+  83|       }
+  84|     | {
+  85|         pattern?: undefined;
+  86|         valueAsNumber?: false;
+  87|         valueAsDate?: true;
+  88|       }
+  89|     | {
+  90|         pattern?: undefined;
+  91|         valueAsNumber?: true;
+  92|         valueAsDate?: false;
+  93|       }
+  94|   );
+  callers (0):
+  callees (0):
+  referenced by:
+    UseControllerProps type src/types/controller.ts:35-50
+    MultipleFieldErrors type src/types/errors.ts:14-18
+    FieldError type src/types/errors.ts:20-26
+    ErrorOption type src/types/errors.ts:28-32
+    UseFieldArrayProps type src/types/fieldArray.ts:6-29
+    Field type src/types/fields.ts:44-51
+    UseFormRegister type src/types/form.ts:253-258
+    useFieldArray function src/useFieldArray.ts:61-548
+### STATUS: 0 BYTES: 2075
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/types/fields.ts ### CMD: 44 ### CMD: 55 
+src/types/fields.ts:44-55
+44| export type Field = {
+45|   _f: {
+46|     ref: Ref;
+47|     name: InternalFieldName;
+48|     refs?: HTMLInputElement[];
+49|     mount?: boolean;
+50|   } & RegisterOptions;
+51| };
+52| 
+53| export type FieldRefs = Partial<{
+54|   [key: InternalFieldName]: Field | FieldRefs;
+55| }>;
+### STATUS: 0 BYTES: 310
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/types/errors.ts ### CMD: 14 ### CMD: 26 
+src/types/errors.ts:14-26
+14| export type MultipleFieldErrors = {
+15|   [K in keyof RegisterOptions]?: ValidateResult;
+16| } & {
+17|   [key: string]: ValidateResult;
+18| };
+19| 
+20| export type FieldError = {
+21|   type: LiteralUnion<keyof RegisterOptions, string>;
+22|   root?: FieldError;
+23|   ref?: Ref;
+24|   types?: MultipleFieldErrors;
+25|   message?: Message;
+26| };
+### STATUS: 0 BYTES: 374
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: getValueAndMessage ### CMD: --include-body 
+getValueAndMessage function src/logic/getValueAndMessage.ts:5-11 [exported]
+  export default (validationData?: ValidationRule) =>
+   5| export default (validationData?: ValidationRule) =>
+   6|   isObject(validationData) && !isRegex(validationData)
+   7|     ? validationData
+   8|     : {
+   9|         value: validationData,
+  10|         message: '',
+  11|       };
+  callers (1):
+    validateField function src/logic/validateField.ts:34-301
+  callees (2):
+    isObject function src/utils/isObject.ts:7-11
+    isRegex function src/utils/isRegex.ts:1-1
+### STATUS: 0 BYTES: 554
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/react-hook-form ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/logic/createFormControl.ts ### CMD: 170 ### CMD: 182 
+src/logic/createFormControl.ts:170-182
+170|     isLoading: isFunction(_options.defaultValues),
+171|     errors: _options.errors || {},
+172|     disabled: _options.disabled || false,
+173|   };
+174|   let _fields: FieldRefs = {};
+175|   let _defaultValues =
+176|     isObject(_options.defaultValues) || isObject(_options.values)
+177|       ? cloneObject(_options.defaultValues || _options.values) || {}
+178|       : {};
+179|   let _formValues = _options.shouldUnregister
+180|     ? ({} as TFieldValues)
+181|     : (cloneObject(_defaultValues) as TFieldValues);
+182|   let _state = {
+### STATUS: 0 BYTES: 580
+

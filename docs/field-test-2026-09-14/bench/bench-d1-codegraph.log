@@ -1,0 +1,158 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: isBefore\|isAfter\|LocalDate\\.now\|past\|minDate\|min= ### CMD: --regex ### CMD: --no-tests ### CMD: --limit ### CMD: 40 
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (4)
+    115: LocalDate currentDate = LocalDate.now();
+    116: if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+    158: LocalDate currentDate = LocalDate.now();
+    159: if (pet.getBirthDate() != null && pet.getBirthDate().isAfter(currentDate)) {
+src/main/java/org/springframework/samples/petclinic/owner/Visit.java (1)
+    49: this.date = LocalDate.now().plusDays(1);
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (2)
+    85: return LocalDate.now().plusDays(1);
+    100: if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+7 hit(s) in 3 file(s)
+### STATUS: 0 BYTES: 708
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/VisitController.java ### CMD: 76 ### CMD: 118 
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:76-114
+ 76| 		model.put("owner", owner);
+ 77| 
+ 78| 		Visit visit = new Visit();
+ 79| 		pet.addVisit(visit);
+ 80| 		return visit;
+ 81| 	}
+ 82| 
+ 83| 	@ModelAttribute("minVisitDate")
+ 84| 	public LocalDate minVisitDate() {
+ 85| 		return LocalDate.now().plusDays(1);
+ 86| 	}
+ 87| 
+ 88| 	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+ 89| 	// called
+ 90| 	@GetMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 91| 	public String initNewVisitForm() {
+ 92| 		return "pets/createOrUpdateVisitForm";
+ 93| 	}
+ 94| 
+ 95| 	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
+ 96| 	// called
+ 97| 	@PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
+ 98| 	public String processNewVisitForm(@ModelAttribute Owner owner, @PathVariable int petId, @Valid Visit visit,
+ 99| 			BindingResult result, RedirectAttributes redirectAttributes) {
+100| 		if (visit.getDate() != null && !visit.getDate().isAfter(LocalDate.now())) {
+101| 			result.rejectValue("date", "typeMismatch.visitDate");
+102| 		}
+103| 
+104| 		if (result.hasErrors()) {
+105| 			return "pets/createOrUpdateVisitForm";
+106| 		}
+107| 
+108| 		owner.addVisit(petId, visit);
+109| 		this.owners.save(owner);
+110| 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+111| 		return "redirect:/owners/{ownerId}";
+112| 	}
+113| 
+114| }
+### STATUS: 0 BYTES: 1444
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Visit.java ### CMD: 40 ### CMD: 56 
+src/main/java/org/springframework/samples/petclinic/owner/Visit.java:40-56
+40| 	private LocalDate date;
+41| 
+42| 	@NotBlank
+43| 	private String description;
+44| 
+45| 	/**
+46| 	 * Creates a new instance of Visit for tomorrow
+47| 	 */
+48| 	public Visit() {
+49| 		this.date = LocalDate.now().plusDays(1);
+50| 	}
+51| 
+52| 	public LocalDate getDate() {
+53| 		return this.date;
+54| 	}
+55| 
+56| 	public void setDate(LocalDate date) {
+### STATUS: 0 BYTES: 426
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: typeMismatch\|visitDate\|minVisitDate\|messages ### CMD: --regex ### CMD: --limit ### CMD: 40 
+src/main/java/org/springframework/samples/petclinic/PetClinicRuntimeHints.java (1)
+    31: hints.resources().registerPattern("messages/*");
+src/main/java/org/springframework/samples/petclinic/owner/PetController.java (2)
+    117: result.rejectValue("birthDate", "typeMismatch.birthDate");
+    160: result.rejectValue("birthDate", "typeMismatch.birthDate");
+src/main/java/org/springframework/samples/petclinic/owner/VisitController.java (3)
+    83: @ModelAttribute("minVisitDate")
+    84: public LocalDate minVisitDate() {
+    101: result.rejectValue("date", "typeMismatch.visitDate");
+src/main/java/org/springframework/samples/petclinic/system/WebConfiguration.java (1)
+    17: * Handles loading language-specific messages, tracking the user's language, and allowing
+src/test/java/org/springframework/samples/petclinic/owner/PetControllerTests.java (2)
+    160: .andExpect(model().attributeHasFieldErrorCode("pet", "birthDate", "typeMismatch.birthDate"))
+    240: .andExpect(model().attributeHasFieldErrorCode("pet", "birthDate", "typeMismatch"))
+src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java (1)
+    104: .andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+src/test/java/org/springframework/samples/petclinic/system/I18nPropertiesSyncTest.java (3)
+    29: private static final String BASE_NAME = "messages";
+    117: // We use fallback logic to include english strings, hence messages_en is not
+    119: if (fileName.equals(baseFile) || "messages_en.properties".equals(fileName)) {
+13 hit(s) in 7 file(s)
+### STATUS: 0 BYTES: 1581
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/main/java/org/springframework/samples/petclinic/owner/Visit.java ### CMD: 30 ### CMD: 41 
+src/main/java/org/springframework/samples/petclinic/owner/Visit.java:30-41
+30|  *
+31|  * @author Ken Krebs
+32|  * @author Dave Syer
+33|  */
+34| @Entity
+35| @Table(name = "visits")
+36| public class Visit extends BaseEntity {
+37| 
+38| 	@Column(name = "visit_date")
+39| 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+40| 	private LocalDate date;
+41| 
+### STATUS: 0 BYTES: 341
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java ### CMD: 92 ### CMD: 108 
+src/test/java/org/springframework/samples/petclinic/owner/VisitControllerTests.java:92-108
+ 92| 			.andExpect(status().isOk())
+ 93| 			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+ 94| 	}
+ 95| 
+ 96| 	@Test
+ 97| 	void processNewVisitFormHasErrorsWhenVisitDateIsNotInFuture() throws Exception {
+ 98| 		mockMvc
+ 99| 			.perform(post("/owners/{ownerId}/pets/{petId}/visits/new", TEST_OWNER_ID, TEST_PET_ID)
+100| 				.param("name", "George")
+101| 				.param("date", LocalDate.now().toString())
+102| 				.param("description", "Visit Description"))
+103| 			.andExpect(model().attributeHasFieldErrors("visit", "date"))
+104| 			.andExpect(model().attributeHasFieldErrorCode("visit", "date", "typeMismatch.visitDate"))
+105| 			.andExpect(status().isOk())
+106| 			.andExpect(view().name("pets/createOrUpdateVisitForm"));
+107| 	}
+108| 
+### STATUS: 0 BYTES: 835
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/field/spring-petclinic ### CMD: --max-tokens ### CMD: 4000 ### CMD: snippet ### CMD: src/test/java/org/springframework/samples/petclinic/system/I18nPropertiesSyncTest.java ### CMD: 26 ### CMD: 40 
+src/test/java/org/springframework/samples/petclinic/system/I18nPropertiesSyncTest.java:26-40
+26| 
+27| 	private static final String I18N_DIR = "src/main/resources";
+28| 
+29| 	private static final String BASE_NAME = "messages";
+30| 
+31| 	public static final String PROPERTIES = ".properties";
+32| 
+33| 	private static final Pattern HTML_TEXT_LITERAL = Pattern.compile(">([^<>{}]+)<");
+34| 
+35| 	private static final Pattern BRACKET_ONLY = Pattern.compile("<[^>]*>\\s*[\\[\\]](?:&nbsp;)?\\s*</[^>]*>");
+36| 
+37| 	private static final Pattern HAS_TH_TEXT_ATTRIBUTE = Pattern.compile("th:(u)?text\\s*=\\s*\"[^\"]+\"");
+38| 
+39| 	@Test
+40| 	void checkNonInternationalizedStrings() throws Exception {
+### STATUS: 0 BYTES: 693
+

@@ -1,0 +1,929 @@
+### CMD: ls ### CMD: $SCRATCH/field/react-hook-form/src 
+__tests__
+__typetest__
+constants.ts
+controller.tsx
+errorMessage.tsx
+fieldArray.tsx
+form.tsx
+formState.tsx
+index.react-server.ts
+index.ts
+logic
+types
+useController.ts
+useFieldArray.ts
+useForm.ts
+useFormContext.tsx
+useFormControlContext.ts
+useFormState.ts
+useIsomorphicLayoutEffect.ts
+useResyncOnReconnect.ts
+useWatch.ts
+utils
+watch.tsx
+### STATUS: 0 BYTES: 334
+
+### CMD: ls ### CMD: $SCRATCH/field/react-hook-form/src/logic 
+appendErrors.ts
+collectDirtyFieldNames.ts
+createFormControl.ts
+generateId.ts
+generateWatchOutput.ts
+getCheckboxValue.ts
+getDirtyFields.ts
+getEventValue.ts
+getFieldArrayItemNames.ts
+getFieldValue.ts
+getFieldValueAs.ts
+getFocusFieldName.ts
+getNullAncestorValue.ts
+getProxyFormState.ts
+getRadioValue.ts
+getResolverOptions.ts
+getRuleValue.ts
+getValidateError.ts
+getValidationModes.ts
+getValueAndMessage.ts
+hasPromiseValidation.ts
+hasValidation.ts
+index.ts
+isNameInFieldArray.ts
+isWatched.ts
+iterateFieldsByAction.ts
+schemaErrorLookup.ts
+shouldRenderFormState.ts
+shouldSubscribeByName.ts
+skipValidation.ts
+unsetEmptyArray.ts
+updateFieldArrayRootError.ts
+validateField.ts
+### STATUS: 0 BYTES: 665
+
+### CMD: grep ### CMD: -n ### CMD: register\\\|createFormControl\\\|_fields\\\|handleSubmit ### CMD: $SCRATCH/field/react-hook-form/src/useForm.ts 
+3:import { DEFAULT_FORM_STATE } from './logic/createFormControl';
+8:import { createFormControl } from './logic';
+26: * const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
+27: * <form onSubmit={handleSubmit(onSubmit)}>
+28: *   <input {...register("email", { required: true })} />
+71:      const { formControl, ...rest } = createFormControl(props);
+141:    props.shouldUnregister &&
+145:  }, [control, props.shouldUnregister]);
+### STATUS: 0 BYTES: 454
+
+### CMD: sed ### CMD: -n ### CMD: 55\,110p ### CMD: $SCRATCH/field/react-hook-form/src/useForm.ts 
+
+  if (
+    !_formControl.current ||
+    (props.formControl && _formControlProp.current !== props.formControl)
+  ) {
+    _formControlProp.current = props.formControl;
+    if (props.formControl) {
+      _formControl.current = {
+        ...props.formControl,
+        formState,
+      };
+
+      if (props.defaultValues && !isFunction(props.defaultValues)) {
+        props.formControl.reset(props.defaultValues, props.resetOptions);
+      }
+    } else {
+      const { formControl, ...rest } = createFormControl(props);
+
+      _formControl.current = {
+        ...rest,
+        formState,
+      };
+    }
+  }
+
+  const control = _formControl.current.control;
+  control._options = props;
+
+  const getCurrentFormState = () => ({
+    ...control._formState,
+    defaultValues:
+      control._defaultValues as FormState<TFieldValues>['defaultValues'],
+  });
+
+  const { resyncIfNeeded, snapshot } =
+    useResyncOnReconnect<FormState<TFieldValues>>(getCurrentFormState);
+
+  useIsomorphicLayoutEffect(() => {
+    resyncIfNeeded(true, getCurrentFormState, updateFormState);
+
+    const unsubscribe = control._subscribe({
+      formState: control._proxyFormState,
+      callback: () =>
+        updateFormState({
+          ...control._formState,
+          defaultValues:
+            control._defaultValues as FormState<TFieldValues>['defaultValues'],
+        }),
+      reRenderRoot: true,
+    });
+
+    updateFormState((data) => ({
+      ...data,
+      isReady: true,
+    }));
+### STATUS: 0 BYTES: 1456
+
+### CMD: grep ### CMD: -n ### CMD: const\ register\\\|const\ handleSubmit\\\|_executeBuiltInValidation\\\|const\ executeBuiltInValidation\\\|validateField\(\\\|_fields\\b.\*=\\\|set\(_fields\\\|get\(_fields\\\|register\,\$\\\|handleSubmit\,\$\\\|_updateValid\\\|_names.mount ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+174:  let _fields: FieldRefs = {};
+281:      (names || _names.mount).forEach((name) => {
+315:      const fields = get(_fields, name);
+324:        shouldSetValues && set(_fields, name, fieldValues);
+469:    const field: Field = get(_fields, name);
+654:        name || _names.mount,
+680:        const field = get(_fields, name);
+747:  const executeBuiltInValidation = async ({
+801:          const fieldError = await validateField(
+856:      const field: Field = get(_fields, name);
+911:    const field: Field = get(_fields, name);
+1018:      const field = get(_fields, fieldName);
+1052:    const field = get(_fields, name);
+1149:      for (const fieldName of _names.mount) {
+1179:    const field: Field = get(_fields, name);
+1301:          await validateField(
+1373:            const field = get(_fields, fieldName);
+1404:      for (const fieldName of name ? fieldNames : _names.mount) {
+1427:        name ? fieldNames : _names.mount,
+1506:    const ref = (get(_fields, name, { _f: {} })._f || {}).ref;
+1639:    for (const fieldName of name ? convertToArrayPayload(name) : _names.mount) {
+1640:      _names.mount.delete(fieldName);
+1645:        unset(_fields, fieldName);
+1696:  const register: UseFormRegister<TFieldValues> = (name, options = {}) => {
+1697:    let field = get(_fields, name);
+1703:    set(_fields, name, {
+1712:    _names.mount.add(name);
+1747:          field = get(_fields, name);
+1780:          set(_fields, name, {
+1786:          field = get(_fields, name, {});
+1803:    iterateFieldsByAction(_fields, _focusInput, _names.mount);
+1811:          const currentField: Field = get(_fields, name);
+1827:  const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> =
+1904:    if (get(_fields, name)) {
+1961:          ..._names.mount,
+1980:          for (const name of _names.mount) {
+1981:            const field = get(_fields, name);
+1999:          for (const fieldName of _names.mount) {
+2006:          _fields = {};
+2016:          for (const fieldName of _names.mount) {
+2036:      mount: keepStateOptions.keepDirtyValues ? _names.mount : new Set(),
+2121:    const field = get(_fields, name);
+### STATUS: 0 BYTES: 2123
+
+### CMD: sed ### CMD: -n ### CMD: 1696\,1800p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+  const register: UseFormRegister<TFieldValues> = (name, options = {}) => {
+    let field = get(_fields, name);
+    const disabledIsDefined =
+      isBoolean(options.disabled) || isBoolean(_options.disabled);
+    const shouldRevalidateRemount =
+      !_names.registerName.has(name) && field && field._f && !field._f.mount;
+
+    set(_fields, name, {
+      ...(field || {}),
+      _f: {
+        ...(field && field._f ? field._f : { ref: { name } }),
+        name,
+        mount: true,
+        ...options,
+      },
+    });
+    _names.mount.add(name);
+
+    if (field && !shouldRevalidateRemount) {
+      _setDisabledField({
+        disabled: isBoolean(options.disabled)
+          ? options.disabled
+          : _options.disabled,
+        name,
+      });
+    } else {
+      updateValidAndValue(name, true, options.value);
+    }
+
+    return {
+      ...(disabledIsDefined
+        ? { disabled: options.disabled || _options.disabled }
+        : {}),
+      ...(_options.progressive
+        ? {
+            required: !!options.required,
+            min: getRuleValue(options.min),
+            max: getRuleValue(options.max),
+            minLength: getRuleValue<number>(options.minLength) as number,
+            maxLength: getRuleValue(options.maxLength) as number,
+            pattern: getRuleValue(options.pattern) as string,
+          }
+        : {}),
+      name,
+      onChange,
+      onBlur: onChange,
+      ref: (ref: HTMLInputElement | null): void => {
+        if (ref) {
+          _names.registerName.add(name);
+          register(name, options);
+          _names.registerName.delete(name);
+          field = get(_fields, name);
+
+          const fieldRef = isUndefined(ref.value)
+            ? ref.querySelectorAll
+              ? (ref.querySelectorAll('input,select,textarea')[0] as Ref) || ref
+              : ref
+            : ref;
+          const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
+          const refs = field._f.refs || [];
+
+          if (
+            radioOrCheckbox
+              ? refs.find((option: Ref) => option === fieldRef)
+              : fieldRef === field._f.ref
+          ) {
+            return;
+          }
+
+          const newField = {
+            ...field._f,
+          };
+          if (radioOrCheckbox) {
+            newField.refs = [
+              ...refs.filter(live),
+              fieldRef,
+              ...(Array.isArray(get(_defaultValues, name)) ? [{}] : []),
+            ];
+            newField.ref = { type: fieldRef.type, name };
+          } else {
+            newField.ref = fieldRef;
+            delete newField.refs;
+          }
+
+          set(_fields, name, {
+            _f: newField,
+          });
+
+          updateValidAndValue(name, false, undefined, fieldRef);
+        } else {
+          field = get(_fields, name, {});
+
+          if (field._f) {
+            field._f.mount = false;
+          }
+
+          (_options.shouldUnregister || options.shouldUnregister) &&
+            !(isNameInFieldArray(_names.array, name) && _state.action) &&
+            _names.unMount.add(name);
+        }
+      },
+    };
+  };
+
+  const _focusError = () =>
+### STATUS: 0 BYTES: 3087
+
+### CMD: sed ### CMD: -n ### CMD: 1827\,1900p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+  const handleSubmit: UseFormHandleSubmit<TFieldValues, TTransformedValues> =
+    (onValid, onInvalid) => async (e) => {
+      let result: any = undefined;
+      let onValidError = undefined;
+      if (e) {
+        e.preventDefault && e.preventDefault();
+        (e as React.BaseSyntheticEvent).persist &&
+          (e as React.BaseSyntheticEvent).persist();
+      }
+      let fieldValues:
+        | TFieldValues
+        | TTransformedValues
+        | Record<string, never> = cloneObject(_formValues);
+
+      _subjects.state.next({
+        isSubmitting: true,
+      });
+
+      if (_options.resolver) {
+        const resetCallId = _resetCallId;
+        const { errors, values } = await _runSchema();
+
+        if (resetCallId !== _resetCallId) {
+          return;
+        }
+
+        _updateIsValidating();
+        Object.keys(delayErrorCallbacks).forEach(cancelDelayedError);
+        _formState.errors = errors;
+        fieldValues = cloneObject(values);
+      } else {
+        await executeBuiltInValidation({
+          fields: _fields,
+          eventType: EVENTS.SUBMIT,
+        });
+
+        unset(_formState.errors, ROOT_ERROR_TYPE);
+      }
+
+      if (_names.disabled.size) {
+        for (const name of _names.disabled) {
+          unset(fieldValues, name);
+        }
+      }
+
+      if (isEmptyObject(_formState.errors)) {
+        _subjects.state.next({
+          errors: {},
+        });
+        try {
+          result = await onValid(fieldValues as TTransformedValues, e);
+        } catch (error) {
+          onValidError = error;
+        }
+      } else {
+        if (onInvalid) {
+          await onInvalid({ ..._formState.errors }, e);
+        }
+
+        _focusError();
+        setTimeout(_focusError);
+      }
+
+      _subjects.state.next({
+        isSubmitted: true,
+        isSubmitting: false,
+        isSubmitSuccessful: isEmptyObject(_formState.errors) && !onValidError,
+        submitCount: _formState.submitCount + 1,
+        errors: _formState.errors,
+      });
+      if (onValidError) {
+        throw onValidError;
+      }
+      return result;
+### STATUS: 0 BYTES: 2057
+
+### CMD: sed ### CMD: -n ### CMD: 747\,830p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+  const executeBuiltInValidation = async ({
+    fields,
+    onlyCheckValid,
+    name,
+    eventType,
+    context = {
+      valid: true,
+      runRootValidation: false,
+    },
+  }: {
+    fields: FieldRefs;
+    onlyCheckValid?: boolean;
+    name?: FieldPath<TFieldValues> | FieldPath<TFieldValues>[];
+    eventType: ValidateFormEventType;
+    context?: {
+      valid: boolean;
+      runRootValidation?: boolean;
+    };
+  }) => {
+    if (props.validate) {
+      context.runRootValidation = true;
+      const result = await validateForm({
+        name,
+        eventType,
+      });
+
+      if (!result) {
+        context.valid = false;
+
+        if (onlyCheckValid) {
+          return context.valid;
+        }
+      }
+    }
+
+    for (const name in fields) {
+      const field = fields[name];
+
+      if (field) {
+        const { _f, ...fieldValue } = field as Field;
+
+        if (_f) {
+          const isFieldArrayRoot = _names.array.has(_f.name);
+          const isPromiseFunction =
+            field._f && hasPromiseValidation((field as Field)._f);
+          const shouldTrackIsValidatingState = _isTracked(
+            'isValidating',
+            'validatingFields',
+          );
+
+          if (isPromiseFunction && shouldTrackIsValidatingState) {
+            _updateIsValidating([_f.name], true);
+          }
+
+          const fieldError = await validateField(
+            field as Field,
+            _names.disabled,
+            _formValues,
+            shouldDisplayAllAssociatedErrors,
+            _options.shouldUseNativeValidation && !onlyCheckValid,
+            isFieldArrayRoot,
+          );
+
+          if (isPromiseFunction && shouldTrackIsValidatingState) {
+            _updateIsValidating([_f.name]);
+          }
+
+          if (fieldError[_f.name]) {
+            context.valid = false;
+
+            if (onlyCheckValid) {
+              break;
+            }
+          }
+
+          if (!onlyCheckValid) {
+            cancelDelayedError(_f.name);
+            get(fieldError, _f.name)
+              ? isFieldArrayRoot
+                ? updateFieldArrayRootError(
+                    _formState.errors,
+                    fieldError,
+                    _f.name,
+                  )
+### STATUS: 0 BYTES: 2183
+
+### CMD: grep ### CMD: -n ### CMD: required\\\|export\ default\\\|INPUT_VALIDATION_RULES\\\|const\ validateField ### CMD: $SCRATCH/field/react-hook-form/src/logic/validateField.ts 
+1:import { INPUT_VALIDATION_RULES } from '../constants';
+34:export default async <T extends FieldValues>(
+45:    required,
+93:    maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,
+94:    minType: MinType = INPUT_VALIDATION_RULES.minLength,
+108:      : required &&
+114:    const { value, message } = isString(required)
+115:      ? { value: !!required, message: required }
+116:      : getValueAndMessage(required);
+120:        type: INPUT_VALIDATION_RULES.required,
+123:        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+182:        INPUT_VALIDATION_RULES.max,
+183:        INPUT_VALIDATION_RULES.min,
+224:        type: INPUT_VALIDATION_RULES.pattern,
+227:        ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message),
+245:            INPUT_VALIDATION_RULES.validate,
+### STATUS: 0 BYTES: 796
+
+### CMD: sed ### CMD: -n ### CMD: 34\,130p ### CMD: $SCRATCH/field/react-hook-form/src/logic/validateField.ts 
+export default async <T extends FieldValues>(
+  field: Field,
+  disabledFieldNames: InternalNameSet,
+  formValues: T,
+  validateAllFieldCriteria: boolean,
+  shouldUseNativeValidation?: boolean,
+  isFieldArray?: boolean,
+): Promise<InternalFieldErrors> => {
+  const {
+    ref,
+    refs,
+    required,
+    maxLength,
+    minLength,
+    min,
+    max,
+    pattern,
+    validate,
+    name,
+    valueAsNumber,
+    mount,
+  } = field._f;
+  const inputValue: NativeFieldValue = get(formValues, name);
+  if (!mount || disabledFieldNames.has(name)) {
+    return {};
+  }
+  const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);
+  const setCustomValidity = (message?: string | boolean) => {
+    if (shouldUseNativeValidation && inputRef.reportValidity) {
+      const validityMessage = isBoolean(message) ? '' : message || '';
+      if (refs) {
+        refs.forEach((ref) => ref.setCustomValidity(validityMessage));
+      } else {
+        inputRef.setCustomValidity(validityMessage);
+      }
+      inputRef.reportValidity();
+    }
+  };
+  const error: InternalFieldErrors = {};
+  const isRadio = isRadioInput(ref);
+  const isCheckBox = isCheckBoxInput(ref);
+  const isRadioOrCheckbox = isRadio || isCheckBox;
+  const isEmpty =
+    ((valueAsNumber || isFileInput(ref)) &&
+      isUndefined(ref.value) &&
+      isUndefined(inputValue)) ||
+    (isHTMLElement(ref) && ref.value === '') ||
+    inputValue === '' ||
+    (Array.isArray(inputValue) && !inputValue.length);
+  const appendErrorsCurry = appendErrors.bind(
+    null,
+    name,
+    validateAllFieldCriteria,
+    error,
+  );
+  const getMinMaxMessage = (
+    exceedMax: boolean,
+    maxLengthMessage: Message,
+    minLengthMessage: Message,
+    maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,
+    minType: MinType = INPUT_VALIDATION_RULES.minLength,
+  ) => {
+    const message = exceedMax ? maxLengthMessage : minLengthMessage;
+    error[name] = {
+      type: exceedMax ? maxType : minType,
+      message,
+      ref,
+      ...appendErrorsCurry(exceedMax ? maxType : minType, message),
+    };
+  };
+
+  if (
+    isFieldArray
+      ? !Array.isArray(inputValue) || !inputValue.length
+      : required &&
+        ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
+          (isBoolean(inputValue) && !inputValue) ||
+          (isCheckBox && !getCheckboxValue(refs).isValid) ||
+          (isRadio && !getRadioValue(refs).isValid))
+  ) {
+    const { value, message } = isString(required)
+      ? { value: !!required, message: required }
+      : getValueAndMessage(required);
+
+    if (value) {
+      error[name] = {
+        type: INPUT_VALIDATION_RULES.required,
+        message,
+        ref: inputRef,
+        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+      };
+      if (!validateAllFieldCriteria) {
+        setCustomValidity(message);
+        return error;
+      }
+    }
+  }
+### STATUS: 0 BYTES: 2876
+
+### CMD: sed ### CMD: -n ### CMD: 830\,855p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+                  )
+                : set(_formState.errors, _f.name, fieldError[_f.name])
+              : unset(_formState.errors, _f.name);
+          }
+
+          if (props.shouldUseNativeValidation && fieldError[_f.name]) {
+            break;
+          }
+        }
+
+        !isEmptyObject(fieldValue) &&
+          (await executeBuiltInValidation({
+            context,
+            onlyCheckValid,
+            fields: fieldValue,
+            name: name as FieldPath<TFieldValues>,
+            eventType,
+          }));
+      }
+    }
+
+    return context.valid;
+  };
+
+  const _removeUnmounted = () => {
+    for (const name of _names.unMount) {
+### STATUS: 0 BYTES: 643
+
+### CMD: grep ### CMD: -n ### CMD: export\ type\ Field\ \\\|export\ type\ FieldRefs\\\|export\ type\ InternalFieldName\\\|_f:\ \\\|export\ type\ Ref\ \\\|export\ type\ Field\<\\\|export\ type\ FieldRefs\< ### CMD: $SCRATCH/field/react-hook-form/src/types/fields.ts 
+4:export type InternalFieldName = string;
+42:export type Ref = FieldElement;
+44:export type Field = {
+45:  _f: {
+53:export type FieldRefs = Partial<{
+### STATUS: 0 BYTES: 149
+
+### CMD: grep ### CMD: -n ### CMD: INPUT_VALIDATION_RULES\\\|required:\\\|SUBMIT ### CMD: $SCRATCH/field/react-hook-form/src/constants.ts 
+5:  SUBMIT: 'submit',
+18:export const INPUT_VALIDATION_RULES = {
+24:  required: 'required',
+### STATUS: 0 BYTES: 91
+
+### CMD: grep ### CMD: -n ### CMD: \^\ \ \ \ register\,\\\|\^\ \ \ \ handleSubmit\,\\\|\^\ \ return\ \{\\\|\^\ \ \ \ control:\ \{\\\|\^\ \ \ \ formControl\\\|_fields\,\$\\\|get\ _fields\\\|\^\ \ const\ control\\\|\^export\ function\ createFormControl\\\|\^export\ default\\\|\^\ \ \}\;\$\\\|\^\ \ const\ _control\\\|_control\ =\ \{ ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+145:export function createFormControl<
+2199:    control: {
+2222:      get _fields() {
+2264:    register,
+2265:    handleSubmit,
+2281:  return {
+2283:    formControl: methods,
+### STATUS: 0 BYTES: 174
+
+### CMD: sed ### CMD: -n ### CMD: 130\,160p ### CMD: $SCRATCH/field/react-hook-form/src/useForm.ts 
+    }
+  }, [control, props.mode, props.reValidateMode]);
+
+  React.useEffect(() => {
+    if (props.errors) {
+      control._setErrors(props.errors);
+      control._focusError();
+    }
+  }, [control, props.errors]);
+
+  React.useEffect(() => {
+    props.shouldUnregister &&
+      control._subjects.state.next({
+        values: control._getWatch(),
+      });
+  }, [control, props.shouldUnregister]);
+
+  React.useEffect(() => {
+    if (control._proxyFormState.isDirty) {
+      const isDirty = control._getDirty();
+      if (isDirty !== formState.isDirty) {
+        control._subjects.state.next({
+          isDirty,
+        });
+      }
+    }
+  }, [control, formState.isDirty]);
+
+  React.useEffect(() => {
+    if (props.values && !deepEqual(props.values, _values.current)) {
+      control._reset(props.values, {
+### STATUS: 0 BYTES: 804
+
+### CMD: sed ### CMD: -n ### CMD: 40\,60p ### CMD: $SCRATCH/field/react-hook-form/src/types/fields.ts 
+  | CustomElement<TFieldValues>;
+
+export type Ref = FieldElement;
+
+export type Field = {
+  _f: {
+    ref: Ref;
+    name: InternalFieldName;
+    refs?: HTMLInputElement[];
+    mount?: boolean;
+  } & RegisterOptions;
+};
+
+export type FieldRefs = Partial<{
+  [key: InternalFieldName]: Field | FieldRefs;
+}>;
+### STATUS: 0 BYTES: 303
+
+### CMD: sed ### CMD: -n ### CMD: 168\,192p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+  } = {
+    ...cloneObject(DEFAULT_FORM_STATE),
+    isLoading: isFunction(_options.defaultValues),
+    errors: _options.errors || {},
+    disabled: _options.disabled || false,
+  };
+  let _fields: FieldRefs = {};
+  let _defaultValues =
+    isObject(_options.defaultValues) || isObject(_options.values)
+      ? cloneObject(_options.defaultValues || _options.values) || {}
+      : {};
+  let _formValues = _options.shouldUnregister
+    ? ({} as TFieldValues)
+    : (cloneObject(_defaultValues) as TFieldValues);
+  let _state = {
+    action: false,
+    actionArrayLengths: new Map<InternalFieldName, number>(),
+    mount: false,
+    watch: false,
+    keepIsValid: false,
+  };
+  let _names: Names = {
+    mount: new Set(),
+    disabled: new Set(),
+    unMount: new Set(),
+### STATUS: 0 BYTES: 765
+
+### CMD: sed ### CMD: -n ### CMD: 2195\,2230p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+    });
+  };
+
+  const methods = {
+    control: {
+      register,
+      unregister,
+      getFieldState,
+      handleSubmit,
+      setError,
+      _subscribe,
+      _runSchema,
+      _updateIsValidating,
+      _focusError,
+      _getWatch,
+      _getDirty,
+      _setValid,
+      _setFieldArray,
+      _setDisabledField,
+      _setErrors,
+      _getFieldArray,
+      _reset,
+      _resetDefaultValues,
+      _removeUnmounted,
+      _disableForm,
+      _subjects,
+      _proxyFormState,
+      get _fields() {
+        return _fields;
+      },
+      get _formValues() {
+        return _formValues;
+      },
+      get _state() {
+        return _state;
+      },
+### STATUS: 0 BYTES: 655
+
+### CMD: sed ### CMD: -n ### CMD: 2258\,2290p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+        shouldDisplayAllAssociatedErrors =
+          _options.criteriaMode === VALIDATION_MODE.all;
+      },
+    },
+    subscribe,
+    trigger,
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    setValues,
+    getValues,
+    getErrors,
+    reset,
+    resetField,
+    resetDefaultValues,
+    clearErrors,
+    unregister,
+    setError,
+    setFocus,
+    getFieldState,
+  };
+
+  return {
+    ...methods,
+    formControl: methods,
+  };
+}
+### STATUS: 0 BYTES: 442
+
+### CMD: grep ### CMD: -n ### CMD: return\ _formControl\\\|_formControl.current.formState\\\|\^\} ### CMD: $SCRATCH/field/react-hook-form/src/useForm.ts 
+14:} from './types';
+188:  _formControl.current.formState = React.useMemo(
+193:  return _formControl.current;
+194:}
+### STATUS: 0 BYTES: 115
+
+### CMD: cat ### CMD: $SCRATCH/field/react-hook-form/src/utils/set.ts 
+import { PROTOTYPE_KEYWORDS } from '../constants';
+import type { FieldPath, FieldValues } from '../types';
+
+import isKey from './isKey';
+import isObject from './isObject';
+import stringToPath from './stringToPath';
+
+export default (
+  object: FieldValues,
+  path: FieldPath<FieldValues>,
+  value?: unknown,
+) => {
+  let index = -1;
+  const tempPath = isKey(path) ? [path] : stringToPath(path);
+  const length = tempPath.length;
+  const lastIndex = length - 1;
+
+  while (++index < length) {
+    const key = tempPath[index];
+    let newValue = value;
+
+    if (index !== lastIndex) {
+      const objValue = object[key];
+      newValue =
+        isObject(objValue) || Array.isArray(objValue)
+          ? objValue
+          : !isNaN(+tempPath[index + 1])
+            ? []
+            : {};
+    }
+
+    if (PROTOTYPE_KEYWORDS.includes(key)) {
+      return;
+    }
+
+    object[key] = newValue;
+    object = object[key];
+  }
+};
+### STATUS: 0 BYTES: 917
+
+### CMD: grep ### CMD: -n ### CMD: const\ updateValidAndValue\\\|const\ _setDisabledField\\\|const\ _updateValid\ =\ \\\|const\ _focusError\\\|const\ shouldDisplayAllAssociatedErrors ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+463:  const updateValidAndValue = (
+1678:  const _setDisabledField: Control<TFieldValues>['_setDisabledField'] = ({
+1800:  const _focusError = () =>
+### STATUS: 0 BYTES: 148
+
+### CMD: sed ### CMD: -n ### CMD: 463\,500p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+  const updateValidAndValue = (
+    name: InternalFieldName,
+    shouldSkipSetValueAs: boolean,
+    value?: unknown,
+    ref?: Ref,
+  ) => {
+    const field: Field = get(_fields, name);
+
+    if (field) {
+      if (hasExplicitNullIntermediate(name) || isStaleArrayField(name)) {
+        return;
+      }
+
+      const wasUnsetInFormValues = isUndefined(get(_formValues, name));
+      const defaultValue = get(
+        _formValues,
+        name,
+        isUndefined(value) ? get(_defaultValues, name) : value,
+      );
+
+      isUndefined(defaultValue) ||
+      (ref && (ref as HTMLInputElement).defaultChecked) ||
+      shouldSkipSetValueAs
+        ? set(
+            _formValues,
+            name,
+            shouldSkipSetValueAs ? defaultValue : getFieldValue(field._f),
+          )
+        : setFieldValue(name, defaultValue);
+
+      if (_state.mount && !_state.action) {
+        if (
+          _options.resolver &&
+          _isTracked('isValidating', 'validatingFields')
+        ) {
+          Promise.resolve().then(() => _setValid());
+        } else {
+          _setValid();
+### STATUS: 0 BYTES: 1077
+
+### CMD: sed ### CMD: -n ### CMD: 186\,194p ### CMD: $SCRATCH/field/react-hook-form/src/useForm.ts 
+  });
+
+  _formControl.current.formState = React.useMemo(
+    () => getProxyFormState(formState, control),
+    [control, formState],
+  );
+
+  return _formControl.current;
+}
+### STATUS: 0 BYTES: 170
+
+### CMD: grep ### CMD: -n ### CMD: export\ type\ RegisterOptions\\\|required\?:\\\|export\ type\ ValidationRule\\\|export\ type\ Message ### CMD: $SCRATCH/field/react-hook-form/src/types/validator.ts 
+10:export type ValidationRule<
+55:export type RegisterOptions<
+### STATUS: 0 BYTES: 62
+
+### CMD: grep ### CMD: -n ### CMD: import\ validateField\\\|import\ updateFieldArrayRootError\\\|import\ \{\ EVENTS\\\|EVENTS\,\$\\\|INPUT_VALIDATION_RULES\,\$\\\|VALIDATION_MODE\,\$ ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+5:  VALIDATION_MODE,
+107:import updateFieldArrayRootError from './updateFieldArrayRootError';
+108:import validateField from './validateField';
+### STATUS: 0 BYTES: 142
+
+### CMD: grep ### CMD: -n ### CMD: useForm\' ### CMD: $SCRATCH/field/react-hook-form/src/index.ts 
+11:export * from './useForm';
+### STATUS: 0 BYTES: 29
+
+### CMD: sed ### CMD: -n ### CMD: 55\,75p ### CMD: $SCRATCH/field/react-hook-form/src/types/validator.ts 
+export type RegisterOptions<
+  TFieldValues extends FieldValues = FieldValues,
+  TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = Partial<{
+  required: Message | ValidationRule<boolean>;
+  min: ValidationRule<number | string>;
+  max: ValidationRule<number | string>;
+  maxLength: ValidationRule<number>;
+  minLength: ValidationRule<number>;
+  validate:
+    | Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+    | Record<
+        string,
+        Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>
+      >;
+  value: FieldPathValue<TFieldValues, TFieldName>;
+  setValueAs: (value: any) => any;
+  shouldUnregister?: boolean;
+  onChange?: (event: any) => void;
+  onBlur?: (event: any) => void;
+  disabled: boolean;
+### STATUS: 0 BYTES: 765
+
+### CMD: sed ### CMD: -n ### CMD: 1\,8p ### CMD: $SCRATCH/field/react-hook-form/src/logic/createFormControl.ts 
+import {
+  EVENTS,
+  INPUT_VALIDATION_RULES,
+  ROOT_ERROR_TYPE,
+  VALIDATION_MODE,
+} from '../constants';
+import type {
+  BatchFieldArrayUpdate,
+### STATUS: 0 BYTES: 144
+

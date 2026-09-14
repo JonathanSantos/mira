@@ -1,0 +1,381 @@
+### CMD: cat ### CMD: -n ### CMD: $SCRATCH/field/react-hook-form/src/logic/validateField.ts 
+     1	import { INPUT_VALIDATION_RULES } from '../constants';
+     2	import type {
+     3	  Field,
+     4	  FieldError,
+     5	  FieldValues,
+     6	  InternalFieldErrors,
+     7	  InternalNameSet,
+     8	  MaxType,
+     9	  Message,
+    10	  MinType,
+    11	  NativeFieldValue,
+    12	} from '../types';
+    13	import get from '../utils/get';
+    14	import isBoolean from '../utils/isBoolean';
+    15	import isCheckBoxInput from '../utils/isCheckBoxInput';
+    16	import isDateObject from '../utils/isDateObject';
+    17	import isEmptyObject from '../utils/isEmptyObject';
+    18	import isFileInput from '../utils/isFileInput';
+    19	import isFunction from '../utils/isFunction';
+    20	import isHTMLElement from '../utils/isHTMLElement';
+    21	import isNullOrUndefined from '../utils/isNullOrUndefined';
+    22	import isObject from '../utils/isObject';
+    23	import isRadioInput from '../utils/isRadioInput';
+    24	import isRegex from '../utils/isRegex';
+    25	import isString from '../utils/isString';
+    26	import isUndefined from '../utils/isUndefined';
+    27	
+    28	import appendErrors from './appendErrors';
+    29	import getCheckboxValue from './getCheckboxValue';
+    30	import getRadioValue from './getRadioValue';
+    31	import getValidateError from './getValidateError';
+    32	import getValueAndMessage from './getValueAndMessage';
+    33	
+    34	export default async <T extends FieldValues>(
+    35	  field: Field,
+    36	  disabledFieldNames: InternalNameSet,
+    37	  formValues: T,
+    38	  validateAllFieldCriteria: boolean,
+    39	  shouldUseNativeValidation?: boolean,
+    40	  isFieldArray?: boolean,
+    41	): Promise<InternalFieldErrors> => {
+    42	  const {
+    43	    ref,
+    44	    refs,
+    45	    required,
+    46	    maxLength,
+    47	    minLength,
+    48	    min,
+    49	    max,
+    50	    pattern,
+    51	    validate,
+    52	    name,
+    53	    valueAsNumber,
+    54	    mount,
+    55	  } = field._f;
+    56	  const inputValue: NativeFieldValue = get(formValues, name);
+    57	  if (!mount || disabledFieldNames.has(name)) {
+    58	    return {};
+    59	  }
+    60	  const inputRef: HTMLInputElement = refs ? refs[0] : (ref as HTMLInputElement);
+    61	  const setCustomValidity = (message?: string | boolean) => {
+    62	    if (shouldUseNativeValidation && inputRef.reportValidity) {
+    63	      const validityMessage = isBoolean(message) ? '' : message || '';
+    64	      if (refs) {
+    65	        refs.forEach((ref) => ref.setCustomValidity(validityMessage));
+    66	      } else {
+    67	        inputRef.setCustomValidity(validityMessage);
+    68	      }
+    69	      inputRef.reportValidity();
+    70	    }
+    71	  };
+    72	  const error: InternalFieldErrors = {};
+    73	  const isRadio = isRadioInput(ref);
+    74	  const isCheckBox = isCheckBoxInput(ref);
+    75	  const isRadioOrCheckbox = isRadio || isCheckBox;
+    76	  const isEmpty =
+    77	    ((valueAsNumber || isFileInput(ref)) &&
+    78	      isUndefined(ref.value) &&
+    79	      isUndefined(inputValue)) ||
+    80	    (isHTMLElement(ref) && ref.value === '') ||
+    81	    inputValue === '' ||
+    82	    (Array.isArray(inputValue) && !inputValue.length);
+    83	  const appendErrorsCurry = appendErrors.bind(
+    84	    null,
+    85	    name,
+    86	    validateAllFieldCriteria,
+    87	    error,
+    88	  );
+    89	  const getMinMaxMessage = (
+    90	    exceedMax: boolean,
+    91	    maxLengthMessage: Message,
+    92	    minLengthMessage: Message,
+    93	    maxType: MaxType = INPUT_VALIDATION_RULES.maxLength,
+    94	    minType: MinType = INPUT_VALIDATION_RULES.minLength,
+    95	  ) => {
+    96	    const message = exceedMax ? maxLengthMessage : minLengthMessage;
+    97	    error[name] = {
+    98	      type: exceedMax ? maxType : minType,
+    99	      message,
+   100	      ref,
+   101	      ...appendErrorsCurry(exceedMax ? maxType : minType, message),
+   102	    };
+   103	  };
+   104	
+   105	  if (
+   106	    isFieldArray
+   107	      ? !Array.isArray(inputValue) || !inputValue.length
+   108	      : required &&
+   109	        ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
+   110	          (isBoolean(inputValue) && !inputValue) ||
+   111	          (isCheckBox && !getCheckboxValue(refs).isValid) ||
+   112	          (isRadio && !getRadioValue(refs).isValid))
+   113	  ) {
+   114	    const { value, message } = isString(required)
+   115	      ? { value: !!required, message: required }
+   116	      : getValueAndMessage(required);
+   117	
+   118	    if (value) {
+   119	      error[name] = {
+   120	        type: INPUT_VALIDATION_RULES.required,
+   121	        message,
+   122	        ref: inputRef,
+   123	        ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+   124	      };
+   125	      if (!validateAllFieldCriteria) {
+   126	        setCustomValidity(message);
+   127	        return error;
+   128	      }
+   129	    }
+   130	  }
+   131	
+   132	  if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
+   133	    let exceedMax;
+   134	    let exceedMin;
+   135	    const maxOutput = getValueAndMessage(max);
+   136	    const minOutput = getValueAndMessage(min);
+   137	
+   138	    if (
+   139	      !isNullOrUndefined(inputValue) &&
+   140	      !isDateObject(inputValue) &&
+   141	      !isNaN(inputValue as number)
+   142	    ) {
+   143	      const valueNumber =
+   144	        (ref as HTMLInputElement).valueAsNumber ||
+   145	        (inputValue ? +inputValue : inputValue);
+   146	      if (!isNullOrUndefined(maxOutput.value)) {
+   147	        exceedMax = valueNumber > maxOutput.value;
+   148	      }
+   149	      if (!isNullOrUndefined(minOutput.value)) {
+   150	        exceedMin = valueNumber < minOutput.value;
+   151	      }
+   152	    } else {
+   153	      const valueDate =
+   154	        (ref as HTMLInputElement).valueAsDate || new Date(inputValue as string);
+   155	      const convertTimeToDate = (time: unknown) =>
+   156	        new Date(new Date().toDateString() + ' ' + time);
+   157	      const isTime = ref.type == 'time';
+   158	      const isWeek = ref.type == 'week';
+   159	
+   160	      if (isString(maxOutput.value) && inputValue) {
+   161	        exceedMax = isTime
+   162	          ? convertTimeToDate(inputValue) > convertTimeToDate(maxOutput.value)
+   163	          : isWeek
+   164	            ? inputValue > maxOutput.value
+   165	            : valueDate > new Date(maxOutput.value);
+   166	      }
+   167	
+   168	      if (isString(minOutput.value) && inputValue) {
+   169	        exceedMin = isTime
+   170	          ? convertTimeToDate(inputValue) < convertTimeToDate(minOutput.value)
+   171	          : isWeek
+   172	            ? inputValue < minOutput.value
+   173	            : valueDate < new Date(minOutput.value);
+   174	      }
+   175	    }
+   176	
+   177	    if (exceedMax || exceedMin) {
+   178	      getMinMaxMessage(
+   179	        !!exceedMax,
+   180	        maxOutput.message,
+   181	        minOutput.message,
+   182	        INPUT_VALIDATION_RULES.max,
+   183	        INPUT_VALIDATION_RULES.min,
+   184	      );
+   185	      if (!validateAllFieldCriteria) {
+   186	        setCustomValidity(error[name]!.message);
+   187	        return error;
+   188	      }
+   189	    }
+   190	  }
+   191	
+   192	  if (
+   193	    (maxLength || minLength) &&
+   194	    !isEmpty &&
+   195	    (isString(inputValue) || (isFieldArray && Array.isArray(inputValue)))
+   196	  ) {
+   197	    const maxLengthOutput = getValueAndMessage(maxLength);
+   198	    const minLengthOutput = getValueAndMessage(minLength);
+   199	    const exceedMax =
+   200	      !isNullOrUndefined(maxLengthOutput.value) &&
+   201	      inputValue.length > +maxLengthOutput.value;
+   202	    const exceedMin =
+   203	      !isNullOrUndefined(minLengthOutput.value) &&
+   204	      inputValue.length < +minLengthOutput.value;
+   205	
+   206	    if (exceedMax || exceedMin) {
+   207	      getMinMaxMessage(
+   208	        exceedMax,
+   209	        maxLengthOutput.message,
+   210	        minLengthOutput.message,
+   211	      );
+   212	      if (!validateAllFieldCriteria) {
+   213	        setCustomValidity(error[name]!.message);
+   214	        return error;
+   215	      }
+   216	    }
+   217	  }
+   218	
+   219	  if (pattern && !isEmpty && isString(inputValue)) {
+   220	    const { value: patternValue, message } = getValueAndMessage(pattern);
+   221	
+   222	    if (isRegex(patternValue) && !inputValue.match(patternValue)) {
+   223	      error[name] = {
+   224	        type: INPUT_VALIDATION_RULES.pattern,
+   225	        message,
+   226	        ref,
+   227	        ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message),
+   228	      };
+   229	      if (!validateAllFieldCriteria) {
+   230	        setCustomValidity(message);
+   231	        return error;
+   232	      }
+   233	    }
+   234	  }
+   235	
+   236	  if (validate) {
+   237	    if (isFunction(validate)) {
+   238	      const result = await validate(inputValue, formValues);
+   239	      const validateError = getValidateError(result, inputRef);
+   240	
+   241	      if (validateError) {
+   242	        error[name] = {
+   243	          ...validateError,
+   244	          ...appendErrorsCurry(
+   245	            INPUT_VALIDATION_RULES.validate,
+   246	            validateError.message,
+   247	          ),
+   248	        };
+   249	        if (!validateAllFieldCriteria) {
+   250	          setCustomValidity(validateError.message);
+   251	          return error;
+   252	        }
+   253	      }
+   254	    } else if (isObject(validate)) {
+   255	      let validationResult = {} as FieldError;
+   256	
+   257	      for (const key in validate) {
+   258	        if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) {
+   259	          break;
+   260	        }
+   261	
+   262	        const validateError = getValidateError(
+   263	          await validate[key](inputValue, formValues),
+   264	          inputRef,
+   265	          key,
+   266	        );
+   267	
+   268	        if (validateError) {
+   269	          validationResult = {
+   270	            ...validateError,
+   271	            ...appendErrorsCurry(key, validateError.message),
+   272	          };
+   273	
+   274	          if (!validateAllFieldCriteria) {
+   275	            setCustomValidity(validateError.message);
+   276	          }
+   277	
+   278	          if (validateAllFieldCriteria) {
+   279	            error[name] = validationResult;
+   280	          }
+   281	        }
+   282	      }
+   283	
+   284	      if (!isEmptyObject(validationResult)) {
+   285	        error[name] = {
+   286	          ref: inputRef,
+   287	          ...validationResult,
+   288	        };
+   289	        if (!validateAllFieldCriteria) {
+   290	          return error;
+   291	        }
+   292	      }
+   293	    }
+   294	  }
+   295	
+   296	  const fieldError = error[name];
+   297	
+   298	  setCustomValidity(fieldError ? fieldError.message : true);
+   299	
+   300	  return error;
+   301	};
+### STATUS: 0 BYTES: 10928
+
+### CMD: cat ### CMD: -n ### CMD: $SCRATCH/field/react-hook-form/src/logic/appendErrors.ts 
+     1	import type {
+     2	  InternalFieldErrors,
+     3	  InternalFieldName,
+     4	  ValidateResult,
+     5	} from '../types';
+     6	
+     7	export default (
+     8	  name: InternalFieldName,
+     9	  validateAllFieldCriteria: boolean,
+    10	  errors: InternalFieldErrors,
+    11	  type: string,
+    12	  message: ValidateResult,
+    13	) =>
+    14	  validateAllFieldCriteria
+    15	    ? {
+    16	        ...errors[name],
+    17	        types: {
+    18	          ...(errors[name] && errors[name]!.types ? errors[name]!.types : {}),
+    19	          [type]: message || true,
+    20	        },
+    21	      }
+    22	    : {};
+### STATUS: 0 BYTES: 629
+
+### CMD: cat ### CMD: -n ### CMD: $SCRATCH/field/react-hook-form/src/logic/getValidateError.ts 
+     1	import type { FieldError, Ref, ValidateResult } from '../types';
+     2	import isBoolean from '../utils/isBoolean';
+     3	import isString from '../utils/isString';
+     4	
+     5	export default function getValidateError(
+     6	  result: ValidateResult,
+     7	  ref: Ref,
+     8	  type = 'validate',
+     9	): FieldError | void {
+    10	  if (
+    11	    isString(result) ||
+    12	    (Array.isArray(result) && result.every(isString)) ||
+    13	    (isBoolean(result) && !result)
+    14	  ) {
+    15	    return {
+    16	      type,
+    17	      message: isString(result) ? result : '',
+    18	      ref,
+    19	    };
+    20	  }
+    21	}
+### STATUS: 0 BYTES: 647
+
+### CMD: cat ### CMD: -n ### CMD: $SCRATCH/field/react-hook-form/src/logic/getValueAndMessage.ts 
+     1	import type { ValidationRule } from '../types';
+     2	import isObject from '../utils/isObject';
+     3	import isRegex from '../utils/isRegex';
+     4	
+     5	export default (validationData?: ValidationRule) =>
+     6	  isObject(validationData) && !isRegex(validationData)
+     7	    ? validationData
+     8	    : {
+     9	        value: validationData,
+    10	        message: '',
+    11	      };
+### STATUS: 0 BYTES: 404
+
+### CMD: grep ### CMD: -n ### CMD: -A ### CMD: 10 ### CMD: INPUT_VALIDATION_RULES ### CMD: $SCRATCH/field/react-hook-form/src/constants.ts 
+18:export const INPUT_VALIDATION_RULES = {
+19-  max: 'max',
+20-  min: 'min',
+21-  maxLength: 'maxLength',
+22-  minLength: 'minLength',
+23-  pattern: 'pattern',
+24-  required: 'required',
+25-  validate: 'validate',
+26-} as const;
+27-
+28-export const ROOT_ERROR_TYPE = 'root';
+### STATUS: 0 BYTES: 274
+

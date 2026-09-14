@@ -1,0 +1,309 @@
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: createFormControl ### CMD: --skeleton ### CMD: --path ### CMD: src/logic/createFormControl.ts 
+createFormControl function src/logic/createFormControl.ts:145-2285 [exported]
+  export function createFormControl< TFieldValues extends FieldValues = FieldValues, TContext = any, TTransformedValues = TFieldValues, >( props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {}, ): Omit< UseFormReturn<TFieldValues, TContext, TTransformedValues>, 'formState' > & { formControl: Omit< UseFormReturn<TFieldValues, TContext, TTransformedValues>, 'formState' >; }
+  145| export function createFormControl<
+  146|   TFieldValues extends FieldValues = FieldValues,
+  147|   TContext = any,
+  148|   TTransformedValues = TFieldValues,
+  149| >(
+  150|   props: UseFormProps<TFieldValues, TContext, TTransformedValues> = {},
+  151| ): Omit<
+  152|   UseFormReturn<TFieldValues, TContext, TTransformedValues>,
+  … 2133 more lines: include-body, skeleton, or snippet 153-2285
+  callers (1):
+    useForm function src/useForm.ts:32-194
+  skeleton: 2141 lines, 239 branches, 17 loops, 92 nested function(s), async
+  returns (1):
+    2281 return { ...methods, formControl: methods, };
+  locals: _options (160-163), _formState (164-173), _fields (174), _defaultValues (175-178), _formValues (179-181), _state (182-188), _names (189-196), delayErrorCallbacks (197-198), timers (199), _valuesSubscriberCount (200), _validationModeBeforeSubmit (201), _validationModeAfterSubmit (202), defaultProxyFormState (203-211), _proxyFormState (212-214), _proxySubscribeFormState (215-217), _subjects (220-223), _setValidCallId (225), _resetCallId (226), shouldDisplayAllAssociatedErrors (228-229), methods (2198-2279)
+  nested (52): _isTracked 218-219, debounce 231-236, cancelDelayedError 238-242, cancelDelayedErrorTree 244-252, _setValid 254-277, _updateIsValidating 279-294, _updateDirtyFields 296-303, _setFieldArray 305-375, updateErrors 377-383, _setErrors 385-392, hasExplicitNullIntermediate 394-414, isStaleArrayField 416-461, updateValidAndValue 463-525, updateTouchAndDirty 527-601, shouldRenderByError 603-646, _runSchema 648-660, executeSchemaAndUpdateState 662-704, validateForm 706-745, executeBuiltInValidation 747-852, _removeUnmounted 854-866, _getDirty 868-871, _getWatch 873-890, _getFieldArray 892-901, setFieldValue 903-991, setFieldValues 993-1041, _setValue 1043-1130, setValue 1132-1133, setValues 1135-1172, onChange 1174-1338, _focusInput 1340-1346, trigger 1348-1431, getValues 1433-1455, getErrors 1457-1464, getFieldState 1466-1480, clearErrors 1482-1501, setError 1503-1530, watch 1532-1572, _subscribe 1574-1621, subscribe 1623-1636, unregister 1638-1676, _setDisabledField 1678-1694, register 1696-1798, _focusError 1800-1803, _disableForm 1805-1825, handleSubmit 1827-1901, resetField 1903-1939, _reset 1941-2110, reset 2112-2118, setFocus 2120-2138, _setFormState 2140-2158, _resetDefaultValues 2162-2169, resetDefaultValues 2171-2196
+  uses (other files):
+    getValidationModes src/logic/getValidationModes.ts:4 (201, 202, 2254, 4 total)
+    cloneObject src/utils/cloneObject.ts:3 (169, 177, 181)
+    createSubject src/utils/createSubject.ts:17 (221, 222)
+    isFunction src/utils/isFunction.ts:1 (170)
+    isObject src/utils/isObject.ts:7 (176, 2 total)
+  outer:
+    defaultOptions identifier :110 (161)
+    DEFAULT_FORM_STATE identifier :131 (169)
+    VALIDATION_MODE identifier src/constants.ts:10 (229, 2259)
+  unresolved:
+    _subjects.state.subscribe [unresolved] (2160)
+### STATUS: 0 BYTES: 3397
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: createFormControl.onChange ### CMD: --skeleton ### CMD: --include-body ### CMD: --with-refs 
+createFormControl.onChange function src/logic/createFormControl.ts:1174-1338
+  const onChange: ChangeHandler = async (event) =>
+  1174|   const onChange: ChangeHandler = async (event) => {
+  1175|     _state.mount = true;
+  1176|     const target = event.target;
+  1177|     let name: string = target.name;
+  1178|     let isFieldValueUpdated = true;
+  1179|     const field: Field = get(_fields, name);
+  1180|     const _updateIsFieldValueUpdated = (fieldValue: unknown) => {
+  1181|       isFieldValueUpdated =
+  1182|         Number.isNaN(fieldValue) ||
+  1183|         (isDateObject(fieldValue) && isNaN(fieldValue.getTime())) ||
+  1184|         deepEqual(fieldValue, get(_formValues, name, fieldValue));
+  1185|     };
+  1186| 
+  1187|     if (field) {
+  1188|       let error;
+  1189|       let isValid;
+  1190|       const fieldValue = target.type
+  1191|         ? getFieldValue(field._f)
+  1192|         : getEventValue(event);
+  1193|       const isBlurEvent =
+  1194|         event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
+  1195|       const hasNoValidationEffect =
+  1196|         !hasValidation(field._f) &&
+  1197|         !props.validate &&
+  1198|         !_options.resolver &&
+  1199|         !get(_formState.errors, name) &&
+  1200|         !field._f.deps;
+  1201|       const shouldSkipValidation =
+  1202|         hasNoValidationEffect ||
+  1203|         skipValidation(
+  1204|           isBlurEvent,
+  1205|           get(_formState.touchedFields, name),
+  1206|           _formState.isSubmitted,
+  1207|           _validationModeAfterSubmit,
+  1208|           _validationModeBeforeSubmit,
+  1209|         );
+  1210|       const watched = isWatched(name, _names, isBlurEvent);
+  1211| 
+  1212|       set(_formValues, name, cloneObject(fieldValue));
+  1213| 
+  1214|       if (isBlurEvent) {
+  1215|         if (!target || !target.readOnly) {
+  1216|           field._f.onBlur && field._f.onBlur(event);
+  1217|           const pendingDelayError = delayErrorCallbacks[name];
+  1218|           pendingDelayError && pendingDelayError(0);
+  1219|         }
+  1220|       } else if (field._f.onChange) {
+  1221|         field._f.onChange(event);
+  1222|       }
+  1223| 
+  1224|       const fieldState = updateTouchAndDirty(name, fieldValue, isBlurEvent);
+  1225| 
+  1226|       const shouldRender = !isEmptyObject(fieldState) || watched;
+  1227| 
+  1228|       !isBlurEvent &&
+  1229|         _subjects.state.next({
+  1230|           name,
+  1231|           type: event.type,
+  1232|           ...(_valuesSubscriberCount
+  1233|             ? { values: cloneObject(_formValues) }
+  1234|             : {}),
+  1235|         });
+  1236| 
+  1237|       if (shouldSkipValidation) {
+  1238|         if (
+  1239|           (!hasNoValidationEffect || !_formState.isValid) &&
+  1240|           _isTracked('isValid')
+  1241|         ) {
+  1242|           if (_options.mode === 'onBlur') {
+  1243|             if (isBlurEvent) {
+  1244|               _setValid();
+  1245|             }
+  1246|           } else if (!isBlurEvent) {
+  1247|             _setValid();
+  1248|           }
+  1249|         }
+  1250| 
+  1251|         return (
+  1252|           shouldRender &&
+  1253|           _subjects.state.next({ name, ...(watched ? {} : fieldState) })
+  1254|         );
+  1255|       }
+  1256| 
+  1257|       if (!_options.resolver && props.validate) {
+  1258|         await validateForm({
+  1259|           name: name as FieldPath<TFieldValues>,
+  1260|           eventType: event.type,
+  1261|         });
+  1262|       }
+  1263| 
+  1264|       !isBlurEvent && watched && _subjects.state.next({ ..._formState });
+  1265| 
+  1266|       if (_options.resolver) {
+  1267|         const resetCallId = _resetCallId;
+  1268|         const { errors } = await _runSchema([name]);
+  1269| 
+  1270|         if (resetCallId !== _resetCallId) {
+  1271|           return;
+  1272|         }
+  1273| 
+  1274|         _updateIsValidating([name]);
+  1275| 
+  1276|         _updateIsFieldValueUpdated(fieldValue);
+  1277| 
+  1278|         if (!isFieldValueUpdated) {
+  1279|           !isEmptyObject(fieldState) && _subjects.state.next(fieldState);
+  1280|           return;
+  1281|         }
+  1282| 
+  1283|         const previousErrorLookupResult = schemaErrorLookup(
+  1284|           _formState.errors,
+  1285|           _fields,
+  1286|           name,
+  1287|         );
+  1288|         const errorLookupResult = schemaErrorLookup(
+  1289|           errors,
+  1290|           _fields,
+  1291|           previousErrorLookupResult.name || name,
+  1292|         );
+  1293| 
+  1294|         error = errorLookupResult.error;
+  1295|         name = errorLookupResult.name;
+  1296| 
+  1297|         isValid = isEmptyObject(errors);
+  1298|       } else {
+  1299|         _updateIsValidating([name], true);
+  1300|         error = (
+  1301|           await validateField(
+  1302|             field,
+  1303|             _names.disabled,
+  1304|             _formValues,
+  1305|             shouldDisplayAllAssociatedErrors,
+  1306|             _options.shouldUseNativeValidation,
+  1307|           )
+  1308|         )[name];
+  1309|         _updateIsValidating([name]);
+  1310| 
+  1311|         _updateIsFieldValueUpdated(fieldValue);
+  1312| 
+  1313|         if (isFieldValueUpdated) {
+  1314|           if (error) {
+  1315|             isValid = false;
+  1316|           } else if (_isTracked('isValid')) {
+  1317|             isValid = await executeBuiltInValidation({
+  1318|               fields: _fields,
+  1319|               onlyCheckValid: true,
+  1320|               name: name as FieldPath<TFieldValues>,
+  1321|               eventType: event.type,
+  1322|             });
+  1323|           }
+  1324|         }
+  1325|       }
+  1326| 
+  1327|       if (isFieldValueUpdated) {
+  1328|         field._f.deps &&
+  1329|           (!Array.isArray(field._f.deps) || field._f.deps.length > 0) &&
+  1330|           trigger(
+  1331|             field._f.deps as
+  1332|               | FieldPath<TFieldValues>
+  1333|               | FieldPath<TFieldValues>[],
+  1334|           );
+  1335|         shouldRenderByError(name, isValid, error, fieldState);
+  1336|       }
+  1337|     }
+  1338|   };
+  callers (0):
+  skeleton: 165 lines, 20 branches, 0 loops, 1 nested function(s), async
+  returns (3):
+    1251 return ( shouldRender && _subjects.state.next({ name, ...(watched ? {} : fieldState) }) );
+    1271 return;
+    1280 return;
+  locals: target (1176), name (1177), isFieldValueUpdated (1178), field (1179), error (1188), isValid (1189), fieldValue (1190-1192), isBlurEvent (1193-1194), hasNoValidationEffect (1195-1200), shouldSkipValidation (1201-1209), watched (1210), pendingDelayError (1217), fieldState (1224), shouldRender (1226), resetCallId (1267), { errors } (1268), previousErrorLookupResult (1283-1287), errorLookupResult (1288-1292)
+  nested (1): _updateIsFieldValueUpdated 1180-1185
+  uses (same file):
+    createFormControl.updateTouchAndDirty :527 (1224)
+    createFormControl._isTracked :218 (1240, 1316)
+    createFormControl._setValid :254 (1244, 1247)
+    createFormControl.validateForm :706 (1258)
+    createFormControl._runSchema :648 (1268)
+    createFormControl._updateIsValidating :279 (1274, 1299, 1309)
+    onChange._updateIsFieldValueUpdated :1180 (1276, 1311)
+    createFormControl.executeBuiltInValidation :747 (1317)
+    createFormControl.trigger :1348 (1330)
+    createFormControl.shouldRenderByError :603 (1335)
+  uses (other files):
+    getEventValue src/logic/getEventValue.ts:7 (1192)
+    getFieldValue src/logic/getFieldValue.ts:11 (1191)
+    hasValidation src/logic/hasValidation.ts:4 (1196)
+    isWatched src/logic/isWatched.ts:3 (1210)
+    schemaErrorLookup src/logic/schemaErrorLookup.ts:4 (1283, 1288)
+    skipValidation src/logic/skipValidation.ts:3 (1203)
+    validateField src/logic/validateField.ts:34 (1301)
+    cloneObject src/utils/cloneObject.ts:3 (1212, 1233)
+    get src/utils/get.ts:9 (1179, 1199, 1205)
+    isEmptyObject src/utils/isEmptyObject.ts:5 (1226, 1279, 1297)
+    set src/utils/set.ts:8 (1212)
+  outer:
+    _state.mount property [unresolved] (1175)
+    EVENTS identifier src/constants.ts:1 (1194, 2 total)
+    UseFormProps.validate property [unresolved] (1197, 1257)
+    _options.resolver property [unresolved] (1198, 1257, 1266)
+    _formState.errors property [unresolved] (1199, 1284)
+    _formState.touchedFields property [unresolved] (1205)
+    _formState.isSubmitted property [unresolved] (1206)
+    _formState.isValid property [unresolved] (1239)
+    _options.mode property [unresolved] (1242)
+    Names.disabled property [unresolved] (1303)
+    _options.shouldUseNativeValidation property [unresolved] (1306)
+  unresolved:
+    field._f.onBlur [unresolved] (1216)
+    field._f.onChange [unresolved] (1221)
+    _subjects.state.next [unresolved] (1229, 1253, 1264, 4 total)
+  referenced by:
+    createFormControl.register function src/logic/createFormControl.ts:1696-1798
+  refs (2):
+    src/logic/createFormControl.ts (2)
+      1740 [identifier] in createFormControl.register:1696-1798: onChange,
+      1741 [identifier] in createFormControl.register:1696-1798: onBlur: onChange,
+### STATUS: 0 BYTES: 9165
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: onChange ### CMD: --path ### CMD: src/logic/createFormControl.ts ### CMD: --limit ### CMD: 50 
+refs onChange: 5 total (resolved 2, unresolved 3) by kind (identifier 2, method 1, property 2)
+targets:
+  createFormControl.onChange function src/logic/createFormControl.ts:1174-1338
+src/logic/createFormControl.ts (5)
+  112 [property unresolved] in defaultOptions:110-114: reValidateMode: VALIDATION_MODE.onChange,
+  1220 [property unresolved] in createFormControl.onChange:1174-1338: } else if (field._f.onChange) {
+  1221 [method unresolved] in createFormControl.onChange:1174-1338: field._f.onChange(event);
+  1740 [identifier] in createFormControl.register:1696-1798: onChange,
+  1741 [identifier] in createFormControl.register:1696-1798: onBlur: onChange,
+### STATUS: 0 BYTES: 660
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: resolve ### CMD: createFormControl.handleFieldEvent ### CMD: --with-refs 
+no definition found for "createFormControl.handleFieldEvent"
+no definition with that name; try search (identifiers and string literals), search --regex, or files to browse
+### STATUS: 0 BYTES: 171
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: refs ### CMD: handleFieldEvent ### CMD: --path ### CMD: src/logic/createFormControl.ts 
+refs handleFieldEvent: 0 total () by kind ()
+### STATUS: 0 BYTES: 44
+
+### CMD: $SCRATCH/codegraph ### CMD: --repo ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: --max-tokens ### CMD: 4000 ### CMD: search ### CMD: handleFieldEvent ### CMD: --path ### CMD: src/logic/createFormControl.ts 
+0 hit(s) in 0 file(s)
+no identifier matches; try --regex for free text, or resolve for a symbol name
+### STATUS: 0 BYTES: 100
+
+### CMD: git ### CMD: -C ### CMD: $SCRATCH/edit/e3-sonnet-cg ### CMD: diff 
+diff --git a/src/logic/createFormControl.ts b/src/logic/createFormControl.ts
+index 66815ad..aef7789 100644
+--- a/src/logic/createFormControl.ts
++++ b/src/logic/createFormControl.ts
+@@ -1171,7 +1171,7 @@ export function createFormControl<
+     }
+   };
+ 
+-  const onChange: ChangeHandler = async (event) => {
++  const handleFieldEvent: ChangeHandler = async (event) => {
+     _state.mount = true;
+     const target = event.target;
+     let name: string = target.name;
+@@ -1737,8 +1737,8 @@ export function createFormControl<
+           }
+         : {}),
+       name,
+-      onChange,
+-      onBlur: onChange,
++      onChange: handleFieldEvent,
++      onBlur: handleFieldEvent,
+       ref: (ref: HTMLInputElement | null): void => {
+         if (ref) {
+           _names.registerName.add(name);
+### STATUS: 0 BYTES: 790
+

@@ -1,0 +1,14 @@
+{
+  "repos": [
+    {"name": "react", "url": "https://github.com/facebook/react", "lang": "javascript", "role": "scale",
+     "note": "JavaScript com Flow: só indexação, escala e busca; os type checkers de TS não servem de gabarito aqui"},
+    {"name": "excalidraw", "url": "https://github.com/excalidraw/excalidraw", "lang": "typescript", "role": "full",
+     "note": "app React em TypeScript, monorepo"},
+    {"name": "react-hook-form", "url": "https://github.com/react-hook-form/react-hook-form", "lang": "typescript", "role": "full",
+     "sha": "38efe7b54d1171c2c40b444ccfbc26b8de0b4699", "note": "mesmo commit das rodadas 1 a 9"},
+    {"name": "spring-petclinic", "url": "https://github.com/spring-projects/spring-petclinic", "lang": "java", "role": "full",
+     "sha": "818c4136ea971c21674525f9053de0d9c7ad8cfe", "note": "mesmo commit das rodadas 1 a 9"},
+    {"name": "gin", "url": "https://github.com/gin-gonic/gin", "lang": "go", "role": "full", "note": "router HTTP"},
+    {"name": "flask", "url": "https://github.com/pallets/flask", "lang": "python", "role": "full"}
+  ]
+}

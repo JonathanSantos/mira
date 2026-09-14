@@ -1,0 +1,112 @@
+### CMD: grep ### CMD: -rn ### CMD: processFindForm\\\|private\ \\\|findByLastName\\\|PageRequest\\\|addPaginationModel\\\|throws\\\|\^public\ class\\\|\^class\\\|\^interface\\\|\^public\ interface ### CMD: --include=\*.java ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/ 
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:46:public class Pet extends NamedEntity {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:50:	private LocalDate birthDate;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:54:	private PetType type;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:59:	private final Set<Visit> visits = new LinkedHashSet<>();
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:43:class VisitController {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:45:	private final OwnerRepository owners;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetTypeFormatter.java:37:public class PetTypeFormatter implements Formatter<PetType> {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetTypeFormatter.java:39:	private final PetTypeRepository types;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetTypeFormatter.java:52:	public PetType parse(String text, Locale locale) throws ParseException {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java:36:public interface OwnerRepository extends JpaRepository<Owner, Integer> {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java:45:	Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java:57:	 * @throws IllegalArgumentException if the id is null (assuming null is not a valid
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:23:import org.springframework.data.domain.PageRequest;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:49:class OwnerController {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:51:	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:53:	private final OwnerRepository owners;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:95:	public String processFindForm(@RequestParam(defaultValue = "1") int page, Owner owner, BindingResult result,
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:121:		return addPaginationModel(page, model, ownersResults);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:124:	private String addPaginationModel(int page, Model model, Page<Owner> paginated) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:133:	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:135:		Pageable pageable = PageRequest.of(page - 1, pageSize);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java:136:		return owners.findByLastNameStartingWith(lastname, pageable);
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetTypeRepository.java:30:public interface PetTypeRepository extends JpaRepository<PetType, Integer> {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:49:class PetController {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:51:	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:53:	private final OwnerRepository owners;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:55:	private final PetTypeRepository types;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:186:	private void updatePetDetails(Owner owner, Pet pet) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetController.java:202:	private boolean isDuplicatePetNameViolation(DataIntegrityViolationException ex) {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java:32:public class PetValidator implements Validator {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java:34:	private static final String REQUIRED = "required";
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetValidator.java:36:	private static final int MAX_NAME_LENGTH = 30;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:49:public class Owner extends Person {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:53:	private String address;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:57:	private String city;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:62:	private String telephone;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:67:	private final List<Pet> pets = new ArrayList<>();
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java:36:public class Visit extends BaseEntity {
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java:40:	private LocalDate date;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/Visit.java:43:	private String description;
+$SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/PetType.java:28:public class PetType extends NamedEntity {
+### STATUS: 0 BYTES: 10981
+
+### CMD: sed ### CMD: -n ### CMD: 86\,138p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerController.java 
+		return "redirect:/owners/" + owner.getId();
+	}
+
+	@GetMapping("/owners/find")
+	public String initFindForm() {
+		return "owners/findOwners";
+	}
+
+	@GetMapping("/owners")
+	public String processFindForm(@RequestParam(defaultValue = "1") int page, Owner owner, BindingResult result,
+			Model model) {
+		// allow parameterless GET request for /owners to return all records
+		String lastName = owner.getLastName();
+		if (lastName == null) {
+			lastName = ""; // empty string signifies broadest possible search
+		}
+		else {
+			lastName = lastName.strip();
+		}
+
+		// find owners by last name
+		Page<Owner> ownersResults = findPaginatedForOwnersLastName(page, lastName);
+		if (ownersResults.isEmpty()) {
+			// no owners found
+			result.rejectValue("lastName", "notFound", "not found");
+			return "owners/findOwners";
+		}
+
+		if (ownersResults.getTotalElements() == 1) {
+			// 1 owner found
+			owner = ownersResults.iterator().next();
+			return "redirect:/owners/" + owner.getId();
+		}
+
+		// multiple owners found
+		return addPaginationModel(page, model, ownersResults);
+	}
+
+	private String addPaginationModel(int page, Model model, Page<Owner> paginated) {
+		List<Owner> listOwners = paginated.getContent();
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", paginated.getTotalPages());
+		model.addAttribute("totalItems", paginated.getTotalElements());
+		model.addAttribute("listOwners", listOwners);
+		return "owners/ownersList";
+	}
+
+	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) {
+		int pageSize = 5;
+		Pageable pageable = PageRequest.of(page - 1, pageSize);
+		return owners.findByLastNameStartingWith(lastname, pageable);
+	}
+### STATUS: 0 BYTES: 1677
+
+### CMD: sed ### CMD: -n ### CMD: 36\,46p ### CMD: $SCRATCH/field/spring-petclinic/src/main/java/org/springframework/samples/petclinic/owner/OwnerRepository.java 
+public interface OwnerRepository extends JpaRepository<Owner, Integer> {
+
+	/**
+	 * Retrieve {@link Owner}s from the data store by last name, returning all owners
+	 * whose last name <i>starts</i> with the given name.
+	 * @param lastName Value to search for
+	 * @return a Collection of matching {@link Owner}s (or an empty Collection if none
+	 * found)
+	 */
+	Page<Owner> findByLastNameStartingWith(String lastName, Pageable pageable);
+### STATUS: 0 BYTES: 433
+

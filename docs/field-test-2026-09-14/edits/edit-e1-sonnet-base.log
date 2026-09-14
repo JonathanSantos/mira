@@ -1,0 +1,82 @@
+### CMD: grep ### CMD: -rn ### CMD: addVisit ### CMD: $SCRATCH/edit/e1-sonnet-base ### CMD: --include=\*.java 
+$SCRATCH/edit/e1-sonnet-base/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:229:		owner6.addVisit(pet7.getId(), visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81:	public void addVisit(Visit visit) {
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:79:		pet.addVisit(visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:108:		owner.addVisit(petId, visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void addVisit(Integer petId, Visit visit) {
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+### STATUS: 0 BYTES: 1479
+
+### CMD: grep ### CMD: -rn ### CMD: addVisit ### CMD: $SCRATCH/edit/e1-sonnet-base 
+Binary file $SCRATCH/edit/e1-sonnet-base/.codegraph/index.db matches
+$SCRATCH/edit/e1-sonnet-base/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:229:		owner6.addVisit(pet7.getId(), visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_de.properties:43:addVisit=Besuch hinzufügen
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_ko.properties:43:addVisit=방문 추가
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_fa.properties:43:addVisit=افزودن ویزیت
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_ja.properties:45:addVisit=診察を追加
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_pt.properties:43:addVisit=Adicionar visita
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_es.properties:43:addVisit=Agregar visita
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_hi.properties:45:addVisit=\u092F\u093E\u0924\u094D\u0930\u093E \u091C\u094B\u0921\u093C\u0947\u0902
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_tr.properties:43:addVisit=Ziyaret Ekle
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages_ru.properties:43:addVisit=Добавить визит
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/messages/messages.properties:43:addVisit=Add Visit
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/templates/pets/createOrUpdateVisitForm.html:39:        <button class="btn btn-primary" type="submit" th:text="#{addVisit}">Add Visit</button>
+$SCRATCH/edit/e1-sonnet-base/src/main/resources/templates/owners/ownerDetails.html:73:            <td><a th:href="@{__${owner.id}__/pets/__${pet.id}__/visits/new}" th:text="#{addVisit}">Add Visit</a></td>
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81:	public void addVisit(Visit visit) {
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:79:		pet.addVisit(visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:108:		owner.addVisit(petId, visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void addVisit(Integer petId, Visit visit) {
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+### STATUS: 0 BYTES: 4455
+
+### CMD: grep ### CMD: -rn ### CMD: addVisit\\\|scheduleVisit ### CMD: $SCRATCH/edit/e1-sonnet-base ### CMD: --include=\*.java 
+$SCRATCH/edit/e1-sonnet-base/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java:229:		owner6.scheduleVisit(pet7.getId(), visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Pet.java:81:	public void addVisit(Visit visit) {
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:79:		pet.addVisit(visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java:108:		owner.scheduleVisit(petId, visit);
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:173:	public void scheduleVisit(Integer petId, Visit visit) {
+$SCRATCH/edit/e1-sonnet-base/src/main/java/org/springframework/samples/petclinic/owner/Owner.java:182:		pet.addVisit(visit);
+### STATUS: 0 BYTES: 1494
+
+### CMD: git ### CMD: -C ### CMD: $SCRATCH/edit/e1-sonnet-base ### CMD: diff 
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/Owner.java b/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+index 44ff8c5..9c9f20d 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/Owner.java
+@@ -170,7 +170,7 @@ public class Owner extends Person {
+ 	 * @param petId the identifier of the {@link Pet}, must not be {@literal null}.
+ 	 * @param visit the visit to add, must not be {@literal null}.
+ 	 */
+-	public void addVisit(Integer petId, Visit visit) {
++	public void scheduleVisit(Integer petId, Visit visit) {
+ 
+ 		Assert.notNull(petId, "Pet identifier must not be null!");
+ 		Assert.notNull(visit, "Visit must not be null!");
+diff --git a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+index b8b2700..558271c 100644
+--- a/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
++++ b/src/main/java/org/springframework/samples/petclinic/owner/VisitController.java
+@@ -105,7 +105,7 @@ class VisitController {
+ 			return "pets/createOrUpdateVisitForm";
+ 		}
+ 
+-		owner.addVisit(petId, visit);
++		owner.scheduleVisit(petId, visit);
+ 		this.owners.save(owner);
+ 		redirectAttributes.addFlashAttribute("message", "Your visit has been booked");
+ 		return "redirect:/owners/{ownerId}";
+diff --git a/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java b/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
+index 96f90df..1626dba 100644
+--- a/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
++++ b/src/test/java/org/springframework/samples/petclinic/service/ClinicServiceTests.java
+@@ -226,7 +226,7 @@ class ClinicServiceTests {
+ 		Visit visit = new Visit();
+ 		visit.setDescription("test");
+ 
+-		owner6.addVisit(pet7.getId(), visit);
++		owner6.scheduleVisit(pet7.getId(), visit);
+ 		this.owners.save(owner6);
+ 
+ 		assertThat(pet7.getVisits()) //
+### STATUS: 0 BYTES: 2115
+

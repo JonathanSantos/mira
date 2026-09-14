@@ -1,0 +1,24 @@
+diff --git a/src/logic/createFormControl.ts b/src/logic/createFormControl.ts
+index 66815ad..aef7789 100644
+--- a/src/logic/createFormControl.ts
++++ b/src/logic/createFormControl.ts
+@@ -1171,7 +1171,7 @@ export function createFormControl<
+     }
+   };
+ 
+-  const onChange: ChangeHandler = async (event) => {
++  const handleFieldEvent: ChangeHandler = async (event) => {
+     _state.mount = true;
+     const target = event.target;
+     let name: string = target.name;
+@@ -1737,8 +1737,8 @@ export function createFormControl<
+           }
+         : {}),
+       name,
+-      onChange,
+-      onBlur: onChange,
++      onChange: handleFieldEvent,
++      onBlur: handleFieldEvent,
+       ref: (ref: HTMLInputElement | null): void => {
+         if (ref) {
+           _names.registerName.add(name);
