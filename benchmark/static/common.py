@@ -32,6 +32,16 @@ def write_json(path, data):
     path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
 
 
+def sample_path(repo, sample_set=""):
+    """Amostra de símbolos: <repo>.json na rodada publicada, <repo>.<set>.json nas outras."""
+    return DATA / "samples" / (f"{repo}.{sample_set}.json" if sample_set else f"{repo}.json")
+
+
+def answers_path(repo, sample_set=""):
+    """Respostas das ferramentas para a amostra, uma por linha."""
+    return DATA / "static" / (f"{repo}.{sample_set}.jsonl" if sample_set else f"{repo}.jsonl")
+
+
 class Truth:
     """Gabarito de um repositório: definições e referências por linha."""
 
@@ -56,6 +66,9 @@ class Truth:
         for d in self.defs.values():
             self.by_name[d["name"]].append(d["id"])
             self.declared[d["name"]].add((d["file"], d["line"]))
+        # Arquivos que o gabarito analisou. Fora deles (build tag, configuração)
+        # o gabarito não diz se um uso é do símbolo.
+        self.files = {d["file"] for d in self.defs.values()} | {file for file, _ in self.at}
         self._files = {}
 
     def text(self, key):
@@ -73,11 +86,12 @@ class Truth:
         """Classifica as linhas que uma ferramenta devolveu para o símbolo.
 
         tp: o gabarito tem referência ao símbolo na linha.
-        fp: a linha não tem o nome como palavra, declara um homônimo, o
+        fp: a linha não tem o nome como palavra, só declara um homônimo, o
             gabarito resolve o nome ali para outro símbolo, ou (gabarito de
-            compilador) não há referência nenhuma naquela linha.
-        unknown: só no Python: o nome está na linha e o jedi não resolveu
-            aquele uso; fica fora da precision e é reportado à parte.
+            compilador, arquivo analisado) não há referência nenhuma ali.
+        unknown: o nome está na linha e o gabarito não decide: no Python o
+            jedi não resolveu aquele uso; em qualquer linguagem, o arquivo
+            ficou fora do gabarito. Fica fora da precision e é reportado à parte.
         fn: referências do gabarito que a ferramenta não devolveu.
         """
         target = self.defs[def_id]
@@ -86,13 +100,18 @@ class Truth:
         pattern = re.compile(rf"(?<![\w$]){re.escape(target['name'])}(?![\w$])")
         verdict = {"tp": set(), "fp": set(), "unknown": set()}
         for key in set(lines) - {declaration}:
+            uses = len(pattern.findall(self.text(key)))
             if key in expected:
                 verdict["tp"].add(key)
-            elif not pattern.search(self.text(key)) or key in self.declared[target["name"]]:
+            elif uses == 0:
+                verdict["fp"].add(key)
+            elif key in self.declared[target["name"]] and (self.complete or uses == 1):
+                # A linha declara um homônimo. No Python, se o nome aparece de novo
+                # (class Flask(flask.Flask)), o jedi pode só não ter visto o uso.
                 verdict["fp"].add(key)
             elif any(self.defs[other]["name"] == target["name"] for other in self.at.get(key, ())):
                 verdict["fp"].add(key)
-            elif self.complete:
+            elif self.complete and key[0] in self.files:
                 verdict["fp"].add(key)
             else:
                 verdict["unknown"].add(key)

@@ -3,7 +3,7 @@
 perguntas sobre os símbolos sorteados, e cada resposta vira uma linha em
 _data/static/<repo>.jsonl (a pontuação fica com score.py).
 
-Uso: python3 static/run.py <repo> [--tools grep,mira,...] [--limit N]
+Uso: python3 static/run.py <repo> [--tools grep,mira,...] [--limit N] [--set NOME]
 """
 import argparse
 import contextlib
@@ -11,7 +11,7 @@ import json
 import time
 
 import adapters
-from common import DATA
+from common import answers_path, sample_path
 
 TOOLS = ["grep", "mira", "mira-refs", "mira-qrefs", "probe", "serena", "aider-map"]
 QUESTIONS = ("definition", "references")
@@ -32,11 +32,12 @@ def main():
     parser.add_argument("repo")
     parser.add_argument("--tools", default=",".join(TOOLS))
     parser.add_argument("--limit", type=int, default=0, help="only the first N symbols (smoke runs)")
+    parser.add_argument("--set", default="", help="named sample from sample.py --set")
     args = parser.parse_args()
-    symbols = json.loads((DATA / "samples" / f"{args.repo}.json").read_text())["symbols"]
+    symbols = json.loads(sample_path(args.repo, args.set).read_text())["symbols"]
     if args.limit:
         symbols = symbols[: args.limit]
-    out = DATA / "static" / f"{args.repo}.jsonl"
+    out = answers_path(args.repo, args.set)
     out.parent.mkdir(parents=True, exist_ok=True)
     tools = args.tools.split(",")
     kept = [row for row in _existing(out) if row["tool"] not in tools]

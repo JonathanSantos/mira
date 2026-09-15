@@ -6,13 +6,13 @@ da linha em volta do nome: chamada qualificada, chamada solta, chave de
 literal, acesso a campo, uso como tipo, import. É a análise de erro que diz o
 que corrigir, não só quanto errou.
 
-Uso: python3 static/misses.py <repo> <ferramenta> [--show N]
+Uso: python3 static/misses.py <repo> <ferramenta> [--show N] [--set NOME]
 """
 import argparse
 import re
 from collections import Counter, defaultdict
 
-from common import DATA, Truth, read_jsonl
+from common import Truth, answers_path, read_jsonl
 
 
 def category(text, name):
@@ -36,9 +36,10 @@ def main():
     parser.add_argument("repo")
     parser.add_argument("tool")
     parser.add_argument("--show", type=int, default=3)
+    parser.add_argument("--set", default="", help="named sample from sample.py --set")
     args = parser.parse_args()
     truth = Truth(args.repo)
-    rows = [r for r in read_jsonl(DATA / "static" / f"{args.repo}.jsonl") if r["tool"] == args.tool and r["question"] == "references"]
+    rows = [r for r in read_jsonl(answers_path(args.repo, args.set)) if r["tool"] == args.tool and r["question"] == "references"]
     buckets = {"fn": defaultdict(list), "fp": defaultdict(list)}
     for row in rows:
         target = truth.defs[row["symbol"]]

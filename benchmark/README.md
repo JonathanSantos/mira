@@ -60,12 +60,18 @@ essas linhas viram `unknown` e ficam fora da precision.
 
 - `static/sample.py` sorteia 40 símbolos por repositório, estratificados por
   tipo (funções e métodos, tipos, membros, valores), metade com homônimos, com
-  2 a 200 referências. A semente é fixa.
+  2 a 200 referências. A semente é fixa. Com `--set` e `--scale`, sorteia outra
+  amostra, maior, sem mexer na publicada.
 - `static/run.py` faz cada ferramenta responder a duas perguntas por símbolo:
   onde está a definição e quais são as referências.
 - `static/score.py` pontua contra o gabarito e grava `results/static-<data>.md`.
 - `static/misses.py` agrupa o que uma ferramenta perdeu ou inventou por padrão
   de código: é a análise de erro que diz o que corrigir.
+- `static/recall.py` mede o recall do Mira numa amostra (em geral a ampliada),
+  com intervalo de 95%, e diz por que cada referência se perdeu consultando o
+  índice do próprio Mira: não extraída, ambígua, externa, outra sobrecarga ou
+  sem resolução, e, para receiver sem tipo, de onde ele veio. Com qualquer
+  referência errada ele sai com código 1: é o portão de precisão.
 
 Métricas:
 
@@ -74,6 +80,7 @@ Métricas:
 | precision | referências certas sobre as devolvidas, por linha |
 | recall | referências do gabarito que a ferramenta devolveu, por linha |
 | homônimos | as mesmas medidas só nos símbolos cujo nome aparece em outra definição |
+| sem gabarito | usos que o gabarito não decide (o jedi não resolveu, ou o arquivo ficou fora do gabarito por build tag); não entram na precision |
 | acerto no 1º | o primeiro candidato de definição contém a linha certa |
 | bytes | tamanho da saída no formato padrão da ferramenta, o que um agente leria |
 | ms | latência da chamada, com o servidor ou índice já aquecido |
@@ -113,6 +120,7 @@ node groundtruth/tstruth/refs.mjs _repos/react-hook-form _data/groundtruth/react
 _tools/py312/bin/python groundtruth/pytruth/refs.py _repos/flask _data/groundtruth/flask
 java groundtruth/javatruth/JavaTruth.java _repos/spring-petclinic _data/groundtruth/spring-petclinic
 cd static && python3 sample.py gin && python3 run.py gin && python3 score.py gin
+python3 sample.py --set recall --scale 8 gin && python3 run.py gin --set recall --tools mira && python3 recall.py --set recall gin
 ```
 
 `_repos`, `_tools` e `_data` são gerados e regeneráveis; o prefixo `_` os tira
@@ -138,6 +146,9 @@ do `go ./...`.
 - O aider como agente precisa de chave de API; sem ela entra só o repo map.
 - O gabarito de Python é incompleto, e o de Java não enxerga membros herdados de
   dependências ausentes.
+- O gabarito de Go usa as build tags padrão: arquivos com outras tags
+  (`binding_nomsgpack.go` no gin) ficam fora dele, e usos ali contam como sem
+  gabarito, não como erro.
 
 ## Resultados da primeira rodada (2026-09-14)
 
@@ -388,3 +399,63 @@ Por que demorava e o que mudou:
   (0,85 s contra 0,74 s na edição do `App.tsx`), então ficou uma linha por comando.
 - O que resta na edição do `App.tsx` é regravar 52 mil palavras e 9,5 mil refs
   (0,75 s) e resolver o próprio arquivo (0,43 s).
+
+## Terceira rodada: recall numa amostra maior (2026-09-14)
+
+Com 40 símbolos por repositório, o recall tem margem larga demais para orientar
+correções. `static/recall.py` mede o Mira numa amostra ampliada
+(`sample.py --set recall --scale 8`), com intervalo de 95% por bootstrap, e
+classifica cada referência perdida pelo índice do próprio Mira. O relatório, com
+exemplos de cada causa, está em [results/recall-2026-09-14.md](results/recall-2026-09-14.md).
+
+| repositório | símbolos | precision | recall | IC 95% | recall com 40 símbolos |
+|---|---|---|---|---|---|
+| gin | 320 | 100% | 86% | 80–91% | 95% |
+| flask | 292 | 100% | 68% | 62–74% | 73% |
+| spring-petclinic | 107 | 100% | 68% | 58–78% | 84% |
+| excalidraw | 320 | 100% | 70% | 61–79% | 74% |
+| react-hook-form | 239 | 100% | 68% | 55–77% | 36% |
+
+Com 40 símbolos, o intervalo do react-hook-form ia de 16% a 64%: os 36% eram
+ruído da amostra, não o recall do Mira nesse repositório.
+
+O portão de precisão falhou na primeira passada. As falhas eram de três tipos,
+todas corrigidas antes dos números acima:
+
+- Harness: um uso num arquivo fora do gabarito (build tag) contava como erro e
+  agora conta como sem gabarito. No Python, uma linha que declara um homônimo e
+  também usa o nome (`class Flask(flask.Flask):`) deixou de contar como erro.
+- Gabarito de Java: method references (`NamedEntity::getName`) não eram
+  registradas. O petclinic ganhou 2 referências.
+- Mira, em TypeScript: uma variável ou um parâmetro local não escondia o símbolo
+  de topo de mesmo nome (`let i = 0` fora e `(field, i) => i` dentro), e o
+  default de um parâmetro desestruturado (`{ onSubmit = noop }`) virava
+  declaração. Eram 47 referências erradas no excalidraw e no react-hook-form;
+  comparando os binários na mesma amostra, nenhuma referência certa se perdeu.
+
+Causas das referências perdidas, somando os cinco repositórios (os rótulos são os
+do relatório):
+
+| causa | perdidas | parte |
+|---|---|---|
+| unresolved, receiver without type | 945 | 31% |
+| not extracted | 850 | 28% |
+| unresolved, bare name | 567 | 19% |
+| unresolved, member not found on the receiver type | 286 | 9% |
+| resolved to another overload | 212 | 7% |
+| ambiguous | 131 | 4% |
+| marked external | 33 | 1% |
+| resolved to another definition | 16 | 1% |
+| unresolved, chain from a function call | 6 | 0% |
+
+Sobrecargas contam como perda porque o Mira e o gabarito escolhem declarações
+diferentes do mesmo conjunto: no flask o Mira liga a chamada à primeira
+`@overload`, e no TypeScript à implementação; o gabarito faz o contrário.
+
+Cada causa principal tem um exemplo mínimo em `internal/resolve/gaps_test.go`.
+Enquanto a lacuna está aberta, o teste só exige que o uso não aponte para a
+definição errada; quando o resolvedor passar a achar o alvo, o teste pede para
+fechar a lacuna e passa a proteger o ganho. Três exemplos que tentei já resolvem
+(composite literal numa tabela de testes, tipo importado sob `TYPE_CHECKING`,
+atributo tipado no `__init__`): a causa real dessas perdas no gin e no flask
+ainda não foi isolada.

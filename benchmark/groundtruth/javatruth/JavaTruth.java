@@ -2,6 +2,7 @@ import com.sun.source.tree.ClassTree;
 import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.IdentifierTree;
 import com.sun.source.tree.LineMap;
+import com.sun.source.tree.MemberReferenceTree;
 import com.sun.source.tree.MemberSelectTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.Tree;
@@ -181,6 +182,17 @@ public final class JavaTruth {
                 long end = positions.getEndPosition(unit, node);
                 refer(unit, getCurrentPath(), end < 0 ? -1 : end - node.getIdentifier().length());
                 return super.visitMemberSelect(node, unused);
+            }
+
+            // `NamedEntity::getName` usa o método. `Foo::new` fica de fora: o nome
+            // na árvore é <init>, não o que está escrito.
+            @Override
+            public Void visitMemberReference(MemberReferenceTree node, Void unused) {
+                if (node.getMode() != MemberReferenceTree.ReferenceMode.NEW) {
+                    long end = positions.getEndPosition(unit, node);
+                    refer(unit, getCurrentPath(), end < 0 ? -1 : end - node.getName().length());
+                }
+                return super.visitMemberReference(node, unused);
             }
         }.scan(unit, null);
     }
