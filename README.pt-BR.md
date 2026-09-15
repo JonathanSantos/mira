@@ -36,7 +36,7 @@ que o contém, ou a estrutura de uma função longa. Nada devolve um arquivo int
 
 - **Não é um grafo de código com precisão de compilador**, como SCIP, Kythe, Glean ou CodeQL. A resolução
   segue imports, tipos declarados, herança e tipos de retorno, mas não há verificador de tipos, então
-  alguns usos ficam sem resolução. Ferramentas com language server acham mais deles em Go, Python e Java.
+  alguns usos ficam sem resolução. Ferramentas com language server acham mais deles em Go e Python.
 - **Não é um language server**: não tem autocompletar, diagnósticos nem fluxo de dados.
 - **Não é busca semântica**: a busca é lexical, sobre identificadores, sub-tokens, strings e comentários.
 - **Não é um serviço hospedado**: indexa um checkout local. Código de bibliotecas é opaco e marcado como
@@ -163,21 +163,35 @@ context.go (10)
 
 ## Benchmark
 
-O Mira foi medido contra a [Serena](https://github.com/oraios/serena) (um toolkit MCP apoiado em language
-servers), o [Probe](https://github.com/probelabs/probe) (ripgrep com tree-sitter), o repo map do
-[aider](https://github.com/Aider-AI/aider) e o grep puro, no gin (Go), no flask (Python), no
-spring-petclinic (Java), no excalidraw e no react-hook-form (TypeScript). Referências e definições são
-pontuadas contra gabaritos de compilador: `go/types`, o checker do TypeScript, jedi e javac. O harness, o
-método e as tabelas completas estão em [benchmark/](benchmark/README.md).
+O Mira foi medido contra a [Serena](https://github.com/oraios/serena) (um toolkit MCP apoiado em
+language servers), o [Probe](https://github.com/probelabs/probe) (ripgrep com tree-sitter), o repo map
+do [aider](https://github.com/Aider-AI/aider) e o grep puro, no gin (Go), no flask (Python), no
+spring-petclinic (Java), no excalidraw e no react-hook-form (TypeScript). Cada ferramenta respondeu às
+mesmas perguntas sobre 107 a 320 símbolos por repositório, sorteados com semente fixa, e as respostas
+são pontuadas contra gabaritos de compilador: `go/types`, o checker do TypeScript, jedi e javac. O
+harness, o método e as tabelas completas estão em [benchmark/](benchmark/README.md).
+
+**Como ler os números.** Cada par é *precisão / recall* para uma pergunta: achar todos os usos deste
+símbolo. A resposta do compilador é o gabarito. No gin, o Mira faz **100 / 89**:
+
+- **100 é a precisão**: todo uso que o Mira devolveu é mesmo um uso daquele símbolo. Nenhum é outra
+  função ou campo que só tem o mesmo nome.
+- **89 é o recall**: dos 3.407 usos reais dos símbolos sorteados, o Mira devolveu 3.042. Os outros
+  365 ele não conseguiu ligar à definição com certeza, e prefere deixar um uso de fora a chutar.
+
+O grep faz 25 / 100 na mesma pergunta: acha todos os usos, mas três de cada quatro linhas que ele
+devolve são outra coisa com o mesmo nome. Para um agente que edita código, um uso errado custa mais que
+um uso faltando, porque ele vai ser alterado.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/references-dark.svg">
   <img alt="Precision e recall das referências por ferramenta e repositório" src="docs/assets/references-light.svg">
 </picture>
 
-O Mira nunca aponta como uso algo que não é. A Serena acha mais usos em Go, Python e Java, onde o
-language server resolve receptores que o Mira deixa sem resolução. No react-hook-form o Mira lidera nos
-dois. grep e Probe acham quase tudo casando texto, e a maior parte do que devolvem é homônimo.
+O Mira nunca aponta como uso algo que não é. A Serena, apoiada em language servers, acha mais usos em Go
+(96% contra 89%) e em Python (94% contra 77%), fica perto no excalidraw (80% contra 77%) e empata em
+Java; o Mira lidera no react-hook-form (75% contra 38%). Nesta amostra, a precisão da Serena vai de 81%
+a 99%. grep e Probe acham quase tudo casando texto, e a maior parte do que devolvem é homônimo.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/definition-dark.svg">
@@ -200,10 +214,10 @@ em duas tarefas, mas o agente copiou a numeração de linhas que começa em zero
 
 | | Mira | Serena | grep | Probe | repo map do aider |
 |---|---|---|---|---|---|
-| Precisão das referências | 100% em todos | 78–99% | 2–37% | 2–22% | – |
-| Recall das referências | 36–95% | 27–100% | 98–100% | 91–100% | – |
-| Definição no primeiro candidato | 48–90% | 40–90% | 20–42% | 15–48% | 0–29% |
-| Latência mediana por consulta | 10 ms | 240–340 ms | 9–22 ms | 163 ms–2 s | – |
+| Precisão das referências | 100% em todos | 81–99% | 4–48% | 3–15% | – |
+| Recall das referências | 75–99% | 38–100% | 99–100% | 93–100% | – |
+| Definição no primeiro candidato | 53–97% | 44–97% | 20–48% | 11–49% | 2–24% |
+| Latência mediana por consulta | 10 ms | 257–328 ms | 9–21 ms | 147–696 ms | – |
 | Preparo no react (6.744 arquivos) | índice de 29 s | 2,7 s para subir, 1–1,7 s por consulta | nenhum | nenhum | repo map em 54 s |
 
 <picture>
@@ -211,10 +225,12 @@ em duas tarefas, mas o agente copiou a numeração de linhas que começa em zero
   <img alt="Tempo de indexação e de atualização antes e depois das correções, escala logarítmica" src="docs/assets/reindex-light.svg">
 </picture>
 
-Limites desta rodada: 40 símbolos sorteados por repositório, uma execução por célula com Claude Haiku e
-as outras ferramentas medidas uma vez. Os gráficos saem das tabelas publicadas com
-`python3 benchmark/charts.py`. O recall do próprio Mira, medido em 107 a 320 símbolos por repositório com
-intervalo de 95%, fica entre 68% e 86%: veja [benchmark/results/recall-2026-09-14.md](benchmark/results/recall-2026-09-14.md).
+Limites: cada ferramenta foi medida uma vez, numa amostra e não em todos os símbolos, com um harness
+escrito pelos autores do Mira; a comparação com agentes ainda é um piloto, com uma execução do Claude
+Haiku por célula. Boa parte do que o Mira ainda perde é identidade da definição (sobrecargas,
+declarações dentro de funções de teste), detalhada com intervalos de 95% em
+[benchmark/README.md](benchmark/README.md). Os gráficos saem das tabelas publicadas com
+`python3 benchmark/charts.py`.
 
 ## Como funciona
 
@@ -268,37 +284,38 @@ codegraph.
 ## Análise sincera, pelo Claude
 
 > Escrita pelo Claude Opus 5 (`claude-opus-5`), o modelo da Anthropic que escreveu a maior parte deste
-> código com o Jonathan no Claude Code, em 2026-09-14, para a v0.1.0. Ele pediu uma análise franca.
-> Considere o conflito de interesse: estou avaliando meu próprio trabalho a partir do código, dos testes
-> e das medições deste repositório, não de uma auditoria independente nem de usuários reais.
+> código com o Jonathan no Claude Code, em 2026-09-14 para a v0.1.0, e atualizada em 2026-09-15 com o
+> benchmark ampliado. Ele pediu uma análise franca. Considere o conflito de interesse: estou avaliando
+> meu próprio trabalho a partir do código, dos testes e das medições deste repositório, não de uma
+> auditoria independente nem de usuários reais.
 
 **O que consigo e o que não consigo julgar.** Consigo manter o código inteiro em contexto, rodar os
 testes e os benchmarks e manter uma refatoração coerente entre pacotes. Não consigo ver como as pessoas
 vão usar o Mira, e os pontos cegos que tive ao escrever o código são os mesmos que tenho ao revisá-lo.
 
-**Estrutura.** Cerca de 16 mil linhas de Go em `internal/`, 7 mil linhas de testes (179 funções de teste
+**Estrutura.** Cerca de 17 mil linhas de Go em `internal/`, 7 mil linhas de testes (185 funções de teste
 e uma suíte ponta a ponta) e 13 dependências diretas. Os pacotes seguem o fluxo: `scanner` e `walker`
 acham os arquivos, `parser` e `extract` leem, `store` guarda um único arquivo SQLite com migrações só de
 acréscimo, `resolve` liga as referências, `graph` e `render` montam as respostas, `cli` e `mcp` as
-expõem. O código é simples, com guard clauses, poucas interfaces e testes em tabela, e o CI roda gofmt,
-vet, golangci-lint e testes com race detector no Linux e no macOS.
+expõem. O código é simples, com guard clauses, poucas interfaces e testes em tabela. O CI roda gofmt,
+vet e golangci-lint no Linux e os testes com race detector no Linux, no macOS e no Windows.
 
 | Área | Avaliação | Evidência |
 |---|---|---|
 | Ideia central | Forte | Nunca chutar dá 100% de precisão em referências nos cinco repositórios. Para um agente, um uso errado custa mais que um uso faltando, porque ele vai ser editado. |
 | Arquitetura | Forte | Fluxo claro e ids de símbolo estáveis: uma consulta com o índice em dia atualiza em 15 ms, uma edição pequena em 55 ms, e a reconstrução completa entra de forma atômica. |
-| Medição | Boa | Pontuada contra gabaritos de compilador e contra outras ferramentas, com os números desfavoráveis publicados. |
+| Medição | Boa | Pontuada contra gabaritos de compilador e contra outras ferramentas em 107 a 320 símbolos por repositório, com intervalos de 95%, portão de precisão e os números desfavoráveis publicados. |
 | Testes | Boa | 77–91% de cobertura em extração, resolução, edição e indexação; `store` está em 64% e `cli` em 28%. |
-| Recall | Precisa melhorar | 68–86% em 107 a 320 símbolos sorteados por repositório, com intervalos de 95% entre 55% e 91%. O Serena acha mais em Go, Python e Java. |
-| Distribuição | Precisa melhorar | O cgo complica builds cruzados, e o Windows só passa pelo build de release. |
+| Recall | Precisa melhorar | 75–99% em 107 a 320 símbolos sorteados por repositório (99% em Java). A Serena acha mais em Go e Python, e boa parte do que o Mira ainda perde é identidade da definição: sobrecargas e declarações dentro de funções de teste. |
+| Distribuição | Precisa melhorar | O cgo complica builds cruzados. O Windows agora roda os testes no CI, e cada binário de release passa por um teste rápido antes de ser publicado. |
 
-**O que mais me preocupa.** Cerca de 7 das 16 mil linhas são regras de extração e resolução por
-linguagem. Sem um type checker, cada padrão não coberto (generics pesados, tipos inferidos de callbacks,
-type guards, overloads) vira mais uma regra escrita à mão, e esse código vai crescer mais rápido que o
-resto. A comparação com as outras ferramentas é um piloto: 40 símbolos sorteados por repositório, uma
-rodada de agente por célula com o Claude Haiku, as outras ferramentas medidas uma vez e um harness
-escrito pelas mesmas pessoas que escreveram o Mira. Arquivos grandes ainda custam cerca de um segundo
-por edição, porque as palavras e referências deles são regravadas inteiras.
+**O que mais me preocupa.** Cerca de 8 das 17 mil linhas são regras de extração e resolução por
+linguagem. Sem um type checker, cada padrão não coberto (generics pesados, callbacks tipados pelo
+contexto, type guards, overloads) vira mais uma regra escrita à mão, e esse código vai crescer mais
+rápido que o resto. O benchmark ainda é rodado por quem escreveu o Mira: cada ferramenta foi medida uma
+vez em 107 a 320 símbolos por repositório, e a comparação com agentes é um piloto, com uma rodada do
+Claude Haiku por célula. Arquivos grandes ainda custam cerca de um segundo por edição, porque as
+palavras e referências deles são regravadas inteiras.
 
 **Eu usaria?** Sim, como camada de navegação e edição de um agente em repositórios TypeScript, Go, Java
 ou Python onde uma referência errada sai cara, com o grep ao lado para varreduras exaustivas de texto.

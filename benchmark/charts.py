@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Gera os gráficos SVG do README a partir dos resultados publicados.
 
-Lê results/static-<data>.md e results/agent-<data>.md (gerados por static/score.py
-e agent/report.py) e results/reindex-<data>.json, e grava em docs/assets uma
+Lê a tabela da amostra ampliada (static/score.py --set recall), a rodada de agentes
+(agent/report.py) e a medição de reindexação, e grava em docs/assets uma
 versão clara e uma escura de cada gráfico: o <picture> do README escolhe pela
 preferência de tema do leitor. Só biblioteca padrão.
 
@@ -14,7 +14,9 @@ from pathlib import Path
 
 BENCH = Path(__file__).resolve().parent
 ASSETS = BENCH.parent / "docs" / "assets"
-DATE = "2026-09-14"
+STATIC_RESULTS = "static-recall-2026-09-15.md"  # todas as ferramentas, 107 a 320 símbolos por repositório
+AGENT_RESULTS = "agent-2026-09-14.md"
+REINDEX_RESULTS = "reindex-2026-09-14.json"
 FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
 
 THEMES = {
@@ -48,7 +50,7 @@ def number(cell):
 def static_tables():
     """(repo, seção, ferramenta) -> células da linha, das tabelas de score.py."""
     out, repo, section = {}, None, None
-    for line in (BENCH / "results" / f"static-{DATE}.md").read_text().splitlines():
+    for line in (BENCH / "results" / STATIC_RESULTS).read_text().splitlines():
         if line.startswith("### "):
             repo = line[4:].strip()
         elif line.startswith("Referências"):
@@ -64,7 +66,7 @@ def static_tables():
 def agent_calls():
     """(tarefa, braço) -> chamadas da repetição mais recente."""
     out, task = {}, None
-    for line in (BENCH / "results" / f"agent-{DATE}.md").read_text().splitlines():
+    for line in (BENCH / "results" / AGENT_RESULTS).read_text().splitlines():
         if line.startswith("## "):
             task = line[3:].split(" ")[0]
         elif line.startswith("| ") and not line.startswith(("| braço", "|---")):
@@ -146,7 +148,7 @@ def references_chart(theme, tables):
                         lambda repo, tool, c=column: number(tables.get((repo, "refs", tool), [None] * 10)[c] or ""),
                         theme, linear(100), PERCENT_TICKS)
     return document(960, 400, theme, "Find every use of a symbol, and only its uses",
-                    "Reference precision and recall against compiler ground truth: 40 sampled symbols per repository (31 in petclinic)", body)
+                    "Reference precision and recall against compiler ground truth: 107 to 320 sampled symbols per repository", body)
 
 
 def definition_chart(theme, tables):
@@ -209,7 +211,7 @@ def duration(seconds):
 
 def main():
     tables, calls = static_tables(), agent_calls()
-    reindex = json.loads((BENCH / "results" / f"reindex-{DATE}.json").read_text())
+    reindex = json.loads((BENCH / "results" / REINDEX_RESULTS).read_text())
     charts = {
         "references": lambda t: references_chart(t, tables),
         "definition": lambda t: definition_chart(t, tables),

@@ -36,7 +36,7 @@ with the method that contains it, or the structure of a long function. Nothing r
 
 - **Not a compiler-precise code graph** like SCIP, Kythe, Glean or CodeQL. Resolution follows imports,
   declared types, inheritance and return types, but there is no type checker, so some uses stay
-  unresolved. Tools backed by a language server find more of them in Go, Python and Java.
+  unresolved. Tools backed by a language server find more of them in Go and Python.
 - **Not a language server**: no completion, diagnostics or data flow.
 - **Not semantic search**: search is lexical, over identifiers, sub-tokens, strings and comments.
 - **Not a hosted service**: it indexes one local checkout. Library code is opaque and marked `external`.
@@ -164,18 +164,32 @@ context.go (10)
 Mira was measured against [Serena](https://github.com/oraios/serena) (an MCP toolkit backed by language
 servers), [Probe](https://github.com/probelabs/probe) (ripgrep plus tree-sitter), the
 [aider](https://github.com/Aider-AI/aider) repository map and plain grep, on gin (Go), flask (Python),
-spring-petclinic (Java), excalidraw and react-hook-form (TypeScript). References and definitions are
-scored against compiler ground truths: `go/types`, the TypeScript checker, jedi and javac. The harness,
-method and full tables are in [benchmark/](benchmark/README.md).
+spring-petclinic (Java), excalidraw and react-hook-form (TypeScript). Each tool answered the same
+questions about 107 to 320 symbols per repository, drawn with a fixed seed, and the answers are scored
+against compiler ground truths: `go/types`, the TypeScript checker, jedi and javac. The harness, method
+and full tables are in [benchmark/](benchmark/README.md).
+
+**How to read the numbers.** Each pair is *precision / recall* for one question: find every use of this
+symbol. The compiler's answer is the reference. In gin, Mira scores **100 / 89**:
+
+- **100 is precision**: every use Mira returned really is a use of that symbol. None is a different
+  function or field that only shares the name.
+- **89 is recall**: of the 3,407 real uses of the sampled symbols, Mira returned 3,042. The other
+  365 it could not tie to the definition with certainty, and it leaves a use out rather than guess.
+
+grep scores 25 / 100 on the same question: it finds every use, but three of every four lines it returns
+are something else with the same name. For an agent that edits code, a wrong use costs more than a
+missing one, because it gets changed.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/references-dark.svg">
   <img alt="Reference precision and recall by tool and repository" src="docs/assets/references-light.svg">
 </picture>
 
-Mira never reports a use that is not one. Serena finds more uses in Go, Python and Java, where its
-language server resolves receivers that Mira leaves unresolved. In react-hook-form Mira leads on both.
-grep and Probe find almost everything by matching text, and most of what they return is a homonym.
+Mira never reports a use that is not one. Serena, backed by language servers, finds more uses in Go (96%
+against 89%) and Python (94% against 77%), is close in excalidraw (80% against 77%) and ties in Java;
+Mira leads in react-hook-form (75% against 38%). On this sample Serena's precision ranges from 81% to
+99%. grep and Probe find almost everything by matching text, and most of what they return is a homonym.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/definition-dark.svg">
@@ -198,10 +212,10 @@ copied its zero-based line numbers and cited the wrong lines.
 
 | | Mira | Serena | grep | Probe | aider repo map |
 |---|---|---|---|---|---|
-| Reference precision | 100% everywhere | 78–99% | 2–37% | 2–22% | – |
-| Reference recall | 36–95% | 27–100% | 98–100% | 91–100% | – |
-| Definition on the first candidate | 48–90% | 40–90% | 20–42% | 15–48% | 0–29% |
-| Median latency per query | 10 ms | 240–340 ms | 9–22 ms | 163 ms–2 s | – |
+| Reference precision | 100% everywhere | 81–99% | 4–48% | 3–15% | – |
+| Reference recall | 75–99% | 38–100% | 99–100% | 93–100% | – |
+| Definition on the first candidate | 53–97% | 44–97% | 20–48% | 11–49% | 2–24% |
+| Median latency per query | 10 ms | 257–328 ms | 9–21 ms | 147–696 ms | – |
 | Setup on react (6,744 files) | 29 s index | 2.7 s start, 1–1.7 s per query | none | none | 54 s map |
 
 <picture>
@@ -209,10 +223,11 @@ copied its zero-based line numbers and cited the wrong lines.
   <img alt="Indexing and refresh time before and after the fixes, log scale" src="docs/assets/reindex-light.svg">
 </picture>
 
-Limits of this round: 40 sampled symbols per repository, one agent run per cell with Claude Haiku, and
-the other tools measured once. The charts are generated from the published tables with
-`python3 benchmark/charts.py`. Mira's own recall, measured on 107 to 320 symbols per repository with
-95% intervals, is 68–86%: see [benchmark/results/recall-2026-09-14.md](benchmark/results/recall-2026-09-14.md).
+Limits: every tool was measured once, on a sample rather than on every symbol, by a harness written by
+Mira's authors; the agent comparison is still a pilot, with one Claude Haiku run per cell. Much of what
+Mira still misses is definition identity (overloads, declarations inside test functions), detailed with
+95% intervals in [benchmark/README.md](benchmark/README.md). The charts are generated from the published
+tables with `python3 benchmark/charts.py`.
 
 ## How it works
 
@@ -265,36 +280,37 @@ was still called codegraph.
 ## An honest review, by Claude
 
 > Written by Claude Opus 5 (`claude-opus-5`), the Anthropic model that wrote most of this code with
-> Jonathan in Claude Code, on 2026-09-14, for v0.1.0. He asked for a frank review. Keep the conflict of
-> interest in mind: I am reviewing my own work from the code, the tests and the measurements in this
-> repository, not from an independent audit or from real users.
+> Jonathan in Claude Code, on 2026-09-14 for v0.1.0, and updated on 2026-09-15 with the wider benchmark.
+> He asked for a frank review. Keep the conflict of interest in mind: I am reviewing my own work from
+> the code, the tests and the measurements in this repository, not from an independent audit or from
+> real users.
 
 **What I can and cannot judge.** I can hold the whole codebase in context, run the tests and the
 benchmarks, and keep a refactor consistent across packages. I cannot see how people will use Mira, and
 the blind spots I had while writing the code are the same ones I have while reviewing it.
 
-**Structure.** About 16 thousand lines of Go in `internal/`, 7 thousand lines of tests (179 test
+**Structure.** About 17 thousand lines of Go in `internal/`, 7 thousand lines of tests (185 test
 functions plus an end-to-end suite) and 13 direct dependencies. The packages follow the pipeline:
 `scanner` and `walker` find files, `parser` and `extract` read them, `store` keeps one SQLite file with
 append-only migrations, `resolve` links references, `graph` and `render` build the answers, `cli` and
-`mcp` expose them. The code is plain, with guard clauses, few interfaces and table-driven tests, and CI
-runs gofmt, vet, golangci-lint and race tests on Linux and macOS.
+`mcp` expose them. The code is plain, with guard clauses, few interfaces and table-driven tests. CI runs
+gofmt, vet and golangci-lint on Linux and the race tests on Linux, macOS and Windows.
 
 | Area | Verdict | Evidence |
 |---|---|---|
 | Core idea | Strong | Never guessing gives 100% reference precision in all five repositories. For an agent a wrong use costs more than a missing one, because it gets edited. |
 | Architecture | Strong | A clear pipeline and stable symbol ids: a query on a fresh index refreshes in 15 ms, a small edit in 55 ms, and a full rebuild swaps in atomically. |
-| Measurement | Good | Scored against compiler ground truths and other tools, with the unflattering numbers published. |
+| Measurement | Good | Scored against compiler ground truths and other tools on 107 to 320 symbols per repository, with 95% intervals, a precision gate and the unflattering numbers published. |
 | Tests | Good | 77–91% coverage in extraction, resolution, editing and indexing; `store` is at 64% and `cli` at 28%. |
-| Recall | Needs work | 68–86% on 107 to 320 sampled symbols per repository, with 95% intervals between 55% and 91%. Serena finds more in Go, Python and Java. |
-| Distribution | Needs work | cgo makes cross-builds harder, and Windows is only exercised by the release build. |
+| Recall | Needs work | 75–99% on 107 to 320 sampled symbols per repository (99% in Java). Serena finds more in Go and Python, and much of what Mira still misses is definition identity: overloads and declarations inside test functions. |
+| Distribution | Needs work | cgo makes cross-builds harder. Windows now runs the tests in CI, and every release binary is smoke-tested before upload. |
 
-**What worries me most.** About 7 of the 16 thousand lines are per-language extraction and resolution
-rules. Without a type checker, every missed pattern (heavy generics, inferred callback types, type
+**What worries me most.** About 8 of the 17 thousand lines are per-language extraction and resolution
+rules. Without a type checker, every missed pattern (heavy generics, contextually typed callbacks, type
 guards, overloads) becomes one more hand-written rule, and that code will grow faster than the rest. The
-comparison with other tools is a pilot: 40 sampled symbols per repository, one agent run per cell with
-Claude Haiku, the other tools measured once, and a harness written by the same people who wrote Mira.
-Large files still cost about a second per edit, because their words and references are rewritten whole.
+benchmark is still run by the people who wrote Mira: every tool was measured once on 107 to 320 symbols
+per repository, and the agent comparison is a pilot with one Claude Haiku run per cell. Large files
+still cost about a second per edit, because their words and references are rewritten whole.
 
 **Would I use it?** Yes, as the navigation and editing layer for an agent in TypeScript, Go, Java or
 Python repositories where a wrong reference is expensive, with grep next to it for exhaustive text
