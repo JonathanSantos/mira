@@ -213,7 +213,8 @@ em duas tarefas, mas o agente copiou a numeração de linhas que começa em zero
 
 Limites desta rodada: 40 símbolos sorteados por repositório, uma execução por célula com Claude Haiku e
 as outras ferramentas medidas uma vez. Os gráficos saem das tabelas publicadas com
-`python3 benchmark/charts.py`.
+`python3 benchmark/charts.py`. O recall do próprio Mira, medido em 107 a 320 símbolos por repositório com
+intervalo de 95%, fica entre 68% e 86%: veja [benchmark/results/recall-2026-09-14.md](benchmark/results/recall-2026-09-14.md).
 
 ## Como funciona
 
@@ -288,16 +289,16 @@ vet, golangci-lint e testes com race detector no Linux e no macOS.
 | Arquitetura | Forte | Fluxo claro e ids de símbolo estáveis: uma consulta com o índice em dia atualiza em 15 ms, uma edição pequena em 55 ms, e a reconstrução completa entra de forma atômica. |
 | Medição | Boa | Pontuada contra gabaritos de compilador e contra outras ferramentas, com os números desfavoráveis publicados. |
 | Testes | Boa | 77–91% de cobertura em extração, resolução, edição e indexação; `store` está em 64% e `cli` em 28%. |
-| Recall | Precisa melhorar | 36% no react-hook-form e 73–84% no flask, petclinic e excalidraw. O Serena acha mais em Go, Python e Java. |
+| Recall | Precisa melhorar | 68–86% em 107 a 320 símbolos sorteados por repositório, com intervalos de 95% entre 55% e 91%. O Serena acha mais em Go, Python e Java. |
 | Distribuição | Precisa melhorar | O cgo complica builds cruzados, e o Windows só passa pelo build de release. |
 
 **O que mais me preocupa.** Cerca de 7 das 16 mil linhas são regras de extração e resolução por
 linguagem. Sem um type checker, cada padrão não coberto (generics pesados, tipos inferidos de callbacks,
 type guards, overloads) vira mais uma regra escrita à mão, e esse código vai crescer mais rápido que o
-resto. O benchmark é um piloto: 40 símbolos sorteados por repositório, uma rodada de agente por célula
-com o Claude Haiku, as outras ferramentas medidas uma vez e um harness escrito pelas mesmas pessoas que
-escreveram o Mira. Arquivos grandes ainda custam cerca de um segundo por edição, porque as palavras e
-referências deles são regravadas inteiras.
+resto. A comparação com as outras ferramentas é um piloto: 40 símbolos sorteados por repositório, uma
+rodada de agente por célula com o Claude Haiku, as outras ferramentas medidas uma vez e um harness
+escrito pelas mesmas pessoas que escreveram o Mira. Arquivos grandes ainda custam cerca de um segundo
+por edição, porque as palavras e referências deles são regravadas inteiras.
 
 **Eu usaria?** Sim, como camada de navegação e edição de um agente em repositórios TypeScript, Go, Java
 ou Python onde uma referência errada sai cara, com o grep ao lado para varreduras exaustivas de texto.

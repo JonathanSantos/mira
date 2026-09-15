@@ -211,7 +211,8 @@ copied its zero-based line numbers and cited the wrong lines.
 
 Limits of this round: 40 sampled symbols per repository, one agent run per cell with Claude Haiku, and
 the other tools measured once. The charts are generated from the published tables with
-`python3 benchmark/charts.py`.
+`python3 benchmark/charts.py`. Mira's own recall, measured on 107 to 320 symbols per repository with
+95% intervals, is 68–86%: see [benchmark/results/recall-2026-09-14.md](benchmark/results/recall-2026-09-14.md).
 
 ## How it works
 
@@ -285,15 +286,15 @@ runs gofmt, vet, golangci-lint and race tests on Linux and macOS.
 | Architecture | Strong | A clear pipeline and stable symbol ids: a query on a fresh index refreshes in 15 ms, a small edit in 55 ms, and a full rebuild swaps in atomically. |
 | Measurement | Good | Scored against compiler ground truths and other tools, with the unflattering numbers published. |
 | Tests | Good | 77–91% coverage in extraction, resolution, editing and indexing; `store` is at 64% and `cli` at 28%. |
-| Recall | Needs work | 36% in react-hook-form and 73–84% in flask, petclinic and excalidraw. Serena finds more in Go, Python and Java. |
+| Recall | Needs work | 68–86% on 107 to 320 sampled symbols per repository, with 95% intervals between 55% and 91%. Serena finds more in Go, Python and Java. |
 | Distribution | Needs work | cgo makes cross-builds harder, and Windows is only exercised by the release build. |
 
 **What worries me most.** About 7 of the 16 thousand lines are per-language extraction and resolution
 rules. Without a type checker, every missed pattern (heavy generics, inferred callback types, type
-guards, overloads) becomes one more hand-written rule, and that code will grow faster than the rest.
-The benchmark is a pilot: 40 sampled symbols per repository, one agent run per cell with Claude Haiku,
-the other tools measured once, and a harness written by the same people who wrote Mira. Large files
-still cost about a second per edit, because their words and references are rewritten whole.
+guards, overloads) becomes one more hand-written rule, and that code will grow faster than the rest. The
+comparison with other tools is a pilot: 40 sampled symbols per repository, one agent run per cell with
+Claude Haiku, the other tools measured once, and a harness written by the same people who wrote Mira.
+Large files still cost about a second per edit, because their words and references are rewritten whole.
 
 **Would I use it?** Yes, as the navigation and editing layer for an agent in TypeScript, Go, Java or
 Python repositories where a wrong reference is expensive, with grep next to it for exhaustive text
