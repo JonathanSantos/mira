@@ -459,3 +459,110 @@ fechar a lacuna e passa a proteger o ganho. Três exemplos que tentei já resolv
 (composite literal numa tabela de testes, tipo importado sob `TYPE_CHECKING`,
 atributo tipado no `__init__`): a causa real dessas perdas no gin e no flask
 ainda não foi isolada.
+
+## Quarta rodada: regras sem type checker (2026-09-15)
+
+As causas da terceira rodada viraram regras, uma por padrão medido, cada uma com um
+caso em `internal/resolve/gaps_test.go` e mantida só se a precisão continuasse em
+100%. Na mesma amostra ampliada, comparando com o binário anterior, nenhuma
+referência certa se perdeu e nenhuma errada entrou. Relatório em
+[results/recall-2026-09-15.md](results/recall-2026-09-15.md).
+
+| repositório | recall antes | recall depois | IC 95% | certas a mais |
+|---|---|---|---|---|
+| gin | 86% | 89% | 84–93% | 113 |
+| flask | 68% | 77% | 71–83% | 119 |
+| spring-petclinic | 68% | 99% | 99–100% | 199 |
+| excalidraw | 70% | 77% | 70–85% | 268 |
+| react-hook-form | 68% | 75% | 64–83% | 208 |
+
+Regras:
+
+- Java: um campo usado como objeto de chamada, de acesso ou de method reference
+  (`owners.findById()`, `this.owners.save()`, `owners::findById`) é referência ao
+  campo; campos da classe de fora valem numa classe interna; `Visit::getDate`
+  referencia a classe.
+- Go: uma definição repetida em arquivos com build tags opostas resolve para a do
+  build padrão (`go/build`, `MatchFile`).
+- TypeScript: o receiver de uma chamada (`BoundElement.unbind()`), os nomes de
+  `export { }` e de `export { } from` e os membros de uma local com tipo declarado
+  (`values?.content`) viram referências. Tipos derivados: acesso indexado
+  (`App["scene"]`), desestruturação (`const { field } = useController()`) e o
+  primeiro parâmetro de callbacks de array (`items.forEach((item) => …)`). Funções
+  declaradas em callbacks de `describe` e `it` viram símbolos.
+- Python: um import dentro de função vale só nela, e um nome solto resolve para o
+  `def` ou `class` aninhado na função que contém o uso antes do topo do módulo.
+
+Causas do que ainda se perde:
+
+| causa | gin | flask | spring-petclinic | excalidraw | react-hook-form | total |
+|---|---|---|---|---|---|---|
+| unresolved, receiver without type | 66 | 16 | 1 | 450 | 199 | 732 |
+| unresolved, bare name | 97 | 7 | 2 | 170 | 139 | 415 |
+| unresolved, member not found on the receiver type | 89 | 70 | 1 | 106 | 104 | 370 |
+| not extracted | 84 | 130 | 0 | 19 | 96 | 329 |
+| resolved to another overload | 0 | 57 | 0 | 46 | 109 | 212 |
+| marked external | 29 | 4 | 0 | 0 | 0 | 33 |
+| ambiguous | 0 | 7 | 0 | 9 | 7 | 23 |
+
+A maior parte do que sobra pede type checker ou é diferença de identidade:
+parâmetros tipados pelo contexto (`perform: (elements, appState, _, app) =>
+app.scene`), o global `h` dos testes do excalidraw, utilitários genéricos,
+membros herdados de bibliotecas, tipos declarados dentro de funções de teste em Go
+e sobrecargas. Duas lacunas continuam abertas no ledger: a variável criada por
+`sync.OnceValue` no Go e a função usada como receiver no Python.
+
+## Comparação na amostra ampliada (2026-09-15)
+
+Todas as ferramentas rodaram de novo na amostra ampliada (`run.py <repo> --set recall`,
+`score.py --set recall`), com o Mira da quarta rodada. As tabelas completas estão em
+[results/static-recall-2026-09-15.md](results/static-recall-2026-09-15.md); a rodada
+publicada de 40 símbolos continua em `results/static-2026-09-14.md`.
+
+Referências, precision / recall:
+
+| repositório | símbolos | Mira | Serena | grep | Probe | `refs <nome>` | `refs <Container.nome>` |
+|---|---|---|---|---|---|---|---|
+| gin | 320 | 100% / 89% | 96% / 96% | 25% / 100% | 11% / 100% | 42% / 98% | 67% / 95% |
+| flask | 292 | 100% / 77% | 99% / 94% | 48% / 100% | 7% / 93% | 75% / 90% | 79% / 82% |
+| spring-petclinic | 107 | 100% / 99% | 81% / 100% | 26% / 100% | 15% / 100% | 50% / 100% | 94% / 99% |
+| excalidraw | 320 | 100% / 77% | 95% / 80% | 6% / 100% | 3% / 100% | 19% / 99% | 23% / 88% |
+| react-hook-form | 239 | 100% / 75% | 99% / 38% | 4% / 99% | 3% / 99% | 12% / 96% | 12% / 96% |
+
+Latência mediana por consulta de referências: Mira 10 ms, grep 9–21 ms,
+Serena 257–328 ms, Probe 147–696 ms.
+
+Definição, acerto no primeiro candidato / em algum:
+
+| repositório | Mira | Serena | grep | Probe | aider repo map |
+|---|---|---|---|---|---|
+| gin | 79% / 88% | 62% / 92% | 21% / 100% | 30% / 100% | 12% / 12% |
+| flask | 79% / 92% | 80% / 93% | 38% / 100% | 38% / 100% | 12% / 12% |
+| spring-petclinic | 97% / 100% | 97% / 100% | 48% / 100% | 49% / 100% | 24% / 24% |
+| excalidraw | 73% / 88% | 76% / 91% | 35% / 100% | 19% / 100% | 2% / 2% |
+| react-hook-form | 53% / 72% | 44% / 67% | 20% / 100% | 11% / 99% | 5% / 5% |
+
+Com mais símbolos, o Mira continua sem nenhuma referência errada. Em recall ele empata
+com o Serena no petclinic, fica perto no excalidraw, passa no react-hook-form e fica
+atrás no gin e no flask. A precisão do Serena cai com a amostra maior: 81% no
+petclinic e 95% no excalidraw.
+
+Boa parte do que o Mira ainda perde vem de símbolos cuja definição o adaptador não
+acha (`definition not found`): o Mira responde a definição que ele conhece, e ela não
+cobre a linha sorteada, então nenhuma referência entra.
+
+| repositório | símbolos sem definição achada | referências do gabarito neles | parte das perdidas do Mira |
+|---|---|---|---|
+| gin | 37 | 271 | 74% |
+| flask | 22 | 108 | 36% |
+| spring-petclinic | 0 | 0 | 0% |
+| excalidraw | 40 | 279 | 34% |
+| react-hook-form | 67 | 320 | 49% |
+
+As causas são de identidade, não de resolução: sobrecargas (o gabarito aponta a
+primeira assinatura e o Mira guarda a implementação: `useWatch`, `addEventListener`,
+`insert`), tipos, campos e variáveis declarados dentro de funções de teste
+(`exampleStruct.A` no gin, `FormValues` no react-hook-form) e funções aninhadas com
+outro nome qualificado (`Blueprint.extend` no gabarito é
+`Blueprint._merge_blueprint_funcs.extend` no Mira). O Serena tem o mesmo tipo de
+falha em até 79 símbolos por repositório, nenhum no petclinic (a coluna de erros das tabelas completas).

@@ -7,13 +7,14 @@ gabarito não resolveu o uso) e as mesmas medidas só nos símbolos com
 homônimos. Definição: acerto no primeiro candidato e em qualquer candidato.
 Custo: bytes que o agente leria e latência, em mediana e p90.
 
-Uso: python3 static/score.py <repo> [<repo> ...]
+Uso: python3 static/score.py [--set NOME] <repo> [<repo> ...]
 """
-import sys
+import argparse
+import json
 from collections import defaultdict
 from datetime import date
 
-from common import BENCH, DATA, Truth, read_jsonl
+from common import BENCH, Truth, answers_path, read_jsonl, sample_path
 
 
 def quantile(values, q):
@@ -54,10 +55,10 @@ def cost(rows):
             "errors": sum(1 for r in rows if r["error"])}
 
 
-def score(repo):
+def score(repo, sample_set=""):
     truth = Truth(repo)
-    rows = read_jsonl(DATA / "static" / f"{repo}.jsonl")
-    sample = {s["id"]: s for s in __import__("json").loads((DATA / "samples" / f"{repo}.json").read_text())["symbols"]}
+    rows = read_jsonl(answers_path(repo, sample_set))
+    sample = {s["id"]: s for s in json.loads(sample_path(repo, sample_set).read_text())["symbols"]}
     by = defaultdict(list)
     for row in rows:
         by[(row["tool"], row["question"])].append(row)
@@ -89,10 +90,17 @@ def score(repo):
 
 
 def main():
-    out = BENCH / "results" / f"static-{date.today().isoformat()}.md"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("repos", nargs="+")
+    parser.add_argument("--set", default="", help="named sample from sample.py --set")
+    args = parser.parse_args()
+    today = date.today().isoformat()
+    name = f"static-{args.set}-{today}.md" if args.set else f"static-{today}.md"
+    out = BENCH / "results" / name
     out.parent.mkdir(parents=True, exist_ok=True)
-    body = "\n".join(score(repo) for repo in sys.argv[1:])
-    out.write_text(f"# Suíte estática ({date.today().isoformat()})\n\n{body}")
+    body = "\n".join(score(repo, args.set) for repo in args.repos)
+    title = f"Suíte estática, amostra `{args.set}`" if args.set else "Suíte estática"
+    out.write_text(f"# {title} ({today})\n\n{body}")
     print(body)
     print(f"written to {out}")
 
