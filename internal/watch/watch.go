@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
+	"time"
 
 	"github.com/fsnotify/fsnotify"
 )
@@ -21,24 +22,33 @@ const maxDirs = 1500
 
 // Watcher marca dirty a cada evento em qualquer diretório observado.
 type Watcher struct {
-	w     *fsnotify.Watcher
-	skip  func(name string) bool
-	mu    sync.Mutex
-	dirty bool
-	dirs  int
+	w         *fsnotify.Watcher
+	skip      func(name string) bool
+	cookieDir string
+	mu        sync.Mutex
+	dirty     bool
+	dirs      int
+	seq       int
+	cookies   map[string]chan struct{} // cookie criado por Sync -> quem espera o evento dele
+	broken    bool                     // um cookie não chegou: Sync não espera mais
 }
 
-// New observa root e todos os subdiretórios que skip não rejeita. Começa
+// New observa root e todos os subdiretórios que skip não rejeita, mais
+// cookieDir, onde Sync cria seus cookies (o diretório do índice). Começa
 // dirty, para a primeira consulta atualizar o índice.
-func New(root string, skip func(name string) bool) (*Watcher, error) {
+func New(root, cookieDir string, skip func(name string) bool) (*Watcher, error) {
 	fw, err := fsnotify.NewWatcher()
 	if err != nil {
 		return nil, fmt.Errorf("starting watcher: %w", err)
 	}
-	w := &Watcher{w: fw, skip: skip, dirty: true}
+	w := &Watcher{w: fw, skip: skip, cookieDir: filepath.Clean(cookieDir), dirty: true, cookies: map[string]chan struct{}{}}
 	if err := w.addTree(root); err != nil {
 		_ = fw.Close()
 		return nil, err
+	}
+	if err := fw.Add(w.cookieDir); err != nil {
+		_ = fw.Close()
+		return nil, fmt.Errorf("watching %s: %w", w.cookieDir, err)
 	}
 	go w.loop()
 	return w, nil
@@ -73,6 +83,12 @@ func (w *Watcher) loop() {
 			if !ok {
 				return
 			}
+			// No diretório dos cookies só mudam o índice e os próprios cookies:
+			// nada ali é código, então não marca dirty.
+			if ev.Name == w.cookieDir || filepath.Dir(ev.Name) == w.cookieDir {
+				w.wake(filepath.Base(ev.Name))
+				continue
+			}
 			w.mu.Lock()
 			w.dirty = true
 			w.mu.Unlock()
@@ -92,8 +108,68 @@ func (w *Watcher) loop() {
 	}
 }
 
+// Sync espera o watcher receber tudo o que aconteceu no disco antes da
+// chamada, como os cookies do Watchman: cria um arquivo em cookieDir e
+// aguarda o evento dele. Os eventos chegam na ordem em que aconteceram,
+// então, quando o do cookie chega, as mudanças anteriores já marcaram dirty.
+// São dois cookies seguidos porque o kqueue (macOS) junta eventos do mesmo
+// diretório: o primeiro cookie pode vir grudado no evento de um cookie
+// anterior, que está na fila antes de uma mudança recente; o segundo só é
+// criado depois que essa fila andou. Devolve false se não deu para
+// sincronizar; se um cookie não chegou dentro de timeout, o watcher deixa de
+// ser confiável e Sync passa a devolver false sem esperar.
+func (w *Watcher) Sync(timeout time.Duration) bool {
+	for range 2 {
+		if !w.cookie(timeout) {
+			return false
+		}
+	}
+	return true
+}
+
+// cookie cria um arquivo em cookieDir e espera o evento dele.
+func (w *Watcher) cookie(timeout time.Duration) bool {
+	w.mu.Lock()
+	if w.broken {
+		w.mu.Unlock()
+		return false
+	}
+	w.seq++
+	name := fmt.Sprintf("cookie-%d-%d", os.Getpid(), w.seq)
+	seen := make(chan struct{})
+	w.cookies[name] = seen
+	w.mu.Unlock()
+	defer w.wake(name) // se o evento não veio, tira o cookie da espera
+
+	path := filepath.Join(w.cookieDir, name)
+	if err := os.WriteFile(path, nil, 0o600); err != nil {
+		return false
+	}
+	defer func() { _ = os.Remove(path) }()
+	select {
+	case <-seen:
+		return true
+	case <-time.After(timeout):
+		w.mu.Lock()
+		w.broken = true
+		w.mu.Unlock()
+		return false
+	}
+}
+
+// wake acorda quem espera o cookie name, se alguém espera.
+func (w *Watcher) wake(name string) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	if seen, ok := w.cookies[name]; ok {
+		close(seen)
+		delete(w.cookies, name)
+	}
+}
+
 // TakeDirty devolve se houve mudança desde a última chamada e limpa a
-// marca. Um evento que chegue entre o Take e a atualização do índice fica
+// marca. Chame Sync antes para incluir gravações feitas logo antes da
+// consulta. Um evento que chegue entre o Take e a atualização do índice fica
 // para a consulta seguinte.
 func (w *Watcher) TakeDirty() bool {
 	w.mu.Lock()

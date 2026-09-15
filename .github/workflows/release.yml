@@ -9,6 +9,8 @@ permissions:
 jobs:
   build:
     strategy:
+      # Uma plataforma que falha não cancela o upload das outras.
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
@@ -40,7 +42,9 @@ jobs:
           CGO_ENABLED=1 go build -trimpath \
             -ldflags "-s -w -X github.com/JonathanSantos/mira/internal/cli.Version=${GITHUB_REF_NAME}" \
             -o "dist/${name}" ./cmd/mira
-          (cd dist && shasum -a 256 "${name}" > "${name}.sha256")
+          # O Git Bash do Windows não tem shasum; usa sha256sum onde existir.
+          sum="sha256sum"; command -v sha256sum >/dev/null || sum="shasum -a 256"
+          (cd dist && $sum "${name}" > "${name}.sha256")
       - uses: softprops/action-gh-release@v3
         with:
           files: dist/*

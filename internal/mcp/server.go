@@ -6,7 +6,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"path/filepath"
 	"sync"
+	"time"
 
 	sdk "github.com/modelcontextprotocol/go-sdk/mcp"
 
@@ -67,6 +69,10 @@ func newDeps(root string, cfg repo.Config, st *store.Store) *deps {
 	return &deps{root: root, cfg: cfg, store: st, autoIndex: true, seen: map[string]int{}}
 }
 
+// syncTimeout limita a espera pelo cookie do watcher (ver watch.Sync). Se
+// estourar, a consulta caminha o repositório como se não houvesse watcher.
+const syncTimeout = time.Second
+
 // refresh atualiza o índice antes de uma consulta; se algo mudou, a
 // memória de dedup é descartada, porque as respostas antigas envelheceram.
 // Um erro aqui não derruba a consulta: o índice velho ainda responde.
@@ -74,7 +80,9 @@ func (d *deps) refresh(ctx context.Context) {
 	if !d.autoIndex || d.store == nil {
 		return
 	}
-	if d.watcher != nil && !d.watcher.TakeDirty() {
+	// Sync antes do TakeDirty: uma gravação feita logo antes da consulta pode
+	// ainda não ter virado evento.
+	if d.watcher != nil && d.watcher.Sync(syncTimeout) && !d.watcher.TakeDirty() {
 		return // nada mudou desde a última consulta: nem a caminhada é feita
 	}
 	d.refreshNow(ctx)
@@ -98,7 +106,7 @@ func (d *deps) startWatcher() {
 	if !d.autoIndex || d.root == "" || d.store == nil {
 		return
 	}
-	if w, err := watch.New(d.root, walker.Ignored); err == nil {
+	if w, err := watch.New(d.root, filepath.Dir(d.store.Path()), walker.Ignored); err == nil {
 		d.watcher = w
 	}
 }
