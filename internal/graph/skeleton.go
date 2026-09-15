@@ -222,9 +222,6 @@ func (g *Graph) uses(sym store.Symbol, file store.File, declared map[string]bool
 			existing.Lines = append(existing.Lines, r.Line)
 		}
 	}
-	if err := g.fieldReceivers(sym, file, refs, declared, groups, &order, origin); err != nil {
-		return Uses{}, err
-	}
 	var out Uses
 	for _, key := range order {
 		use := *groups[key]
@@ -271,61 +268,11 @@ func hidden(r store.Ref, declared map[string]bool) bool {
 	return r.Kind == extract.RefIdentifier && declared[r.Name]
 }
 
-// fieldReceivers põe em "outer" os campos da classe usados como receptor
-// de chamadas (`owners.findById()`), que nenhuma ref registra como leitura
-// mas são o estado de fora que o método toca.
-func (g *Graph) fieldReceivers(sym store.Symbol, file store.File, refs []store.Ref, declared map[string]bool,
-	groups map[string]*Use, order *[]string, origin map[string]string) error {
-	if sym.Container == "" {
-		return nil
-	}
-	seen := map[string]bool{}
-	for _, r := range refs {
-		receiver := firstSegment(r.Receiver)
-		if !callKinds[r.Kind] || receiver == "" || receiver == "this" || receiver == "new" || declared[receiver] || isUpper(receiver) {
-			continue
-		}
-		fields, err := g.store.SymbolsInContainer(file.ID, sym.Container, receiver)
-		if err != nil {
-			return err
-		}
-		field := store.Symbol{}
-		for _, f := range fields {
-			if f.Kind == extract.KindField || f.Kind == extract.KindProperty {
-				field = f
-				break
-			}
-		}
-		if field.ID == 0 {
-			continue
-		}
-		key := "outer\x00field\x00" + field.QualifiedName
-		if existing, ok := groups[key]; ok {
-			existing.Count++
-			if len(existing.Lines) < maxUseLines && existing.Lines[len(existing.Lines)-1] != r.Line {
-				existing.Lines = append(existing.Lines, r.Line)
-			}
-			continue
-		}
-		if !seen[key] {
-			seen[key] = true
-			groups[key] = &Use{Name: field.QualifiedName, Kind: "field", Lines: []int{r.Line}, Count: 1, Line: field.StartLine}
-			origin[key] = "outer"
-			*order = append(*order, key)
-		}
-	}
-	return nil
-}
-
 func lastSegment(name string) string {
 	if i := strings.LastIndex(name, "."); i >= 0 {
 		return name[i+1:]
 	}
 	return name
-}
-
-func isUpper(name string) bool {
-	return name != "" && name[0] >= 'A' && name[0] <= 'Z'
 }
 
 func firstSegment(receiver string) string {

@@ -73,8 +73,41 @@ func (x *extraction) collectSymbols(block parser.Node, container string) {
 				continue
 			}
 			x.commonJSExport(stmt)
+			x.callbackFunctions(stmt)
 		default:
 			x.declaration(stmt, container, false, "", stmt)
+		}
+	}
+}
+
+// callbackFunctions registra as funções declaradas no corpo de callbacks
+// passados a uma chamada solta, como os helpers de
+// `describe(…, () => { function helper() {} })` e dos `it` dentro dele. O
+// container é o nome da chamada; homônimas em callbacks diferentes ficam
+// ambíguas na resolução.
+func (x *extraction) callbackFunctions(stmt parser.Node) {
+	call := stmt.NamedChildren()[0]
+	if call.Is("await_expression") {
+		call = lastNamedChild(call)
+	}
+	if !call.Is("call_expression") {
+		return
+	}
+	callee := call.NamedChildren()[0]
+	if !callee.Is("identifier", "member_expression") || callee.Is("member_expression") && !callee.NamedChildren()[0].Is("identifier") {
+		return
+	}
+	for _, arg := range call.Child("arguments").NamedChildren() {
+		if !arg.Is("arrow_function", "function_expression") {
+			continue
+		}
+		body := functionBody(arg)
+		if !body.Is("statement_block") {
+			continue
+		}
+		x.nestedFunctions(body, callee.Text())
+		for _, inner := range body.ChildrenOf("expression_statement") {
+			x.callbackFunctions(inner)
 		}
 	}
 }

@@ -39,7 +39,7 @@ var recallGaps = []gap{
 			"src/types.ts": "import type { App } from './app';\nexport type AppClassProperties = {\n  scene: App[\"scene\"];\n};\n",
 			"src/lasso.ts": "import type { AppClassProperties } from './types';\nexport class Lasso {\n  constructor(private app: AppClassProperties) {}\n  run() {\n    return this.app.scene.getNonDeletedElements();\n  }\n}\n",
 		},
-		file: "src/lasso.ts", line: 5, name: "getNonDeletedElements", target: "Scene.getNonDeletedElements", targetFile: "src/scene.ts",
+		file: "src/lasso.ts", line: 5, name: "getNonDeletedElements", target: "Scene.getNonDeletedElements", targetFile: "src/scene.ts", closed: true,
 	},
 	{
 		cause: "ts receiver without type: destructuring",
@@ -48,7 +48,7 @@ var recallGaps = []gap{
 			"src/useController.ts": "import type { ControllerReturn } from './types';\nexport function useController(): ControllerReturn {\n  return null as unknown as ControllerReturn;\n}\n",
 			"src/use.ts":           "import { useController } from './useController';\nexport function Input() {\n  const { field } = useController();\n  field.onChange(1);\n}\n",
 		},
-		file: "src/use.ts", line: 4, name: "onChange", target: "Field.onChange", targetFile: "src/types.ts",
+		file: "src/use.ts", line: 4, name: "onChange", target: "Field.onChange", targetFile: "src/types.ts", closed: true,
 	},
 	{
 		cause: "ts receiver without type: untyped callback parameter",
@@ -56,21 +56,21 @@ var recallGaps = []gap{
 			"src/item.ts": "export class Item {\n  run() {}\n}\n",
 			"src/use.ts":  "import { Item } from './item';\nexport function all(items: Item[]) {\n  items.forEach((item) => item.run());\n}\n",
 		},
-		file: "src/use.ts", line: 3, name: "run", target: "Item.run", targetFile: "src/item.ts",
+		file: "src/use.ts", line: 3, name: "run", target: "Item.run", targetFile: "src/item.ts", closed: true,
 	},
 	{
 		cause: "ts bare name: function declared inside a test callback",
 		files: map[string]string{
 			"src/form.test.tsx": "it('renders', () => {\n  function Input() {\n    return null;\n  }\n  return <Input />;\n});\n",
 		},
-		file: "src/form.test.tsx", line: 5, name: "Input", target: "Input", targetFile: "src/form.test.tsx",
+		file: "src/form.test.tsx", line: 5, name: "Input", target: "it.Input", targetFile: "src/form.test.tsx", closed: true,
 	},
 	{
 		cause: "ts not extracted: member after optional chaining",
 		files: map[string]string{
 			"src/values.ts": "export type Values = {\n  content: { children: number[] };\n};\nexport function first(v?: Values) {\n  return v?.content.children[0];\n}\n",
 		},
-		file: "src/values.ts", line: 5, name: "content", target: "Values.content", targetFile: "src/values.ts",
+		file: "src/values.ts", line: 5, name: "content", target: "Values.content", targetFile: "src/values.ts", closed: true,
 	},
 	{
 		cause: "go ambiguous: same function in files with opposite build tags",
@@ -80,7 +80,7 @@ var recallGaps = []gap{
 			"binding/binding_nomsgpack.go": "//go:build nomsgpack\n\npackage binding\n\nfunc validate(obj any) error { return nil }\n",
 			"binding/form.go":              "package binding\n\nfunc Bind(obj any) error {\n\treturn validate(obj)\n}\n",
 		},
-		file: "binding/form.go", line: 4, name: "validate", target: "validate", targetFile: "binding/binding.go",
+		file: "binding/form.go", line: 4, name: "validate", target: "validate", targetFile: "binding/binding.go", closed: true,
 	},
 	{
 		cause: "go member not found: variable declared in files with opposite build tags",
@@ -91,7 +91,7 @@ var recallGaps = []gap{
 			"binding/uri.go":               "package binding\n\ntype uriBinding struct{}\n\nfunc (uriBinding) BindUri(m map[string][]string, obj any) error { return nil }\n",
 			"binding/use.go":               "package binding\n\nfunc F() error {\n\tb := Uri\n\treturn b.BindUri(nil, nil)\n}\n",
 		},
-		file: "binding/use.go", line: 5, name: "BindUri", target: "uriBinding.BindUri", targetFile: "binding/uri.go",
+		file: "binding/use.go", line: 5, name: "BindUri", target: "uriBinding.BindUri", targetFile: "binding/uri.go", closed: true,
 	},
 	{
 		cause: "go marked external: call of a variable built by a generic function",
@@ -109,7 +109,15 @@ var recallGaps = []gap{
 			"pkg/helpers.py":    "def explain(app):\n    return app\n",
 			"pkg/templating.py": "def render(app):\n    from .helpers import explain\n    explain(app)\n",
 		},
-		file: "pkg/templating.py", line: 3, name: "explain", target: "explain", targetFile: "pkg/helpers.py",
+		file: "pkg/templating.py", line: 3, name: "explain", target: "explain", targetFile: "pkg/helpers.py", closed: true,
+	},
+	{
+		cause: "python bare name: function nested in another function",
+		files: map[string]string{
+			"pkg/__init__.py":  "",
+			"pkg/test_tags.py": "def test_filter():\n    def my_reverse(s):\n        return s[::-1]\n\n    return my_reverse('ab')\n\n\ndef test_other():\n    def my_reverse(s):\n        return s\n\n    return my_reverse('ab')\n",
+		},
+		file: "pkg/test_tags.py", line: 5, name: "my_reverse", target: "test_filter.my_reverse", targetFile: "pkg/test_tags.py", closed: true,
 	},
 	{
 		cause: "python not extracted: function object used as a receiver",
@@ -125,7 +133,7 @@ var recallGaps = []gap{
 			"src/app/OwnerRepository.java": "package app;\n\npublic interface OwnerRepository {\n    Object findById(int id);\n}\n",
 			"src/app/OwnerController.java": "package app;\n\nclass OwnerController {\n    private final OwnerRepository owners;\n\n    OwnerController(OwnerRepository owners) {\n        this.owners = owners;\n    }\n\n    Object show(int id) {\n        return owners.findById(id);\n    }\n}\n",
 		},
-		file: "src/app/OwnerController.java", line: 11, name: "owners", target: "app.OwnerController.owners", targetFile: "src/app/OwnerController.java",
+		file: "src/app/OwnerController.java", line: 11, name: "owners", target: "app.OwnerController.owners", targetFile: "src/app/OwnerController.java", closed: true,
 	},
 	{
 		cause: "java receiver without type: field of the enclosing class used in an inner class",
@@ -134,7 +142,7 @@ var recallGaps = []gap{
 			"src/app/Pet.java":               "package app;\n\npublic class Pet extends NamedEntity {}\n",
 			"src/app/PetValidatorTests.java": "package app;\n\nclass PetValidatorTests {\n    private Pet pet;\n\n    class ValidateHasErrors {\n        void validate() {\n            pet.setName(\"x\");\n        }\n    }\n}\n",
 		},
-		file: "src/app/PetValidatorTests.java", line: 8, name: "setName", target: "app.NamedEntity.setName", targetFile: "src/app/NamedEntity.java",
+		file: "src/app/PetValidatorTests.java", line: 8, name: "setName", target: "app.NamedEntity.setName", targetFile: "src/app/NamedEntity.java", closed: true,
 	},
 }
 

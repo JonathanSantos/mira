@@ -24,9 +24,10 @@ type Stats struct {
 // Resolver resolve um conjunto de arquivos. Os caches vivem só durante uma
 // chamada de ResolveFiles.
 type Resolver struct {
-	root  string
-	store *store.Store
-	files map[string]*store.File // cache path -> file (nil = não existe)
+	derived int // tipos derivados (`T["a"]`) em resolução, para cortar ciclos
+	root    string
+	store   *store.Store
+	files   map[string]*store.File // cache path -> file (nil = não existe)
 	// contexts guarda o contexto de arquivos consultados de fora (tipos pai
 	// de uma cadeia de herança), com os imports já resolvidos em memória.
 	contexts map[int64]*fileContext
@@ -210,7 +211,7 @@ func (r *Resolver) resolveRef(ctx *fileContext, ref store.Ref) outcome {
 	case lang.Go:
 		return r.resolveGoName(ctx, ref.Name)
 	case lang.Python:
-		return r.resolvePythonName(ctx, ref.Name)
+		return r.resolvePythonName(ctx, ref.Name, ref.Line)
 	case lang.Java:
 		if ref.Receiver != "" {
 			return r.resolveJavaQualified(ref.Receiver, ref.Name)
@@ -220,10 +221,11 @@ func (r *Resolver) resolveRef(ctx *fileContext, ref store.Ref) outcome {
 	return r.resolveTSName(ctx, ref.Name)
 }
 
-// importRef copia o resultado do import correspondente ao nome importado.
+// importRef copia o resultado do import correspondente ao nome importado
+// (ou re-exportado, em `export { a } from './m'`).
 func (r *Resolver) importRef(ctx *fileContext, ref store.Ref) outcome {
 	for _, im := range ctx.imports {
-		if im.IsReexport || im.Line != ref.Line {
+		if im.Line != ref.Line {
 			continue
 		}
 		if im.ImportedName == ref.Name || (im.ImportedName == "default" && im.LocalName == ref.Name) {
@@ -263,6 +265,9 @@ func (r *Resolver) resolveMember(ctx *fileContext, ref store.Ref) outcome {
 // de uma cadeia: um tipo do repositório, um container do runtime, ou o
 // resultado de `call:f` (tipo de retorno de f, anotado ou inferido).
 func (r *Resolver) receiverPoint(ctx *fileContext, receiverType, member string) (chainPoint, outcome) {
+	if base, derived, ok := typePath(receiverType); ok {
+		return r.derivedPoint(ctx, base, derived)
+	}
 	if target, ok := hintTarget(receiverType); ok {
 		// `call:f` / `var:X`: o tipo vem do que f devolve ou do que X guarda.
 		sym := r.hintSymbol(ctx, target)
@@ -292,7 +297,11 @@ func (r *Resolver) member(ctx *fileContext, typeSym store.Symbol, ref store.Ref)
 	if err != nil {
 		return unresolved
 	}
-	return pick(r.narrowOverloads(ctx, memberCandidates(members, ref.Kind, typeSym.Kind), ref), unresolved)
+	candidates := r.narrowOverloads(ctx, memberCandidates(members, ref.Kind, typeSym.Kind), ref)
+	if ctx.file.Lang == lang.Go {
+		candidates = r.preferDefaultBuild(candidates)
+	}
+	return pick(candidates, unresolved)
 }
 
 // membersOf lista os membros de um tipo com o nome: no arquivo do tipo, ou
@@ -420,6 +429,9 @@ func (r *Resolver) typeAfter(sym store.Symbol) (chainPoint, outcome) {
 		// literal, e a própria propriedade guarda os membros dele.
 		return chainPoint{typeSym: &sym}, unresolved
 	}
+	if base, member, ok := typePath(memberType(declared)); ok {
+		return r.derivedPoint(ctx, base, member) // `scene: App["scene"]`
+	}
 	if elem, ok := containerElement(declared); ok {
 		return chainPoint{elem: elem, elemFile: sym.FileID}, external
 	}
@@ -453,6 +465,51 @@ func hintTarget(hint string) (string, bool) {
 	return "", false
 }
 
+// typePath separa o último passo de um tipo derivado: `T["a"]` é o membro a
+// de T e `T[number]`, o elemento. base é o resto, que pode ter outros passos
+// (`call:f["a"]["b"]`). `T[]` não é derivado: é container.
+func typePath(t string) (base, member string, ok bool) {
+	t = strings.TrimSpace(t)
+	open := strings.LastIndex(t, "[")
+	if open <= 0 || !strings.HasSuffix(t, "]") {
+		return "", "", false
+	}
+	inner := strings.TrimSpace(t[open+1 : len(t)-1])
+	if inner == "number" {
+		return t[:open], "", true
+	}
+	if len(inner) >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner[len(inner)-1] == inner[0] {
+		return t[:open], inner[1 : len(inner)-1], true
+	}
+	return "", "", false
+}
+
+// derivedPoint é o ponto de um tipo derivado: o tipo do membro de base ou,
+// com member "", o elemento de base. Um tipo que se refere a si mesmo
+// (`type T = { a: T["a"] }`) para em maxChainDepth.
+func (r *Resolver) derivedPoint(ctx *fileContext, base, member string) (chainPoint, outcome) {
+	if r.derived > maxChainDepth {
+		return chainPoint{}, unresolved
+	}
+	r.derived++
+	defer func() { r.derived-- }()
+	cur, out := r.receiverPoint(ctx, base, "")
+	if member == "" {
+		if cur.elem == "" {
+			return chainPoint{}, unresolved
+		}
+		return r.elementPoint(cur)
+	}
+	if cur.typeSym == nil {
+		return chainPoint{}, out
+	}
+	found := r.memberOrInherited(ctx, *cur.typeSym, store.Ref{Name: member, Kind: extract.RefProperty, Arity: -1})
+	if found.symbol == nil {
+		return chainPoint{}, found
+	}
+	return r.typeAfter(*found.symbol)
+}
+
 // hintSymbol resolve o alvo de uma pista: `pkg.Name` pelo import, um nome
 // solto como função ou nome de topo do arquivo/pacote.
 func (r *Resolver) hintSymbol(ctx *fileContext, target string) outcome {
@@ -471,6 +528,9 @@ func (r *Resolver) hintedType(ctx *fileContext, hint string, depth int) (chainPo
 	if hint == "" || depth > maxChainDepth {
 		return chainPoint{}, unresolved
 	}
+	if base, member, ok := typePath(memberType(hint)); ok {
+		return r.derivedPoint(ctx, base, member)
+	}
 	target, isHint := hintTarget(hint)
 	if !isHint {
 		if elem, ok := containerElement(hint); ok {
@@ -488,6 +548,9 @@ func (r *Resolver) hintedType(ctx *fileContext, hint string, depth int) (chainPo
 	}
 	callable := sym.symbol.Kind == extract.KindMethod || sym.symbol.Kind == extract.KindFunction
 	if declared := extract.DeclaredType(sym.symbol.Signature, sym.symbol.Name, callable, symCtx.file.Lang); declared != "" {
+		if base, member, ok := typePath(memberType(declared)); ok {
+			return r.derivedPoint(symCtx, base, member)
+		}
 		if elem, ok := containerElement(declared); ok {
 			return chainPoint{elem: elem, elemFile: sym.symbol.FileID}, external
 		}
@@ -615,18 +678,24 @@ func splitTypeArgs(s string) []string {
 func (r *Resolver) containerStep(cur chainPoint, name string) (chainPoint, outcome) {
 	switch {
 	case unwrapSteps[name]:
-		ctx, err := r.contextFor(cur.elemFile)
-		if err != nil {
-			return chainPoint{}, unresolved
-		}
-		if elem, ok := containerElement(cur.elem); ok {
-			return chainPoint{elem: elem, elemFile: cur.elemFile}, external
-		}
-		return r.typePoint(ctx, baseType(cur.elem))
+		return r.elementPoint(cur)
 	case keepSteps[name]:
 		return cur, external
 	}
 	return chainPoint{}, external
+}
+
+// elementPoint é o ponto do elemento de um container: outro container
+// (`List<Item[]>`) ou o tipo do elemento.
+func (r *Resolver) elementPoint(cur chainPoint) (chainPoint, outcome) {
+	ctx, err := r.contextFor(cur.elemFile)
+	if err != nil {
+		return chainPoint{}, unresolved
+	}
+	if elem, ok := containerElement(cur.elem); ok {
+		return chainPoint{elem: elem, elemFile: cur.elemFile}, external
+	}
+	return r.typePoint(ctx, baseType(cur.elem))
 }
 
 // commonType devolve o tipo declarado quando todas as sobrecargas de um
@@ -658,7 +727,7 @@ func (r *Resolver) freeCall(ctx *fileContext, name string) outcome {
 	case lang.Go:
 		return r.resolveGoName(ctx, name)
 	case lang.Python:
-		return r.resolvePythonName(ctx, name)
+		return r.resolvePythonName(ctx, name, 0)
 	}
 	return r.resolveTSName(ctx, name)
 }
@@ -675,7 +744,7 @@ func (r *Resolver) resolveTypeName(ctx *fileContext, name string) outcome {
 	case lang.Go:
 		return r.resolveGoName(ctx, name)
 	case lang.Python:
-		return r.resolvePythonName(ctx, name)
+		return r.resolvePythonName(ctx, name, 0)
 	}
 	return r.resolveTSName(ctx, name)
 }

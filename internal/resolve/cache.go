@@ -19,6 +19,7 @@ type lookups struct {
 	symbolsInContainer map[containerKey][]store.Symbol
 	filesInPackage     map[packageKey][]int64
 	packageExists      map[string]bool
+	defaultBuild       map[int64]bool // o arquivo Go entra no build padrão
 }
 
 type fileHit struct {
@@ -48,6 +49,7 @@ func newLookups() lookups {
 		symbolsInContainer: map[containerKey][]store.Symbol{},
 		filesInPackage:     map[packageKey][]int64{},
 		packageExists:      map[string]bool{},
+		defaultBuild:       map[int64]bool{},
 	}
 }
 

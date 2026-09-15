@@ -686,3 +686,42 @@ func TestLocalsShadowTopLevelNames(t *testing.T) {
 		})
 	}
 }
+
+func TestDerivedLocalTypes(t *testing.T) {
+	src := "function f(items: Item[], props: Props, list: readonly Item[], app: App[\"scene\"]) {\n" +
+		"  const { field } = useController();\n" +
+		"  const { owner, nested: { deep } } = props;\n" +
+		"  items.forEach((item) => item.run());\n" +
+		"  list.map(entry => entry.run());\n" +
+		"  field.run();\n" +
+		"  owner.run();\n" +
+		"  deep.run();\n" +
+		"  app.run();\n" +
+		"}\n"
+	res := run(t, lang.TypeScript, src)
+	var receivers []string
+	for _, r := range refsOf(res, "run") {
+		receivers = append(receivers, r.Receiver+":"+r.ReceiverType)
+	}
+	assert.Equal(t, []string{`item:Item[][number]`, `entry:Item[][number]`, `field:call:useController["field"]`,
+		`owner:Props["owner"]`, `deep:Props["nested"]["deep"]`, `app:App["scene"]`}, receivers,
+		"array callbacks take the element type, destructured names the member type, and indexed access is left for the resolver")
+}
+
+func TestTestCallbackFunctions(t *testing.T) {
+	src := "describe('frames', () => {\n" +
+		"  function selectAndDuplicate() {}\n" +
+		"  const numberHeap = () => new BinaryHeap();\n" +
+		"  it('renders', async () => {\n" +
+		"    function Input() { return null; }\n" +
+		"  });\n" +
+		"});\n" +
+		"helper(() => { function notACallbackOfAPlainCall() {} })();\n"
+	res := run(t, lang.TypeScript, src)
+	var got []string
+	for _, s := range res.Symbols {
+		got = append(got, s.QualifiedName)
+	}
+	assert.Equal(t, []string{"describe.selectAndDuplicate", "describe.numberHeap", "it.Input"}, got,
+		"functions declared in describe/it callbacks are symbols named after the call")
+}

@@ -39,13 +39,10 @@ func (x *extraction) collectRefs(root parser.Node) {
 	})
 }
 
-// fieldAccess registra `obj.x` / `this.x` fora de posição de chamada como
-// acesso a campo.
+// fieldAccess registra `obj.x` / `this.x` como acesso a campo, também quando
+// é o objeto de uma chamada: em `this.owners.save()`, invocation registra só
+// o método.
 func (x *extraction) fieldAccess(n parser.Node) {
-	parent := n.Parent()
-	if parent.Is("method_invocation") && parent.NamedChildren()[0].StartByte() == n.StartByte() {
-		return // objeto de uma chamada: invocation cuida
-	}
 	kids := n.NamedChildren()
 	if len(kids) < 2 || !kids[len(kids)-1].Is("identifier") {
 		return
@@ -94,26 +91,49 @@ func (x *extraction) receiverChain(object, at parser.Node) (string, string, []st
 // bareFieldRef registra um identificador solto que é campo do tipo que o
 // envolve (`telephone` dentro de um método de Owner) como `this.telephone`.
 func (x *extraction) bareFieldRef(n parser.Node) {
-	switch n.Parent().Type() {
-	case "field_access", "method_invocation", "scoped_identifier", "variable_declarator", "formal_parameter",
+	parent := n.Parent()
+	switch parent.Type() {
+	case "field_access", "method_invocation", "method_reference":
+		// Só o objeto pode ser campo (`owners.findById()`, `owners.size`,
+		// `owners::findById`); o outro identifier é o membro.
+		if parent.NamedChildren()[0].StartByte() != n.StartByte() {
+			return
+		}
+		if !parent.Is("field_access") && len(parent.ChildrenOf("identifier")) < 2 {
+			return // `findById(x)`: o identifier é o próprio método
+		}
+	case "scoped_identifier", "variable_declarator", "formal_parameter",
 		"class_declaration", "interface_declaration", "enum_declaration", "record_declaration",
 		"annotation_type_declaration", "method_declaration", "constructor_declaration", "enum_constant",
 		"import_declaration", "package_declaration", "annotation", "marker_annotation", "element_value_pair",
 		"lambda_expression", "inferred_parameters", "catch_formal_parameter", "labeled_statement",
-		"break_statement", "continue_statement", "method_reference", "spread_parameter":
+		"break_statement", "continue_statement", "spread_parameter":
 		return
 	}
 	name := n.Text()
 	if x.declaredLocal(name, n) {
 		return
 	}
-	typeName := x.enclosingType(n)
-	fieldType, isField := x.fieldTypes[typeName][name]
+	owner, _, isField := x.fieldOf(name, n)
 	if !isField {
 		return
 	}
-	x.ref(extract.RefProperty, name, n, "this", typeName)
-	_ = fieldType
+	x.ref(extract.RefProperty, name, n, "this", owner)
+}
+
+// fieldOf acha o campo no tipo que envolve a posição ou, dentro de uma classe
+// interna, nos tipos de fora: devolve o tipo dono e o tipo do campo.
+func (x *extraction) fieldOf(name string, at parser.Node) (owner, fieldType string, ok bool) {
+	for decl := at.Ancestor(typeDeclarations...); !decl.IsNil(); decl = decl.Ancestor(typeDeclarations...) {
+		id := decl.Child("identifier")
+		if id.IsNil() {
+			continue
+		}
+		if t, found := x.fieldTypes[id.Text()][name]; found {
+			return id.Text(), t, true
+		}
+	}
+	return "", "", false
 }
 
 // declaredLocal diz se o nome é parâmetro ou variável local no escopo da
@@ -209,6 +229,12 @@ func (x *extraction) methodReference(n parser.Node) {
 	if len(ids) != 2 {
 		return
 	}
+	// `Visit::getDate` usa a classe Visit, além do método.
+	if q := ids[0].Text(); isUpper(q) && !x.declaredLocal(q, n) {
+		if _, _, isField := x.fieldOf(q, n); !isField {
+			x.ref(extract.RefType, q, ids[0], "", "")
+		}
+	}
 	receiver, receiverType := x.receiverOf(ids[0], n)
 	x.ref(extract.RefMethod, ids[1].Text(), ids[1], receiver, receiverType)
 }
@@ -276,7 +302,8 @@ func (x *extraction) declaredType(name string, at parser.Node) string {
 			return t
 		}
 	}
-	return x.fieldTypes[x.enclosingType(at)][name]
+	_, t, _ := x.fieldOf(name, at)
+	return t
 }
 
 var scopeTypes = []string{"method_declaration", "constructor_declaration", "lambda_expression"}

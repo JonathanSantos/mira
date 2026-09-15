@@ -3,6 +3,7 @@ package resolve
 import (
 	"bufio"
 	"bytes"
+	"go/build"
 	"os"
 	"path"
 	"path/filepath"
@@ -62,6 +63,64 @@ func (r *Resolver) resolveGoImport(im store.Import) outcome {
 
 // resolveGoName procura um nome de topo no arquivo e depois no resto do
 // pacote (diretório).
+// pythonEnclosingDef acha a definição aninhada (`def` ou `class` dentro de
+// uma função) visível na linha: a da função mais interna que contém o uso.
+// Homônimas em funções diferentes não se misturam; duas no mesmo escopo
+// ficam ambíguas.
+func pythonEnclosingDef(symbols []store.Symbol, name string, line int) (outcome, bool) {
+	var found []store.Symbol
+	bestSize := 0
+	for i := range symbols {
+		s := symbols[i]
+		if s.Name != name || s.Container == "" || line == 0 {
+			continue
+		}
+		scope := pythonScopeOf(symbols, s)
+		if scope == nil || line < scope.StartLine || line > scope.EndLine {
+			continue
+		}
+		switch size := scope.EndLine - scope.StartLine; {
+		case len(found) == 0 || size < bestSize:
+			found, bestSize = []store.Symbol{s}, size
+		case size == bestSize:
+			found = append(found, s)
+		}
+	}
+	if len(found) == 0 {
+		return unresolved, false
+	}
+	return pick(found, unresolved), true
+}
+
+// pythonScopeOf é a função ou o método que declara s, achado pelo nome
+// qualificado; nil quando s é membro de classe.
+func pythonScopeOf(symbols []store.Symbol, s store.Symbol) *store.Symbol {
+	parent := strings.TrimSuffix(s.QualifiedName, "."+s.Name)
+	for i := range symbols {
+		if p := &symbols[i]; p.QualifiedName == parent && (p.Kind == extract.KindFunction || p.Kind == extract.KindMethod) {
+			return p
+		}
+	}
+	return nil
+}
+
+// pythonImportScope é o intervalo de linhas da função ou classe mais interna
+// que contém o import; local é false para import no topo do arquivo.
+func pythonImportScope(symbols []store.Symbol, line int) (start, end int, local bool) {
+	for _, s := range symbols {
+		if s.Kind != extract.KindFunction && s.Kind != extract.KindMethod && s.Kind != extract.KindClass {
+			continue
+		}
+		if line < s.StartLine || line > s.EndLine {
+			continue
+		}
+		if !local || s.EndLine-s.StartLine < end-start {
+			start, end, local = s.StartLine, s.EndLine, true
+		}
+	}
+	return start, end, local
+}
+
 func (r *Resolver) resolveGoName(ctx *fileContext, name string) outcome {
 	for _, s := range ctx.symbols {
 		if s.Name == name && s.Container == "" {
@@ -72,7 +131,41 @@ func (r *Resolver) resolveGoName(ctx *fileContext, name string) outcome {
 	if err != nil {
 		return unresolved
 	}
-	return pick(same, unresolved)
+	return pick(r.preferDefaultBuild(same), unresolved)
+}
+
+// preferDefaultBuild desempata uma definição repetida em arquivos com build
+// tags opostas (`binding.go` e `binding_nomsgpack.go`): ficam as que o
+// `go build` padrão compila nesta máquina, se alguma for; senão todas.
+func (r *Resolver) preferDefaultBuild(symbols []store.Symbol) []store.Symbol {
+	if len(symbols) < 2 {
+		return symbols
+	}
+	var kept []store.Symbol
+	for _, s := range symbols {
+		if r.inDefaultBuild(s.FileID) {
+			kept = append(kept, s)
+		}
+	}
+	if len(kept) == 0 {
+		return symbols
+	}
+	return kept
+}
+
+// inDefaultBuild diz se o build padrão compila o arquivo: build tags e
+// sufixos como _windows.go, lidos do disco. Na dúvida, compila.
+func (r *Resolver) inDefaultBuild(fileID int64) bool {
+	ok, _ := remember(r.lookups.defaultBuild, fileID, func() (bool, error) {
+		f, found, err := r.fileByID(fileID)
+		if err != nil || !found || f.Lang != lang.Go {
+			return true, nil
+		}
+		abs := filepath.Join(r.root, filepath.FromSlash(f.Path))
+		match, err := build.Default.MatchFile(filepath.Dir(abs), filepath.Base(abs))
+		return err != nil || match, nil
+	})
+	return ok
 }
 
 // packageMember resolve `alias.Name` (Go) ou `mod.Name` / `mod.sub.Name`
@@ -139,7 +232,7 @@ func (r *Resolver) goPackageSymbol(pkg outcome, name string) outcome {
 			exported = append(exported, s)
 		}
 	}
-	return pick(exported, unresolved)
+	return pick(r.preferDefaultBuild(exported), unresolved)
 }
 
 // symbolInFile acha um nome de topo no arquivo; se o arquivo só o
@@ -293,16 +386,41 @@ func (r *Resolver) pythonModuleFile(ctx *fileContext, module string) *store.File
 	return nil
 }
 
-// resolvePythonName: símbolo de topo do arquivo, depois o import que liga
-// o nome (`from a import b`), senão unresolved. Builtins não chegam aqui.
-func (r *Resolver) resolvePythonName(ctx *fileContext, name string) outcome {
+// resolvePythonName: o import feito na função (ou classe) que contém o uso,
+// o símbolo de topo do arquivo, o import de topo (`from a import b`), senão
+// unresolved. Builtins não chegam aqui. Com line 0 (nome de tipo), só o topo.
+func (r *Resolver) resolvePythonName(ctx *fileContext, name string, line int) outcome {
+	var inner *store.Import
+	innerSize := 0
+	for i := range ctx.imports {
+		im := &ctx.imports[i]
+		if im.LocalName != name || im.IsWildcard {
+			continue
+		}
+		start, end, local := pythonImportScope(ctx.symbols, im.Line)
+		if !local || line < start || line > end {
+			continue
+		}
+		if inner == nil || end-start < innerSize {
+			inner, innerSize = im, end-start
+		}
+	}
+	if inner != nil {
+		return ctx.importOutcome[inner.ID]
+	}
+	if out, ok := pythonEnclosingDef(ctx.symbols, name, line); ok {
+		return out
+	}
 	for _, s := range ctx.symbols {
 		if s.Name == name && s.Container == "" {
 			return resolved(s)
 		}
 	}
 	for _, im := range ctx.imports {
-		if im.LocalName == name && !im.IsWildcard {
+		if im.LocalName != name || im.IsWildcard {
+			continue
+		}
+		if _, _, local := pythonImportScope(ctx.symbols, im.Line); !local {
 			return ctx.importOutcome[im.ID]
 		}
 	}

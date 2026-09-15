@@ -104,8 +104,11 @@ func (x *extraction) propertyRef(member parser.Node) {
 	if !property.Is("property_identifier") || (object.Is("identifier") && builtins[object.Text()]) {
 		return
 	}
+	// `a.b.c` com `a` local: sem tipo declarado, `b` nunca resolveria.
 	if parent.Is("member_expression") && object.Is("identifier") && x.isLocalOnly(object.Text()) {
-		return
+		if t, _ := x.typeOf(object); t == "" {
+			return
+		}
 	}
 	receiver, receiverType, path := x.receiverChain(object)
 	x.ref(extract.RefProperty, property.Text(), property, receiver, receiverType).ReceiverPath = path
@@ -284,7 +287,7 @@ func (x *extraction) identifierRef(n parser.Node) {
 	parent := n.Parent()
 	switch parent.Type() {
 	case "import_specifier", "import_clause", "namespace_import", "import_require_clause",
-		"export_specifier", "namespace_export",
+		"namespace_export",
 		"function_declaration", "generator_function_declaration", "function_expression",
 		"required_parameter", "optional_parameter", "rest_parameter",
 		"catch_clause", "type_parameter", "internal_module", "module", "labeled_statement",
@@ -292,6 +295,12 @@ func (x *extraction) identifierRef(n parser.Node) {
 		"jsx_closing_element", "jsx_namespace_name", "pair_pattern", "object_pattern", "array_pattern",
 		"call_expression", "new_expression", "decorator", "extends_clause":
 		return
+	case "export_specifier":
+		// `export { Footer }` usa Footer. Em `export { a } from './m'` o uso fica
+		// com o import, e o nome depois de `as` é o exportado, não um uso.
+		if parent.NamedChildren()[0].StartByte() != n.StartByte() || !parent.Parent().Parent().Child("string").IsNil() {
+			return
+		}
 	case "variable_declarator":
 		if parent.NamedChildren()[0].StartByte() == n.StartByte() {
 			return
@@ -304,8 +313,11 @@ func (x *extraction) identifierRef(n parser.Node) {
 		if parent.NamedChildren()[0].StartByte() != n.StartByte() {
 			return
 		}
-		if parent.Parent().Is("call_expression") && parent.Parent().NamedChildren()[0].StartByte() == parent.StartByte() {
-			return // já registrado como chamada de método
+		// `BoundElement.unbind()` usa BoundElement além do método; só em
+		// `f.call()` memberCall já registrou a chamada de f.
+		if call := parent.Parent(); call.Is("call_expression") && call.NamedChildren()[0].StartByte() == parent.StartByte() &&
+			indirectCalls[lastNamedChild(parent).Text()] {
+			return
 		}
 	case "for_in_statement":
 		if parent.NamedChildren()[0].StartByte() == n.StartByte() {

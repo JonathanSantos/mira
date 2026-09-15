@@ -577,9 +577,9 @@ func TestResolveSkeletonJava(t *testing.T) {
 		"    Order.lines src/main/java/com/acme/order/Order.java:19 (26)\n"+
 		"    Discount.calculate src/main/java/com/acme/pricing/Discount.java:6 (30)\n"+
 		"    Money.plus src/main/java/com/acme/pricing/Money.java:6 (28)\n")
-	assert.Contains(t, out, "  outer:\n    Money.ZERO property src/main/java/com/acme/pricing/Money.java:4 (25)\n"+
-		"    DefaultOrderService.percent property :10 (30)\n"+
-		"    DefaultOrderService.cache field :12 (21, 31)\n", "fields used as call receivers count as outer state")
+	assert.Contains(t, out, "  outer:\n    DefaultOrderService.cache property :12 (21, 31)\n"+
+		"    Money.ZERO property src/main/java/com/acme/pricing/Money.java:4 (25)\n"+
+		"    DefaultOrderService.percent property :10 (30)\n", "fields used as call receivers count as outer state")
 	assert.NotContains(t, out, "callees")
 
 	stale := run(t, root, "resolve", "OrderController.show", "--include-skeleton")

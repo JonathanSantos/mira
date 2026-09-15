@@ -87,7 +87,9 @@ func (x *extraction) collectImports(root parser.Node) {
 			}
 			return false
 		}
-		return !n.Is("function_definition", "class_definition")
+		// Imports dentro de função e de classe também ligam nomes, só que no
+		// escopo delas: o resolvedor limita pelo símbolo que envolve o import.
+		return true
 	})
 }
 

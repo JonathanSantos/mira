@@ -175,15 +175,18 @@ func (r *Resolver) resolveTSName(ctx *fileContext, name string) outcome {
 	if len(local) > 0 {
 		return resolved(local[0])
 	}
-	// Função aninhada (closure) do mesmo arquivo: sem escopo real, a única
-	// com esse nome é a resposta; várias homônimas ficam ambíguas.
-	if len(nested) > 0 {
-		return pick(nested, unresolved)
-	}
 	for _, im := range ctx.imports {
 		if !im.IsReexport && im.LocalName == name {
+			if len(nested) > 0 {
+				return ambiguous // o import ou a função aninhada: depende do escopo do uso
+			}
 			return ctx.importOutcome[im.ID]
 		}
+	}
+	// Função aninhada (closure, helper de describe/it) do mesmo arquivo: sem
+	// escopo real, a única com esse nome é a resposta; homônimas ficam ambíguas.
+	if len(nested) > 0 {
+		return pick(nested, unresolved)
 	}
 	candidates, err := r.symbolsByName(name)
 	if err != nil {

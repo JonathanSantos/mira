@@ -62,7 +62,11 @@ func (x *extraction) reexport(stmt parser.Node) {
 	if clause := stmt.Child("export_clause"); !clause.IsNil() {
 		for _, spec := range clause.ChildrenOf("export_specifier") {
 			name, exported := specifierNames(spec)
-			x.addImport(extract.Import{Kind: extract.ImportESM, Module: module, ImportedName: name, LocalName: exported, IsReexport: true, Line: line})
+			x.addImport(extract.Import{Kind: extract.ImportESM, Module: module, ImportedName: name, LocalName: exported, IsReexport: true, Line: spec.StartLine()})
+			if name != "default" {
+				// `export { a } from './m'` usa a de lá, como um import na mesma linha.
+				x.result.Refs = append(x.result.Refs, extract.Ref{Name: name, Kind: extract.RefImport, Line: spec.StartLine(), Col: spec.StartCol(), Container: -1})
+			}
 		}
 		return
 	}

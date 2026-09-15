@@ -171,6 +171,16 @@ func typeName(n parser.Node) string {
 		if len(kept) == 1 {
 			return typeName(kept[0])
 		}
+	case "readonly_type":
+		return typeName(lastNamedChild(n)) // `readonly Item[]`
+	case "lookup_type":
+		// `App["scene"]`: o tipo do membro, que o resolvedor segue.
+		if kids := n.NamedChildren(); len(kids) == 2 {
+			base, index := typeName(kids[0]), strings.TrimSpace(kids[1].Text())
+			if base != "" && len(index) >= 2 && (index[0] == '"' || index[0] == '\'') && index[len(index)-1] == index[0] {
+				return base + `["` + index[1:len(index)-1] + `"]`
+			}
+		}
 	case "array_type":
 		if inner := typeName(lastNamedChild(n)); inner != "" {
 			return inner + "[]"
