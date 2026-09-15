@@ -76,7 +76,7 @@ func (x *extraction) callRef(n parser.Node) {
 	fn := n.NamedChildren()[0]
 	switch fn.Type() {
 	case "identifier":
-		if builtins[fn.Text()] || x.isLocalOnly(fn.Text()) {
+		if builtins[fn.Text()] || x.isLocal(fn) {
 			return
 		}
 		kind := extract.RefCall
@@ -124,7 +124,7 @@ func (x *extraction) memberCall(member parser.Node) {
 	}
 	// `f.bind(…)`, `f.call(…)`, `f.apply(…)` são chamadas (indiretas) de f;
 	// registrar `bind` como método só esconderia o chamador de f.
-	if object.Is("identifier") && indirectCalls[property.Text()] && !x.isLocalOnly(object.Text()) {
+	if object.Is("identifier") && indirectCalls[property.Text()] && !x.isLocal(object) {
 		x.ref(extract.RefCall, object.Text(), object, "", "")
 		return
 	}
@@ -153,7 +153,7 @@ func (x *extraction) receiverChain(object parser.Node) (string, string, []string
 		fn := object.NamedChildren()[0]
 		switch fn.Type() {
 		case "identifier":
-			if builtins[fn.Text()] || x.isLocalOnly(fn.Text()) {
+			if builtins[fn.Text()] || x.isLocal(fn) {
 				return "", "", nil
 			}
 			return "", "", []string{fn.Text()}
@@ -312,7 +312,7 @@ func (x *extraction) identifierRef(n parser.Node) {
 			return
 		}
 	}
-	if x.isLocalOnly(name) {
+	if x.isLocal(n) {
 		return
 	}
 	x.ref(extract.RefIdentifier, name, n, "", "")
@@ -324,11 +324,39 @@ func (x *extraction) isLocalOnly(name string) bool {
 	return x.locals[name] && !x.imported[name] && !x.isTopLevel(name)
 }
 
+// isLocal diz se o identificador, nessa posição, é uma variável ou um
+// parâmetro: o nome só existe como local no arquivo, ou uma declaração local
+// cujo escopo contém o uso esconde o import ou o símbolo de topo de mesmo
+// nome (`let i = 0` fora e `(field, i) => i` dentro). Uma local que é ela
+// mesma um símbolo, como a arrow function aninhada, não esconde nada.
+func (x *extraction) isLocal(id parser.Node) bool {
+	if x.isLocalOnly(id.Text()) {
+		return true
+	}
+	at := id.StartByte()
+	for _, l := range x.localTypes[id.Text()] {
+		if l.start <= at && at < l.end && !x.declaresSymbol(id.Text(), l.pos) {
+			return true
+		}
+	}
+	return false
+}
+
+// declaresSymbol diz se a declaração do nome na posição pos é um símbolo.
+func (x *extraction) declaresSymbol(name string, pos int) bool {
+	for _, s := range x.result.Symbols {
+		if s.Name == name && s.StartByte <= pos && pos < s.EndByte {
+			return true
+		}
+	}
+	return false
+}
+
 // isTopLevel diz se existe um símbolo com esse nome no arquivo, de topo ou
 // aninhado: uma função interna também merece refs.
 func (x *extraction) shorthandRef(n parser.Node) {
 	name := n.Text()
-	if builtins[name] || x.isLocalOnly(name) {
+	if builtins[name] || x.isLocal(n) {
 		return
 	}
 	x.ref(extract.RefIdentifier, name, n, "", "")

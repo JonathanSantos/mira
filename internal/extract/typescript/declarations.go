@@ -125,11 +125,22 @@ func (x *extraction) pattern(n parser.Node) {
 	if scope.Is("formal_parameters") {
 		scope = scope.Parent()
 	}
+	x.bindNames(n, scope)
+}
+
+// bindNames declara os nomes que um pattern cria. Num valor default
+// (`{ onSubmit = noop }`) só o lado esquerdo declara: o default é um uso.
+func (x *extraction) bindNames(n, scope parser.Node) {
 	n.Walk(func(c parser.Node) bool {
 		switch c.Type() {
 		case "shorthand_property_identifier_pattern", "identifier":
 			x.locals[c.Text()] = true
 			x.declareLocal(c, scope, "")
+		case "object_assignment_pattern", "assignment_pattern":
+			if kids := c.NamedChildren(); len(kids) > 0 {
+				x.bindNames(kids[0], scope)
+			}
+			return false
 		}
 		return true
 	})

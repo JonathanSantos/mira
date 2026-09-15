@@ -646,3 +646,43 @@ export class Holder {
 		"arrow": "Repo", "get": "Repo", "load": "call:make", "cb": "",
 	}, hints, "typed functions keep the annotation; the callback's return is not cb's")
 }
+
+func TestLocalsShadowTopLevelNames(t *testing.T) {
+	src := "let counter = 0;\n" +
+		"export function polygon(...points: number[]) { return points; }\n" +
+		"let i = 0;\n" +
+		"counter++;\n" +
+		"const Child = () => {\n" +
+		"  const counter = useRef(0);\n" +
+		"  counter.current++;\n" +
+		"};\n" +
+		"export const includes = <P>(point: P, polygon: P[]) => polygon.length;\n" +
+		"items.map((field, i) => register('test.' + i));\n" +
+		"export function outer() {\n" +
+		"  const helper = () => 1;\n" +
+		"  return helper() + polygon(1).length + i + counter;\n" +
+		"}\n" +
+		"function noop() {}\n" +
+		"export const Form = ({ onSubmit = noop }) => onSubmit;\n"
+	res := run(t, lang.TypeScript, src)
+	tests := []struct {
+		name  string
+		lines []int
+		why   string
+	}{
+		{"counter", []int{4, 13}, "the const inside Child hides the top-level counter on line 7"},
+		{"polygon", []int{13}, "the parameter of the generic arrow hides the function on line 9"},
+		{"i", []int{13}, "the callback parameter hides the top-level i on line 10"},
+		{"helper", []int{13}, "a nested arrow function is a symbol, so its call stays a reference"},
+		{"noop", []int{16}, "a default value in a destructured parameter is a use, not a declaration"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var lines []int
+			for _, r := range refsOf(res, tt.name) {
+				lines = append(lines, r.Line)
+			}
+			assert.Equal(t, tt.lines, lines, tt.why)
+		})
+	}
+}

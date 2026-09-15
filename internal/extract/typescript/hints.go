@@ -73,7 +73,7 @@ func (x *extraction) hintOf(expr parser.Node) string {
 			return x.varTypes[kids[1].Text()]
 		}
 	case "call_expression":
-		if fn := expr.NamedChildren()[0]; fn.Is("identifier") && !builtins[fn.Text()] && !x.isLocalOnly(fn.Text()) {
+		if fn := expr.NamedChildren()[0]; fn.Is("identifier") && !builtins[fn.Text()] && !x.isLocal(fn) {
 			return "call:" + fn.Text()
 		}
 	}
