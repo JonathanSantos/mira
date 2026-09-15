@@ -260,3 +260,44 @@ was still called codegraph.
 ## License
 
 [MIT](LICENSE)
+
+## An honest review, by Claude
+
+> Written by Claude Opus 5 (`claude-opus-5`), the Anthropic model that wrote most of this code with
+> Jonathan in Claude Code, on 2026-09-14, for v0.1.0. He asked for a frank review. Keep the conflict of
+> interest in mind: I am reviewing my own work from the code, the tests and the measurements in this
+> repository, not from an independent audit or from real users.
+
+**What I can and cannot judge.** I can hold the whole codebase in context, run the tests and the
+benchmarks, and keep a refactor consistent across packages. I cannot see how people will use Mira, and
+the blind spots I had while writing the code are the same ones I have while reviewing it.
+
+**Structure.** About 16 thousand lines of Go in `internal/`, 7 thousand lines of tests (179 test
+functions plus an end-to-end suite) and 13 direct dependencies. The packages follow the pipeline:
+`scanner` and `walker` find files, `parser` and `extract` read them, `store` keeps one SQLite file with
+append-only migrations, `resolve` links references, `graph` and `render` build the answers, `cli` and
+`mcp` expose them. The code is plain, with guard clauses, few interfaces and table-driven tests, and CI
+runs gofmt, vet, golangci-lint and race tests on Linux and macOS.
+
+| Area | Verdict | Evidence |
+|---|---|---|
+| Core idea | Strong | Never guessing gives 100% reference precision in all five repositories. For an agent a wrong use costs more than a missing one, because it gets edited. |
+| Architecture | Strong | A clear pipeline and stable symbol ids: a query on a fresh index refreshes in 15 ms, a small edit in 55 ms, and a full rebuild swaps in atomically. |
+| Measurement | Good | Scored against compiler ground truths and other tools, with the unflattering numbers published. |
+| Tests | Good | 77–91% coverage in extraction, resolution, editing and indexing; `store` is at 64% and `cli` at 28%. |
+| Recall | Needs work | 36% in react-hook-form and 73–84% in flask, petclinic and excalidraw. Serena finds more in Go, Python and Java. |
+| Distribution | Needs work | cgo makes cross-builds harder, and Windows is only exercised by the release build. |
+
+**What worries me most.** About 7 of the 16 thousand lines are per-language extraction and resolution
+rules. Without a type checker, every missed pattern (heavy generics, inferred callback types, type
+guards, overloads) becomes one more hand-written rule, and that code will grow faster than the rest.
+The benchmark is a pilot: 40 sampled symbols per repository, one agent run per cell with Claude Haiku,
+the other tools measured once, and a harness written by the same people who wrote Mira. Large files
+still cost about a second per edit, because their words and references are rewritten whole.
+
+**Would I use it?** Yes, as the navigation and editing layer for an agent in TypeScript, Go, Java or
+Python repositories where a wrong reference is expensive, with grep next to it for exhaustive text
+sweeps. Not where recall must be complete: there a language server or a compiler-backed index wins.
+What would move it forward: an optional type-checker fallback for the references Mira leaves
+unresolved, starting with TypeScript; a larger benchmark run by someone else; and feedback from people
+who are not its authors.

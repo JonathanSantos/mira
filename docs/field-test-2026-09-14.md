@@ -1,6 +1,8 @@
 # Teste de campo com IA — 14/09/2026
 
 > Escrito quando o projeto se chamava **codegraph**; hoje ele é o **Mira** e os comandos são `mira ...`.
+>
+> Nos logs, a pasta temporária da sessão aparece como `$SCRATCH` e o dono dos arquivos como `user`.
 
 Objetivo: observar um agente de IA usando o `codegraph` em repositórios reais,
 medir o que ele consome e anotar atritos, antes de decidir a evolução da busca.

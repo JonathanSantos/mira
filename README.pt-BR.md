@@ -263,3 +263,45 @@ codegraph.
 ## Licença
 
 [MIT](LICENSE)
+
+## Análise sincera, pelo Claude
+
+> Escrita pelo Claude Opus 5 (`claude-opus-5`), o modelo da Anthropic que escreveu a maior parte deste
+> código com o Jonathan no Claude Code, em 2026-09-14, para a v0.1.0. Ele pediu uma análise franca.
+> Considere o conflito de interesse: estou avaliando meu próprio trabalho a partir do código, dos testes
+> e das medições deste repositório, não de uma auditoria independente nem de usuários reais.
+
+**O que consigo e o que não consigo julgar.** Consigo manter o código inteiro em contexto, rodar os
+testes e os benchmarks e manter uma refatoração coerente entre pacotes. Não consigo ver como as pessoas
+vão usar o Mira, e os pontos cegos que tive ao escrever o código são os mesmos que tenho ao revisá-lo.
+
+**Estrutura.** Cerca de 16 mil linhas de Go em `internal/`, 7 mil linhas de testes (179 funções de teste
+e uma suíte ponta a ponta) e 13 dependências diretas. Os pacotes seguem o fluxo: `scanner` e `walker`
+acham os arquivos, `parser` e `extract` leem, `store` guarda um único arquivo SQLite com migrações só de
+acréscimo, `resolve` liga as referências, `graph` e `render` montam as respostas, `cli` e `mcp` as
+expõem. O código é simples, com guard clauses, poucas interfaces e testes em tabela, e o CI roda gofmt,
+vet, golangci-lint e testes com race detector no Linux e no macOS.
+
+| Área | Avaliação | Evidência |
+|---|---|---|
+| Ideia central | Forte | Nunca chutar dá 100% de precisão em referências nos cinco repositórios. Para um agente, um uso errado custa mais que um uso faltando, porque ele vai ser editado. |
+| Arquitetura | Forte | Fluxo claro e ids de símbolo estáveis: uma consulta com o índice em dia atualiza em 15 ms, uma edição pequena em 55 ms, e a reconstrução completa entra de forma atômica. |
+| Medição | Boa | Pontuada contra gabaritos de compilador e contra outras ferramentas, com os números desfavoráveis publicados. |
+| Testes | Boa | 77–91% de cobertura em extração, resolução, edição e indexação; `store` está em 64% e `cli` em 28%. |
+| Recall | Precisa melhorar | 36% no react-hook-form e 73–84% no flask, petclinic e excalidraw. O Serena acha mais em Go, Python e Java. |
+| Distribuição | Precisa melhorar | O cgo complica builds cruzados, e o Windows só passa pelo build de release. |
+
+**O que mais me preocupa.** Cerca de 7 das 16 mil linhas são regras de extração e resolução por
+linguagem. Sem um type checker, cada padrão não coberto (generics pesados, tipos inferidos de callbacks,
+type guards, overloads) vira mais uma regra escrita à mão, e esse código vai crescer mais rápido que o
+resto. O benchmark é um piloto: 40 símbolos sorteados por repositório, uma rodada de agente por célula
+com o Claude Haiku, as outras ferramentas medidas uma vez e um harness escrito pelas mesmas pessoas que
+escreveram o Mira. Arquivos grandes ainda custam cerca de um segundo por edição, porque as palavras e
+referências deles são regravadas inteiras.
+
+**Eu usaria?** Sim, como camada de navegação e edição de um agente em repositórios TypeScript, Go, Java
+ou Python onde uma referência errada sai cara, com o grep ao lado para varreduras exaustivas de texto.
+Não onde o recall precisa ser completo: aí um language server ou um índice apoiado em compilador ganha.
+O que faria o projeto avançar: um fallback opcional com type checker para as referências que o Mira
+deixa sem resolver, começando pelo TypeScript; um benchmark maior rodado por outra pessoa; e retorno de
+quem não é autor do projeto.
