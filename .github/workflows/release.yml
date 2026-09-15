@@ -45,6 +45,19 @@ jobs:
           # O Git Bash do Windows não tem shasum; usa sha256sum onde existir.
           sum="sha256sum"; command -v sha256sum >/dev/null || sum="shasum -a 256"
           (cd dist && $sum "${name}" > "${name}.sha256")
+      - name: smoke test
+        shell: bash
+        run: |
+          # O binário recém-gerado precisa rodar nesta plataforma antes de ir
+          # para a release: versão, índice de um fixture e uma consulta.
+          bin="dist/mira-${GITHUB_REF_NAME}-${{ matrix.goos }}-${{ matrix.goarch }}"
+          [ "${{ matrix.goos }}" = "windows" ] && bin="${bin}.exe"
+          "$bin" version | grep "mira ${GITHUB_REF_NAME} "
+          repo="$(mktemp -d)/go-service"
+          cp -R testdata/fixtures/go-service "$repo"
+          "$bin" --repo "$repo" init
+          "$bin" --repo "$repo" index
+          "$bin" --repo "$repo" resolve NewService | grep "internal/order/service.go:13"
       - uses: softprops/action-gh-release@v3
         with:
           files: dist/*

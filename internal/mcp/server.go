@@ -103,11 +103,19 @@ func (d *deps) refreshNow(ctx context.Context) {
 // startWatcher liga o fsnotify quando a indexação automática está ativa;
 // se não der (repositório enorme, limite de descritores), segue sem ele.
 func (d *deps) startWatcher() {
-	if !d.autoIndex || d.root == "" || d.store == nil {
+	if !d.autoIndex || d.root == "" || d.store == nil || d.watcher != nil {
 		return
 	}
 	if w, err := watch.New(d.root, filepath.Dir(d.store.Path()), walker.Ignored); err == nil {
 		d.watcher = w
+	}
+}
+
+// close solta o watcher. Ele segura handles dos diretórios observados, e no
+// Windows um diretório com handle aberto não pode ser apagado.
+func (d *deps) close() {
+	if d.watcher != nil {
+		_ = d.watcher.Close()
 	}
 }
 
@@ -157,7 +165,9 @@ func canonical(args any) string {
 // Serve bloqueia atendendo o cliente MCP em stdin/stdout até o contexto ser
 // cancelado ou o cliente encerrar.
 func Serve(ctx context.Context, root string, cfg repo.Config, st *store.Store, opts Options) error {
-	server := NewServer(newDeps(root, cfg, st), opts)
+	d := newDeps(root, cfg, st)
+	defer d.close()
+	server := NewServer(d, opts)
 	if err := server.Run(ctx, &sdk.StdioTransport{}); err != nil {
 		return fmt.Errorf("mcp server: %w", err)
 	}

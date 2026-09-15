@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -22,6 +23,9 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 	binary = filepath.Join(dir, "mira")
+	if runtime.GOOS == "windows" {
+		binary += ".exe" // o Windows só executa arquivos com extensão de executável
+	}
 	// O runtime tree-sitter é cgo: o binário é compilado com o toolchain
 	// padrão da máquina.
 	build := exec.Command("go", "build", "-o", binary, "../../cmd/mira")

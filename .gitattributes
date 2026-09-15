@@ -1,0 +1,3 @@
+# Checkout com LF em qualquer sistema: fixtures e testes comparam linhas e
+# bytes, e o gofmt recusa CRLF.
+* text=auto eol=lf

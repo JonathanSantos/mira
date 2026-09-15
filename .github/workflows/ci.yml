@@ -6,19 +6,27 @@ on:
 jobs:
   test:
     strategy:
+      # Uma plataforma que falha não esconde o resultado das outras.
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
+      # Formatação e lint não mudam com o sistema: rodam só no Linux.
       - name: gofmt
+        if: runner.os == 'Linux'
         run: test -z "$(gofmt -l .)"
       - name: vet
         run: go vet ./...
       - name: golangci-lint
+        if: runner.os == 'Linux'
         uses: golangci/golangci-lint-action@v9
         with:
           version: v2.13.2

@@ -58,7 +58,10 @@ func connect(t *testing.T, d *deps, opts Options) *sdk.ClientSession {
 	client := sdk.NewClient(&sdk.Implementation{Name: "test", Version: "0"}, nil)
 	cs, err := client.Connect(ctx, clientTransport, nil)
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = cs.Close() })
+	t.Cleanup(func() {
+		_ = cs.Close()
+		d.close()
+	})
 	return cs
 }
 
