@@ -3,7 +3,7 @@
 class Mira < Formula
   desc "Code context for AI agents: navigate by symbol, read by line range, edit with verification"
   homepage "https://github.com/JonathanSantos/mira"
-  url "https://github.com/JonathanSantos/mira.git", tag: "v0.1.0"
+  url "https://github.com/JonathanSantos/mira.git", tag: "v0.2.0"
   head "https://github.com/JonathanSantos/mira.git", branch: "main"
   license "MIT"
 
